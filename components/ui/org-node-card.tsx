@@ -11,11 +11,11 @@ interface OrgNodeCardProps {
 }
 
 const statusStyles = {
-  latent: "border-surface-border/50 bg-surface/55",
-  identified: "border-surface-border/70 bg-surface-elevated/75",
-  engaged: "border-claude-coral/20 bg-surface-elevated/85",
-  pilot: "border-claude-coral/35 bg-claude-coral/[0.04]",
-  deployed: "border-claude-coral/50 bg-claude-coral/[0.06]",
+  latent: "bg-transparent",
+  identified: "bg-transparent",
+  engaged: "bg-transparent",
+  pilot: "bg-transparent",
+  deployed: "bg-transparent",
 };
 
 const statusText: Record<OrgNode["status"], string> = {
@@ -54,7 +54,7 @@ export function OrgNodeCard({ node, index = 0, className }: OrgNodeCardProps) {
         scale: { duration: 2.2, repeat: Infinity, ease: "easeInOut" },
       }}
       className={cn(
-        "group h-full rounded-2xl border px-5 py-4 backdrop-blur-sm transition-colors duration-300",
+        "group h-full px-5 py-4 transition-colors duration-300",
         statusStyles[node.status],
         className
       )}
