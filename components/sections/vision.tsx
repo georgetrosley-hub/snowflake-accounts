@@ -1,29 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BarChart3, Shield, Sparkles, Zap } from "lucide-react";
-import { SectionHeader } from "@/components/ui/section-header";
+import { Sparkles, Zap, Shield, BarChart3 } from "lucide-react";
 
 const roadmap = [
   {
     icon: Zap,
-    title: "Connected data foundation",
-    desc: "Move from mock data to live Salesforce, calls, docs, and usage signals so the workspace reflects what is actually happening in the account.",
+    title: "Claude API integration",
+    desc: "Replace deterministic simulation with live reasoning. Agents pull real account signals from CRM, call summaries, and documents to generate recommendations.",
   },
   {
     icon: BarChart3,
-    title: "Rep and manager operating loop",
-    desc: "Add inspection, forecasting, coaching, and manager workflows so the product becomes the daily system for both reps and leaders.",
+    title: "Pipeline sync",
+    desc: "Connect to Salesforce/HubSpot. Auto-enrich deals with org structure, competitive intel, and risk scores. Forecast accuracy at the rep level.",
   },
   {
     icon: Shield,
-    title: "Governed execution",
-    desc: "Keep approvals, evidence, policy checks, and audit logs first-class as agent actions expand into email, CRM, and task execution.",
+    title: "Governance & audit trail",
+    desc: "Every agent action logged. Human-in-the-loop preserved for approvals. Compliance-ready for regulated industries.",
   },
   {
     icon: Sparkles,
-    title: "Multi-role revenue workspace",
-    desc: "Extend the seller OS into solutions, customer success, and post-sale expansion motions without losing the rep-owned relationship.",
+    title: "Executive briefing mode",
+    desc: "One-click synthesis of account narrative, blockers, and next meeting prep. Built for QBRs and exec sponsor calls.",
   },
 ];
 
@@ -33,19 +32,14 @@ export function Vision() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="max-w-3xl space-y-12"
+      className="max-w-2xl space-y-12"
     >
-      <SectionHeader
-        title="Roadmap"
-        subtitle="Where the seller OS should go next once the core workflows are in place."
-      />
-
-      <section className="rounded-xl border border-surface-border/50 bg-surface-elevated/35 p-6">
-        <p className="text-[15px] leading-relaxed text-text-secondary">
-          The product now has the right seller-workflow shell: `My Book`, `Account OS`, `Deal Room`,
-          `Exec Prep`, `Expansion Engine`, `Agent Actions`, and `Manager View`. The next step is to
-          connect these surfaces to live systems so Claude becomes the operating layer for real seller
-          work, not just a polished simulation.
+      <section>
+        <h2 className="text-[16px] font-medium tracking-tight text-text-primary">
+          What I&apos;d build next
+        </h2>
+        <p className="mt-2 text-[15px] text-text-secondary leading-relaxed">
+          This demo uses deterministic simulation. With the Claude API and real data sources, these agents could power a true enterprise GTM command center—assisted, not automated.
         </p>
       </section>
 
@@ -74,8 +68,7 @@ export function Vision() {
 
       <section className="border-t border-surface-border/40 pt-8">
         <p className="text-[13px] text-text-muted leading-relaxed">
-          The strongest positioning remains simple: Claude does not replace the seller. Claude keeps
-          the system moving while the seller owns the relationship, the narrative, and the final call.
+          Built to show what Claude-powered enterprise sales could look like. If you&apos;d like to explore this further, I&apos;d love to talk.
         </p>
       </section>
     </motion.div>

@@ -8,8 +8,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["Salesforce", "territory plan", "account history"],
-    goal: "Keep the seller aligned on whitespace, risk, and timing across the account.",
   },
   {
     id: "research",
@@ -18,8 +16,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["calls", "email", "calendar", "web signals"],
-    goal: "Surface fresh buying signals and map the stakeholder graph.",
   },
   {
     id: "competitive",
@@ -28,8 +24,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["battlecards", "competitor news", "deal notes"],
-    goal: "Detect competitive pressure early and arm the rep with countermoves.",
   },
   {
     id: "technical",
@@ -38,8 +32,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["architecture docs", "security questionnaire", "deployment notes"],
-    goal: "Translate buyer requirements into a credible deployment path for Claude.",
   },
   {
     id: "security",
@@ -48,8 +40,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["security packet", "policy controls", "audit requirements"],
-    goal: "Unblock security and governance objections without losing speed.",
   },
   {
     id: "legal",
@@ -58,8 +48,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["MSA", "procurement checklist", "redlines"],
-    goal: "Keep contracting and procurement from becoming a black box.",
   },
   {
     id: "executive",
@@ -68,8 +56,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["business case", "exec memo", "QBR summary"],
-    goal: "Synthesize account chaos into a crisp why-now story for sponsors.",
   },
   {
     id: "expansion",
@@ -78,8 +64,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "analyzing",
     confidenceScore: 0,
     priority: "medium",
-    toolScope: ["org map", "usage signals", "white-space analysis"],
-    goal: "Turn a single wedge into a repeatable land-and-expand motion.",
   },
   {
     id: "oversight",
@@ -88,8 +72,6 @@ export const agentDefinitions: Omit<Agent, "lastActionAt" | "activeRecommendatio
     status: "idle",
     confidenceScore: 0,
     priority: "high",
-    toolScope: ["approvals", "audit trail", "policy checks"],
-    goal: "Keep the seller in control of every high-impact action the agents propose.",
   },
 ];
 

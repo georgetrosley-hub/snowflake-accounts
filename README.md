@@ -1,38 +1,28 @@
-# Claude Seller OS
+# Claude Enterprise Expansion Engine
 
-A prototype of an agentic seller workspace for Anthropic reps: one place to understand the account, decide the next best move, execute with human-approved agent help, and expand Claude across the customer footprint.
+A prototype of what Claude-powered enterprise GTM could look like: agent-assisted discovery, competitive intel, and human oversight—not automation that replaces the rep.
 
 ## What this is
 
-The app is now organized around the daily jobs a seller actually needs:
+Nine specialized agents (Territory Intelligence, Research, Competitive Strategy, Technical Architecture, Security & Compliance, Legal & Procurement, Executive Narrative, Expansion Strategy, Human Oversight) work in the background to surface signals, recommendations, and approvals. The AE stays in control: approve, modify, or reject.
 
-- **My Book** — prioritized seller queue, next best action, and upcoming meetings
-- **Account OS** — account plan, stakeholder graph, connected systems, and competitive context
-- **Deal Room** — land motion, blockers, milestones, and mutual action plan
-- **Exec Prep** — narrative, objections, meeting prep, and follow-up draft
-- **Expansion Engine** — whitespace motions, sponsor paths, and org map
-- **Agent Actions** — grounded actions, source evidence, approvals, and audit trail
-- **Manager View** — forecast, inspection, coaching, and workflow health
+- **Command Center** — Account overview, land/expansion metrics, pipeline forecast, and a live recommendation
+- **Agent Activity** — Real-time stream of events (champions identified, blockers, competitor pressure)
+- **Approval Queue** — Human-in-the-loop for high-impact decisions
+- **Competitive Intel** — Account-specific competitor risk and positioning
+- **Architecture** — Deployment readiness and integration planning
+- **Org Expansion Map** — Department-level expansion paths and ARR potential
+- **Deal Timeline** — Stage progression and projected value
+- **Exec Narrative** — Account-level story (why now, why Claude, next meeting)
 
-Nine specialized agents still power the workspace in the background: Territory Intelligence, Research, Competitive Strategy, Technical Architecture, Security & Compliance, Legal & Procurement, Executive Narrative, Expansion Strategy, and Human Oversight.
+Today this runs on **deterministic simulation** (no backend, no API). The thesis: with the Claude API and real data (CRM, calls, documents), these agents could power a true enterprise sales command center.
 
-## Current state
+## What I'd build next
 
-This is still a **front-end prototype**. It does not yet connect to live systems, but it now models a richer seller workspace rather than a pure event simulation.
-
-The thesis is unchanged:
-
-- Claude should detect signals from CRM, calls, docs, and product usage
-- Claude should maintain live account memory and whitespace understanding
-- Claude should recommend high-leverage seller actions
-- Claude should execute only with clear evidence and human approval when needed
-
-## Next product steps
-
-1. **Connect live systems** — Salesforce first, then call intelligence, docs, collaboration, and usage signals.
-2. **Add a real agent runtime** — Claude-generated actions with tool use, evidence, memory, and traceable reasoning.
-3. **Deepen governance** — approvals, policy checks, audit history, and safe execution into CRM/email/task systems.
-4. **Expand to team workflows** — manager inspection, multi-role collaboration, and post-land expansion operations.
+1. **Claude API integration** — Replace simulation with live reasoning. Agents pull real account signals from CRM, call summaries, and documents.
+2. **Pipeline sync** — Connect to Salesforce/HubSpot. Auto-enrich deals with org structure, competitive intel, and risk scores.
+3. **Governance & audit trail** — Every agent action logged. Human-in-the-loop preserved. Compliance-ready for regulated industries.
+4. **Executive briefing mode** — One-click synthesis for QBRs and exec sponsor calls.
 
 ## Run it
 
@@ -41,7 +31,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Switch accounts from the header to see account-specific plans, opportunities, approvals, and expansion motions.
+Open [http://localhost:3000](http://localhost:3000). Switch accounts (JPMorgan, Pfizer, Comcast, etc.) from the header to see account-specific narratives, events, and approvals.
 
 ## Tech stack
 

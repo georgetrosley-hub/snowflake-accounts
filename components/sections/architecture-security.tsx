@@ -1,19 +1,39 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/section-header";
-import type { Account } from "@/types";
+import { StreamingContent } from "@/components/ui/streaming-content";
+import { useStreaming } from "@/lib/hooks/use-streaming";
+import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import type { Account, Competitor } from "@/types";
 
 interface ArchitectureSecurityProps {
   account: Account;
+  competitors: Competitor[];
 }
 
-export function ArchitectureSecurity({ account }: ArchitectureSecurityProps) {
+export function ArchitectureSecurity({ account, competitors }: ArchitectureSecurityProps) {
   const securityBlockers = account.topBlockers.filter(
     (b) =>
-      b.toLowerCase().includes("security") || b.toLowerCase().includes("architecture")
+      b.toLowerCase().includes("security") || b.toLowerCase().includes("architecture") || b.toLowerCase().includes("compliance")
   );
   const hasSecurityBlockers = securityBlockers.length > 0;
+  const archRecommendation = useStreaming();
+  const [archLoaded, setArchLoaded] = useState(false);
+
+  const generateArchRecommendation = useCallback(() => {
+    setArchLoaded(true);
+    archRecommendation.startStream({
+      url: "/api/generate",
+      body: {
+        type: "strategy_assessment",
+        account,
+        competitors,
+        context: `Generate a detailed architecture recommendation for deploying Claude at ${account.name}. Their existing tech stack includes: ${account.existingVendorFootprint.join(", ")}. Security sensitivity: ${account.securitySensitivity}/100. Compliance complexity: ${account.complianceComplexity}/100.\n\nInclude:\n1. Recommended deployment option (Direct API vs AWS Bedrock vs GCP Vertex) with reasoning\n2. Integration architecture with their existing stack\n3. Data flow design and access control patterns\n4. Security controls needed (SSO, audit, encryption, data residency)\n5. Compliance requirements specific to their industry\n6. Phased rollout plan\n7. Technical prerequisites and blockers to address`,
+      },
+    });
+  }, [account, competitors, archRecommendation]);
 
   return (
     <motion.div
@@ -64,6 +84,11 @@ export function ArchitectureSecurity({ account }: ArchitectureSecurityProps) {
               </div>
             </div>
           </div>
+          <div className="mt-4 flex items-center gap-2 text-[11px] text-text-muted">
+            <span className="rounded-full border border-surface-border/40 px-2 py-0.5">
+              {account.existingVendorFootprint.slice(0, 3).join(" · ")}
+            </span>
+          </div>
         </motion.div>
         <div className="space-y-6">
           <div>
@@ -97,14 +122,37 @@ export function ArchitectureSecurity({ account }: ArchitectureSecurityProps) {
           </div>
           <div>
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-muted mb-3">
-              Mitigation
+              Deployment options
             </p>
-            <p className="text-[12px] text-text-secondary leading-relaxed">
-              Security review recommended. Document data flows. Prepare SSO and access design.
-            </p>
+            <div className="flex flex-wrap gap-2">
+              {["Direct API", "AWS Bedrock", "GCP Vertex AI"].map((opt) => (
+                <span key={opt} className="rounded-full border border-surface-border/40 px-3 py-1 text-[11px] text-text-muted">
+                  {opt}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Claude architecture recommendation */}
+      <button
+        onClick={generateArchRecommendation}
+        disabled={archRecommendation.isStreaming}
+        className="flex items-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-4 py-2.5 text-[13px] font-medium text-claude-coral/90 hover:bg-claude-coral/10 transition-colors disabled:opacity-50"
+      >
+        <ClaudeSparkle size={14} />
+        {archLoaded ? "Refresh Architecture Recommendation" : "Generate Architecture Recommendation"}
+      </button>
+
+      {(archRecommendation.content || archRecommendation.isStreaming) && (
+        <StreamingContent
+          content={archRecommendation.content}
+          isStreaming={archRecommendation.isStreaming}
+          onRegenerate={generateArchRecommendation}
+          label={`Architecture for ${account.name}`}
+        />
+      )}
     </motion.div>
   );
 }

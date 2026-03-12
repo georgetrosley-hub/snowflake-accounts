@@ -1,12 +1,18 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/section-header";
 import { OrgNodeCard } from "@/components/ui/org-node-card";
-import type { OrgNode } from "@/types";
+import { StreamingContent } from "@/components/ui/streaming-content";
+import { useStreaming } from "@/lib/hooks/use-streaming";
+import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import type { OrgNode, Account, Competitor } from "@/types";
 
 interface OrgExpansionMapProps {
   nodes: OrgNode[];
+  account: Account;
+  competitors: Competitor[];
 }
 
 interface NodePosition {
@@ -75,7 +81,7 @@ const connections: Array<[(typeof departmentOrder)[number], (typeof departmentOr
   ["Security", "Executive Leadership"],
 ];
 
-export function OrgExpansionMap({ nodes }: OrgExpansionMapProps) {
+export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMapProps) {
   const normalizedNodes: OrgNode[] = departmentOrder.map((name) => {
     const existing = nodes.find((node) => node.name === name);
     if (existing) return existing;
@@ -97,6 +103,26 @@ export function OrgExpansionMap({ nodes }: OrgExpansionMapProps) {
   const totalPotential = normalizedNodes.reduce((sum, node) => sum + node.arrPotential, 0);
   const activeNodes = normalizedNodes.filter(
     (n) => n.status === "engaged" || n.status === "pilot" || n.status === "deployed"
+  );
+
+  const expansionPitch = useStreaming();
+  const [selectedDept, setSelectedDept] = useState<string | null>(null);
+
+  const generateExpansionPitch = useCallback(
+    (deptName: string) => {
+      setSelectedDept(deptName);
+      const node = normalizedNodes.find((n) => n.name === deptName);
+      expansionPitch.startStream({
+        url: "/api/generate",
+        body: {
+          type: "expansion_pitch",
+          account,
+          competitors,
+          context: `Department: ${deptName}\nUse case: ${node?.useCase ?? "General"}\nCurrent status: ${node?.status ?? "latent"}\nBuying likelihood: ${node?.buyingLikelihood ?? 50}%\nARR potential: $${(node?.arrPotential ?? 0).toFixed(2)}M`,
+        },
+      });
+    },
+    [normalizedNodes, account, competitors, expansionPitch]
   );
 
   return (
@@ -179,18 +205,37 @@ export function OrgExpansionMap({ nodes }: OrgExpansionMapProps) {
             return (
               <motion.div
                 key={node.id}
-                className="absolute w-[248px] -translate-x-1/2 -translate-y-1/2"
+                className="absolute w-[248px] -translate-x-1/2 -translate-y-1/2 group"
                 style={{ left: `${position.x}%`, top: `${position.y}%` }}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: i * 0.03 }}
               >
-                <OrgNodeCard node={node} index={i} />
+                <div className="relative">
+                  <OrgNodeCard node={node} index={i} />
+                  <button
+                    onClick={() => generateExpansionPitch(node.name)}
+                    className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity rounded-full p-1.5 bg-claude-coral/10 border border-claude-coral/20 text-claude-coral/70 hover:bg-claude-coral/20"
+                    title={`Expansion pitch for ${node.name}`}
+                  >
+                    <ClaudeSparkle size={10} />
+                  </button>
+                </div>
               </motion.div>
             );
           })}
         </div>
       </div>
+
+      {/* Expansion pitch */}
+      {(expansionPitch.content || expansionPitch.isStreaming) && (
+        <StreamingContent
+          content={expansionPitch.content}
+          isStreaming={expansionPitch.isStreaming}
+          onRegenerate={() => selectedDept && generateExpansionPitch(selectedDept)}
+          label={`Expansion: ${selectedDept}`}
+        />
+      )}
     </motion.div>
   );
 }

@@ -28,11 +28,6 @@ export function AgentCard({ agent, compact }: AgentCardProps) {
           <p className="truncate text-[12px] font-medium text-text-primary">
             {agent.name}
           </p>
-          {!compact && (
-            <p className="mt-1 text-[11px] text-text-muted">
-              {agent.role}
-            </p>
-          )}
           {!compact && agent.activeRecommendation && (
             <p className="mt-1 line-clamp-2 text-[11px] text-text-muted">
               {agent.activeRecommendation}
@@ -48,12 +43,6 @@ export function AgentCard({ agent, compact }: AgentCardProps) {
           {agent.status.replace("_", " ")}
         </span>
       </div>
-      {!compact && (
-        <div className="mt-3 flex items-center justify-between gap-3 text-[10px] text-text-faint">
-          <span>{Math.round(agent.confidenceScore * 100)}% confidence</span>
-          {agent.toolScope?.[0] && <span>{agent.toolScope[0]}</span>}
-        </div>
-      )}
     </div>
   );
 }

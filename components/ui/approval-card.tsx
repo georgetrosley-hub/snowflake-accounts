@@ -36,24 +36,7 @@ export function ApprovalCard({
         <div className="mt-4 flex flex-wrap gap-4 text-[11px] text-text-muted">
           <span>{approval.requestingAgent}</span>
           <span className="text-claude-coral/70">{approval.estimatedImpact}</span>
-          {approval.targetSystem && <span>{approval.targetSystem}</span>}
-          {approval.reviewer && <span>{approval.reviewer}</span>}
         </div>
-        {approval.evidence && approval.evidence.length > 0 && (
-          <div className="mt-4 space-y-2">
-            {approval.evidence.slice(0, 2).map((item) => (
-              <div
-                key={item.id}
-                className="rounded-md border border-surface-border/40 bg-surface/35 px-3 py-2"
-              >
-                <p className="text-[11px] text-text-primary">{item.label}</p>
-                <p className="mt-1 text-[11px] leading-relaxed text-text-muted">
-                  {item.detail}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
       <div className="flex gap-2">
         <button
