@@ -18,7 +18,7 @@ interface ApiKeyContextValue {
   isReady: boolean;
   setApiKey: (apiKey: string) => void;
   clearApiKey: () => void;
-  getRequestHeaders: () => Record<string, string>;
+  getRequestHeaders: () => { "x-anthropic-api-key"?: string };
 }
 
 const ApiKeyContext = createContext<ApiKeyContextValue | null>(null);
