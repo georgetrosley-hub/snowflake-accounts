@@ -6,17 +6,14 @@ import {
   KeyRound,
   Menu,
   MessageCircle,
-  Moon,
   PanelLeftClose,
   PanelLeftOpen,
-  Sun,
   Trash2,
   X,
 } from "lucide-react";
 import { useApiKey } from "@/app/context/api-key-context";
 import { cn } from "@/lib/utils";
 import { ClaudeSparkle } from "@/components/ui/claude-logo";
-import { useTheme } from "@/app/context/theme-context";
 import type { Account } from "@/types";
 import type { DealHealthSummary } from "@/lib/deal-health";
 
@@ -53,7 +50,6 @@ export function StatusBar({
   sidebarCollapsed,
   onToggleSidebar,
 }: StatusBarProps) {
-  const { theme, setTheme } = useTheme();
   const { apiKey, hasApiKey, isReady, setApiKey, clearApiKey } = useApiKey();
   const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
   const [draftApiKey, setDraftApiKey] = useState("");
@@ -127,36 +123,6 @@ export function StatusBar({
                   {isReady && hasApiKey ? "API key saved" : "Add API key"}
                 </span>
               </button>
-              <div className="flex items-center rounded-full border border-surface-border/60 bg-surface-elevated/45 p-0.5">
-                <button
-                  type="button"
-                  onClick={() => setTheme("light")}
-                  aria-pressed={theme === "light"}
-                  className={cn(
-                    "flex items-center gap-1 rounded-full px-2 py-1 text-[11px] transition-colors",
-                    theme === "light"
-                      ? "bg-surface-muted/90 text-text-primary"
-                      : "text-text-muted hover:text-text-secondary"
-                  )}
-                >
-                  <Sun className="h-3 w-3" />
-                  <span className="hidden sm:inline">Light</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setTheme("dark")}
-                  aria-pressed={theme === "dark"}
-                  className={cn(
-                    "flex items-center gap-1 rounded-full px-2 py-1 text-[11px] transition-colors",
-                    theme === "dark"
-                      ? "bg-surface-muted/90 text-text-primary"
-                      : "text-text-muted hover:text-text-secondary"
-                  )}
-                >
-                  <Moon className="h-3 w-3" />
-                  <span className="hidden sm:inline">Dark</span>
-                </button>
-              </div>
               {onOpenChat && (
                 <button
                   onClick={onOpenChat}

@@ -33,25 +33,14 @@ export default function RootLayout({
   const themeScript = `
     (() => {
       try {
-        const storedTheme = window.localStorage.getItem("claude-seller-hub-theme");
-        const theme =
-          storedTheme === "dark" || storedTheme === "light"
-            ? storedTheme
-            : window.matchMedia("(prefers-color-scheme: light)").matches
-              ? "light"
-              : "dark";
-
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.classList.toggle("dark", theme === "dark");
-      } catch {
-        document.documentElement.dataset.theme = "dark";
-        document.documentElement.classList.add("dark");
-      }
+        document.documentElement.dataset.theme = "light";
+        document.documentElement.classList.remove("dark");
+      } catch {}
     })();
   `;
 
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
