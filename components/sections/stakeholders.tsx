@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Handshake, ShieldAlert, Star, Users } from "lucide-react";
-import { ClaudeActionBar } from "@/components/ui/claude-action-bar";
+import { DatabricksActionBar } from "@/components/ui/databricks-action-bar";
 import { SectionHeader } from "@/components/ui/section-header";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor, Stakeholder } from "@/types";
@@ -20,7 +20,7 @@ const stanceStyles: Record<Stakeholder["stance"], string> = {
   ally: "border-sky-400/20 bg-sky-400/[0.08] text-sky-300",
   neutral: "border-white/10 bg-white/[0.04] text-text-secondary",
   blocker: "border-rose-400/20 bg-rose-500/[0.10] text-rose-300",
-  executive: "border-claude-coral/20 bg-claude-coral/[0.08] text-claude-coral/90",
+  executive: "border-accent/20 bg-accent/[0.08] text-accent/90",
 };
 
 export function Stakeholders({
@@ -68,9 +68,9 @@ export function Stakeholders({
         subtitle="The relationship plan I would build around the first wedge. This is a working map, not a claimed source-of-truth org chart."
       />
 
-      <ClaudeActionBar
-        title="Ask Claude from inside the stakeholder map"
-        subtitle="Use Claude to help multi-thread the account, coach the champion, and prep internal influence paths."
+      <DatabricksActionBar
+        title="Ask Databricks AI from inside the stakeholder map"
+        subtitle="Use AI to help multi-thread the account, coach the champion, and prep internal influence paths."
         account={account}
         competitors={competitors}
         actions={[
@@ -93,9 +93,9 @@ export function Stakeholders({
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-[24px] border border-claude-coral/20 bg-white/[0.02] p-4">
+        <div className="rounded-[24px] border border-accent/20 bg-white/[0.02] p-4">
           <div className="flex items-center gap-2 text-text-secondary">
-            <Users className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+            <Users className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
               Mapped threads
             </p>
@@ -104,9 +104,9 @@ export function Stakeholders({
             {stakeholders.length}
           </p>
         </div>
-        <div className="rounded-[24px] border border-claude-coral/20 bg-white/[0.02] p-4">
+        <div className="rounded-[24px] border border-accent/20 bg-white/[0.02] p-4">
           <div className="flex items-center gap-2 text-text-secondary">
-            <Handshake className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+            <Handshake className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
               Champion paths
             </p>
@@ -115,9 +115,9 @@ export function Stakeholders({
             {champions.length}
           </p>
         </div>
-        <div className="rounded-[24px] border border-claude-coral/20 bg-white/[0.02] p-4">
+        <div className="rounded-[24px] border border-accent/20 bg-white/[0.02] p-4">
           <div className="flex items-center gap-2 text-text-secondary">
-            <Star className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+            <Star className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
               Executive coverage
             </p>
@@ -126,9 +126,9 @@ export function Stakeholders({
             {executiveCount}
           </p>
         </div>
-        <div className="rounded-[24px] border border-claude-coral/20 bg-white/[0.02] p-4">
+        <div className="rounded-[24px] border border-accent/20 bg-white/[0.02] p-4">
           <div className="flex items-center gap-2 text-text-secondary">
-            <ShieldAlert className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+            <ShieldAlert className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
               Likely blockers
             </p>
@@ -146,7 +146,7 @@ export function Stakeholders({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.04, duration: 0.35 }}
-            className="rounded-[28px] border border-claude-coral/20 bg-white/[0.02] p-5"
+            className="rounded-[28px] border border-accent/20 bg-white/[0.02] p-5"
           >
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -218,7 +218,7 @@ export function Stakeholders({
                     className={cn(
                       "rounded-full border px-3 py-1.5 text-[12px] transition-colors",
                       isSelected
-                        ? "border-claude-coral/20 bg-claude-coral/[0.10] text-claude-coral"
+                        ? "border-accent/20 bg-accent/[0.10] text-accent"
                         : "border-white/10 bg-white/[0.04] text-text-secondary hover:bg-white/[0.06]"
                     )}
                   >
@@ -230,7 +230,7 @@ export function Stakeholders({
                 <button
                   type="button"
                   onClick={() => handleSaveStance(stakeholder.id, pendingStance[stakeholder.id]!)}
-                  className="rounded-full border-2 border-claude-coral/40 bg-claude-coral/15 px-3 py-1.5 text-[12px] font-medium text-claude-coral transition-colors hover:bg-claude-coral/25"
+                  className="rounded-full border-2 border-accent/40 bg-accent/15 px-3 py-1.5 text-[12px] font-medium text-accent transition-colors hover:bg-accent/25"
                 >
                   Save
                 </button>

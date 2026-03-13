@@ -51,7 +51,7 @@ export function AccountLog({
               <div
                 key={update.id}
                 id={`account-update-${update.id}`}
-                className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4"
+                className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4"
               >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.08em] text-text-secondary">
@@ -91,7 +91,7 @@ export function AccountLog({
                 value={updateTitle}
                 onChange={(event) => setUpdateTitle(event.target.value)}
                 placeholder="e.g. Security team asked for a cleaner deployment story"
-                className="w-full rounded-[18px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+                className="w-full rounded-[18px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
               />
             </div>
             <div>
@@ -106,7 +106,7 @@ export function AccountLog({
                     onClick={() => setUpdateTag(tag)}
                     className={`touch-target min-h-[44px] rounded-full border px-4 py-2.5 text-[12px] transition-colors ${
                       updateTag === tag
-                        ? "border-claude-coral/20 bg-claude-coral/[0.10] text-claude-coral"
+                        ? "border-accent/20 bg-accent/[0.10] text-accent"
                         : "border-white/10 bg-white/[0.04] text-text-secondary hover:bg-white/[0.06] active:bg-white/[0.06]"
                     }`}
                   >
@@ -124,14 +124,14 @@ export function AccountLog({
                 onChange={(event) => setUpdateNote(event.target.value)}
                 rows={6}
                 placeholder="What happened, what it means, and what you need to do next..."
-                className="w-full resize-none rounded-[22px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] leading-relaxed text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+                className="w-full resize-none rounded-[22px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] leading-relaxed text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
               />
             </div>
             <button
               type="button"
               onClick={handleAddUpdate}
               disabled={!updateTitle.trim() || !updateNote.trim()}
-              className="touch-target w-full min-h-[44px] rounded-full border border-claude-coral/20 bg-claude-coral/[0.10] px-4 py-3 text-[13px] font-medium text-claude-coral disabled:opacity-50 sm:w-fit sm:py-2"
+              className="touch-target w-full min-h-[44px] rounded-full border border-accent/20 bg-accent/[0.10] px-4 py-3 text-[13px] font-medium text-accent disabled:opacity-50 sm:w-fit sm:py-2"
             >
               Add account update
             </button>

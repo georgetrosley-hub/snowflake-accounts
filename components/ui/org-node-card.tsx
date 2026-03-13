@@ -16,7 +16,7 @@ import {
   ShieldCheck,
   Boxes,
 } from "lucide-react";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import type { OrgNode } from "@/types";
 
@@ -71,11 +71,11 @@ const statusStyles: Record<
   },
   engaged: {
     label: "Engaged",
-    badge: "border-claude-coral/15 bg-claude-coral/10 text-claude-coral/90",
-    accent: "from-claude-coral via-claude-coral/20 to-transparent",
-    iconTone: "border-claude-coral/15 bg-claude-coral/10 text-claude-coral/90",
-    meter: "bg-claude-coral/75",
-    card: "border-claude-coral/12 bg-surface-elevated/68",
+    badge: "border-accent/15 bg-accent/10 text-accent/90",
+    accent: "from-accent via-accent/20 to-transparent",
+    iconTone: "border-accent/15 bg-accent/10 text-accent/90",
+    meter: "bg-accent/75",
+    card: "border-accent/12 bg-surface-elevated/68",
   },
   pilot: {
     label: "Pilot",
@@ -174,10 +174,10 @@ export function OrgNodeCard({
             {onGeneratePitch ? (
               <button
                 onClick={onGeneratePitch}
-                className="self-start rounded-full border border-claude-coral/15 bg-claude-coral/[0.08] p-2 text-claude-coral/80 transition-colors hover:bg-claude-coral/[0.14] sm:self-auto"
+                className="self-start rounded-full border border-accent/15 bg-accent/[0.08] p-2 text-accent/80 transition-colors hover:bg-accent/[0.14] sm:self-auto"
                 title={`Generate expansion pitch for ${node.name}`}
               >
-                <ClaudeSparkle size={12} />
+                <DatabricksLogoIcon size={12} />
               </button>
             ) : null}
           </div>
@@ -187,7 +187,7 @@ export function OrgNodeCard({
               <p className="text-[10px] uppercase tracking-[0.08em] text-text-faint">
                 ARR potential
               </p>
-              <p className={cn("mt-1 text-[14px] font-semibold tabular-nums", isActive ? "text-claude-coral" : "text-text-secondary")}>
+              <p className={cn("mt-1 text-[14px] font-semibold tabular-nums", isActive ? "text-accent" : "text-text-secondary")}>
                 ${node.arrPotential.toFixed(2)}M
               </p>
             </div>

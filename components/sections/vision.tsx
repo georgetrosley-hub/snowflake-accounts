@@ -6,7 +6,7 @@ import { Sparkles, Zap, Shield, BarChart3 } from "lucide-react";
 const roadmap = [
   {
     icon: Zap,
-    title: "Claude API integration",
+    title: "Databricks Foundation Model API integration",
     desc: "Replace deterministic simulation with live reasoning. Agents pull real account signals from CRM, call summaries, and documents to generate recommendations.",
   },
   {
@@ -39,7 +39,7 @@ export function Vision() {
           What I&apos;d build next
         </h2>
         <p className="mt-2 text-[15px] text-text-secondary leading-relaxed">
-          This demo uses deterministic simulation. With the Claude API and real data sources, these agents could power a true enterprise GTM command center—assisted, not automated.
+          This demo uses deterministic simulation. With the Databricks Foundation Model API and real data sources, these agents could power a true enterprise GTM command center—assisted, not automated.
         </p>
       </section>
 
@@ -55,7 +55,7 @@ export function Vision() {
               className="flex gap-4"
             >
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-muted/60">
-                <Icon className="h-3.5 w-3.5 text-claude-coral/70" strokeWidth={1.8} />
+                <Icon className="h-3.5 w-3.5 text-accent/70" strokeWidth={1.8} />
               </div>
               <div>
                 <p className="text-[14px] font-medium text-text-primary">{item.title}</p>
@@ -68,7 +68,7 @@ export function Vision() {
 
       <section className="border-t border-surface-border/40 pt-8">
         <p className="text-[13px] text-text-muted leading-relaxed">
-          Built to show what Claude-powered enterprise sales could look like. If you&apos;d like to explore this further, I&apos;d love to talk.
+          Built to show what Databricks-powered enterprise sales could look like. If you&apos;d like to explore this further, I&apos;d love to talk.
         </p>
       </section>
     </motion.div>

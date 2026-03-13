@@ -201,7 +201,7 @@ export function ArtifactsWorkspace({
               className={cn(
                 "w-full rounded-[24px] border px-4 py-4 text-left transition-all",
                 selectedId === id
-                  ? "border-claude-coral/20 bg-claude-coral/[0.06]"
+                  ? "border-accent/20 bg-accent/[0.06]"
                   : "border-white/8 bg-white/[0.03] hover:bg-white/[0.05]"
               )}
             >
@@ -209,7 +209,7 @@ export function ArtifactsWorkspace({
                 <Icon
                   className={cn(
                     "h-4 w-4",
-                    selectedId === id ? "text-claude-coral" : "text-text-muted"
+                    selectedId === id ? "text-accent" : "text-text-muted"
                   )}
                   strokeWidth={1.8}
                 />
@@ -262,7 +262,7 @@ export function ArtifactsWorkspace({
                         ? "e.g. Microsoft"
                         : "Enter the main request"
                 }
-                className="w-full rounded-[18px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+                className="w-full rounded-[18px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
               />
             </div>
             <div>
@@ -281,7 +281,7 @@ export function ArtifactsWorkspace({
                         ? "e.g. Developer productivity + governance"
                         : "Optional"
                 }
-                className="w-full rounded-[18px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+                className="w-full rounded-[18px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
               />
             </div>
           </div>
@@ -294,8 +294,8 @@ export function ArtifactsWorkspace({
               value={context}
               onChange={(event) => setContext(event.target.value)}
               rows={4}
-              placeholder="Anything Claude should know before drafting this artifact..."
-              className="w-full resize-none rounded-[22px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+              placeholder="Anything the AI should know before drafting this artifact..."
+              className="w-full resize-none rounded-[22px] border border-surface-border/40 bg-surface-muted/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
             />
           </div>
 
@@ -303,7 +303,7 @@ export function ArtifactsWorkspace({
             type="button"
             onClick={handleGenerate}
             disabled={artifact.isStreaming}
-            className="rounded-full border border-claude-coral/20 bg-claude-coral/[0.08] px-4 py-2 text-[13px] font-medium text-claude-coral transition-colors hover:bg-claude-coral/[0.12] disabled:opacity-50"
+            className="rounded-full border border-accent/20 bg-accent/[0.08] px-4 py-2 text-[13px] font-medium text-accent transition-colors hover:bg-accent/[0.12] disabled:opacity-50"
           >
             {artifact.isStreaming ? "Generating..." : `Generate ${selectedTemplate.label}`}
           </button>

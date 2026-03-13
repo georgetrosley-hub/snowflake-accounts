@@ -11,7 +11,7 @@ import type { Account, Competitor } from "@/types";
 
 const quickQuestions = [
   { category: "Certifications", icon: FileCheck, questions: [
-    "Is Anthropic SOC 2 Type II certified?",
+    "Is Databricks SOC 2 Type II certified?",
     "Do you support HIPAA? Is a BAA available?",
     "What compliance frameworks do you support?",
     "Do you have FedRAMP authorization?",
@@ -32,13 +32,13 @@ const quickQuestions = [
     "Where is data processed and stored?",
     "What is your SLA for enterprise customers?",
     "Do you offer on-premises deployment?",
-    "What are the deployment options (API, Bedrock, Vertex)?",
+    "What are the deployment options (AWS, Azure, GCP)?",
   ]},
   { category: "Privacy & AI Safety", icon: Eye, questions: [
     "How do you prevent model hallucinations?",
     "What content filtering is in place?",
     "How do you handle PII in prompts?",
-    "What is Constitutional AI and how does it help?",
+    "What governance controls exist for AI outputs?",
   ]},
   { category: "Vendor Risk", icon: Globe, questions: [
     "What is your incident response process?",
@@ -94,7 +94,7 @@ export function SecurityQA({ account, competitors }: SecurityQAProps) {
       {/* Custom question */}
       <div className="rounded-lg border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-3">
-          <Shield className="h-4 w-4 text-claude-coral/60" strokeWidth={1.8} />
+          <Shield className="h-4 w-4 text-accent/60" strokeWidth={1.8} />
           <p className="text-[13px] font-medium text-text-primary">Ask a security question</p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
@@ -109,7 +109,7 @@ export function SecurityQA({ account, competitors }: SecurityQAProps) {
             }}
             placeholder="Paste a question from a security questionnaire or type your own..."
             rows={2}
-            className="flex-1 resize-none rounded-lg border border-surface-border/40 bg-surface/60 px-4 py-2.5 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="flex-1 resize-none rounded-lg border border-surface-border/40 bg-surface/60 px-4 py-2.5 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
           <button
             onClick={handleCustomSubmit}
@@ -117,7 +117,7 @@ export function SecurityQA({ account, competitors }: SecurityQAProps) {
             className={cn(
               "flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[12px] font-medium transition-colors sm:w-auto sm:shrink-0 sm:self-end",
               customQuestion.trim()
-                ? "border border-claude-coral/20 bg-claude-coral/[0.06] text-claude-coral/90 hover:bg-claude-coral/10"
+                ? "border border-accent/20 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
                 : "border border-surface-border/30 bg-surface-muted/20 text-text-muted/40 cursor-not-allowed"
             )}
           >
@@ -157,7 +157,7 @@ export function SecurityQA({ account, competitors }: SecurityQAProps) {
                   className={cn(
                     "rounded-lg border px-3 py-2.5 text-[12px] text-left transition-all",
                     currentQuestion === q
-                      ? "border-claude-coral/30 bg-claude-coral/[0.05] text-text-primary"
+                      ? "border-accent/30 bg-accent/[0.05] text-text-primary"
                       : "border-surface-border/30 text-text-muted hover:border-surface-border/50 hover:text-text-secondary"
                   )}
                 >

@@ -11,8 +11,8 @@ interface AgentCardProps {
 const statusStyles = {
   idle: "text-text-faint",
   analyzing: "text-text-muted",
-  recommending: "text-claude-coral/70",
-  awaiting_approval: "text-claude-coral",
+  recommending: "text-accent/70",
+  awaiting_approval: "text-accent",
 };
 
 export function AgentCard({ agent, compact }: AgentCardProps) {

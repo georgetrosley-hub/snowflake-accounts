@@ -26,7 +26,7 @@ export function CompetitorCard({ competitor }: CompetitorCardProps) {
       className={cn(
         "rounded-md border px-4 py-4 transition-colors duration-200",
         isHighRisk
-          ? "border-claude-coral/15 bg-claude-coral/[0.03] hover:bg-claude-coral/[0.05]"
+          ? "border-accent/15 bg-accent/[0.03] hover:bg-accent/[0.05]"
           : "border-surface-border/50 bg-surface-elevated/40 hover:bg-surface-elevated/60"
       )}
     >
@@ -47,7 +47,7 @@ export function CompetitorCard({ competitor }: CompetitorCardProps) {
         <span
           className={cn(
             "shrink-0 rounded-md px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider",
-            competitor.accountRiskLevel >= 80 && "bg-claude-coral/10 text-claude-coral/80",
+            competitor.accountRiskLevel >= 80 && "bg-accent/10 text-accent/80",
             competitor.accountRiskLevel >= 60 && competitor.accountRiskLevel < 80 && "bg-surface-muted/60 text-text-muted",
             competitor.accountRiskLevel < 60 && "text-text-faint"
           )}

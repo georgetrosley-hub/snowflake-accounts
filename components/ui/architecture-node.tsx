@@ -12,9 +12,9 @@ interface ArchitectureNodeProps {
 
 export function ArchitectureNode({ label, category = "integration", x = 0, y = 0 }: ArchitectureNodeProps) {
   const styles = {
-    core: "border-claude-coral/30 bg-claude-coral/[0.04]",
+    core: "border-accent/30 bg-accent/[0.04]",
     integration: "border-surface-border bg-surface-muted/50",
-    governance: "border-claude-coral/15 bg-surface-elevated",
+    governance: "border-accent/15 bg-surface-elevated",
   };
   return (
     <motion.div

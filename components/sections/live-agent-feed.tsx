@@ -6,7 +6,7 @@ import { RefreshCw } from "lucide-react";
 import { useApiKey } from "@/app/context/api-key-context";
 import { SectionHeader } from "@/components/ui/section-header";
 import { LiveEventCard } from "@/components/ui/live-event-card";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { readApiErrorMessage } from "@/lib/client/api";
 import type { SimulationEvent, Account, Competitor } from "@/types";
 
@@ -70,16 +70,16 @@ export function LiveAgentFeed({ events, account, competitors }: LiveAgentFeedPro
       const message =
         error instanceof Error
           ? error.message
-          : "Add your Claude API key in the top right and try again.";
+          : "Add your Databricks API key in the top right and try again.";
       const errorEvent: SimulationEvent = {
         id: `ai-error-${Date.now()}`,
         timestamp: new Date(),
         agentName: randomAgent,
         priority: "high",
         type: "research_signal",
-        title: "Claude request needs attention",
+        title: "AI request needs attention",
         explanation: message,
-        recommendedAction: "Update your Claude API key from the top right, then retry.",
+        recommendedAction: "Update your Databricks API key from the top right, then retry.",
       };
 
       setAiEvents((prev): SimulationEvent[] => [
@@ -111,19 +111,19 @@ export function LiveAgentFeed({ events, account, competitors }: LiveAgentFeedPro
           <button
             onClick={generateAgentInsight}
             disabled={isGenerating}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-3 py-2 text-[11px] font-medium text-claude-coral/90 transition-colors hover:bg-claude-coral/10 disabled:opacity-50 sm:w-auto sm:py-1.5"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-3 py-2 text-[11px] font-medium text-accent/90 transition-colors hover:bg-accent/10 disabled:opacity-50 sm:w-auto sm:py-1.5"
           >
             {isGenerating ? (
               <RefreshCw className="h-3 w-3 animate-spin" />
             ) : (
-              <ClaudeSparkle size={10} />
+              <DatabricksLogoIcon size={10} />
             )}
             Generate AI Insight
           </button>
           <div className="flex items-center justify-center gap-2 sm:justify-start">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-claude-coral/40" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-claude-coral/70" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent/70" />
             </span>
             <span className="text-[11px] text-text-muted">live</span>
           </div>
@@ -132,8 +132,8 @@ export function LiveAgentFeed({ events, account, competitors }: LiveAgentFeedPro
 
       {aiEvents.length > 0 && (
         <div className="mb-3 flex items-center gap-2">
-          <ClaudeSparkle size={10} className="text-claude-coral/50" />
-          <span className="text-[11px] text-claude-coral/60">
+          <DatabricksLogoIcon size={10} className="text-accent/50" />
+          <span className="text-[11px] text-accent/60">
             {aiEvents.length} AI-generated insight{aiEvents.length > 1 ? "s" : ""}
           </span>
         </div>

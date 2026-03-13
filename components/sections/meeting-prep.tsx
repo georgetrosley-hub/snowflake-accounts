@@ -6,7 +6,7 @@ import { Users, Calendar, Briefcase, Presentation, DollarSign } from "lucide-rea
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
@@ -73,7 +73,7 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
     >
       <SectionHeader
         title="Meeting prep"
-        subtitle="Claude-powered preparation for any meeting type"
+        subtitle="AI-powered preparation for any meeting type"
       />
 
       {/* Meeting type selector */}
@@ -89,7 +89,7 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
               className={cn(
                 "rounded-lg border p-4 text-left transition-all",
                 selectedType === id
-                  ? "border-claude-coral/30 bg-claude-coral/[0.05]"
+                  ? "border-accent/30 bg-accent/[0.05]"
                   : "border-surface-border/40 bg-surface-elevated/20 hover:border-surface-border/60"
               )}
             >
@@ -97,7 +97,7 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
                 <Icon
                   className={cn(
                     "h-4 w-4",
-                    selectedType === id ? "text-claude-coral/70" : "text-text-muted"
+                    selectedType === id ? "text-accent/70" : "text-text-muted"
                   )}
                   strokeWidth={1.8}
                 />
@@ -129,7 +129,7 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
               className={cn(
                 "rounded-full border px-3 py-1.5 text-[12px] transition-all",
                 selectedRoles.includes(role)
-                  ? "border-claude-coral/30 bg-claude-coral/[0.08] text-claude-coral/90"
+                  ? "border-accent/30 bg-accent/[0.08] text-accent/90"
                   : "border-surface-border/40 text-text-muted hover:border-surface-border/60 hover:text-text-secondary"
               )}
             >
@@ -149,7 +149,7 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
           onChange={(e) => setAdditionalContext(e.target.value)}
           placeholder="e.g., Follow-up from last week's demo. They expressed concern about data residency..."
           rows={3}
-          className="w-full resize-none rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+          className="w-full resize-none rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
         />
       </div>
 
@@ -160,11 +160,11 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
         className={cn(
           "flex items-center gap-2 rounded-lg px-5 py-3 text-[13px] font-medium transition-colors",
           selectedType
-            ? "border border-claude-coral/20 bg-claude-coral/[0.06] text-claude-coral/90 hover:bg-claude-coral/10"
+            ? "border border-accent/20 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
             : "border border-surface-border/30 bg-surface-muted/20 text-text-muted/50 cursor-not-allowed"
         )}
       >
-        <ClaudeSparkle size={14} />
+        <DatabricksLogoIcon size={14} />
         Generate Meeting Prep
       </button>
 

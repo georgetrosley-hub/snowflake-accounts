@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { RefreshCw, Copy, Check } from "lucide-react";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import { useState, useCallback } from "react";
 
@@ -43,15 +43,15 @@ export function StreamingContent({
     >
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-surface-border/30 px-4 py-3 sm:px-5">
         <div className="flex min-w-0 items-center gap-2">
-          <ClaudeSparkle
+          <DatabricksLogoIcon
             size={12}
             className={cn(
-              "text-claude-coral/60",
+              "text-accent/60",
               isStreaming && "animate-pulse"
             )}
           />
           <span className="truncate text-[11px] text-text-muted">
-            {label ?? "Claude"}{isStreaming ? " · generating..." : ""}
+            {label ?? "Databricks AI"}{isStreaming ? " · generating..." : ""}
           </span>
         </div>
         {content && !isStreaming && (
@@ -82,7 +82,7 @@ export function StreamingContent({
       <div className="whitespace-pre-wrap px-4 py-4 text-[13px] leading-relaxed text-text-secondary sm:px-5">
         {content}
         {isStreaming && (
-          <span className="inline-block w-1.5 h-4 bg-claude-coral/50 animate-pulse ml-0.5 align-text-bottom" />
+          <span className="inline-block w-1.5 h-4 bg-accent/50 animate-pulse ml-0.5 align-text-bottom" />
         )}
       </div>
     </motion.div>

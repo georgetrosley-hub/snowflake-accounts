@@ -19,89 +19,58 @@ type EventTemplate = {
 };
 
 const EVENT_TEMPLATES: Record<string, EventTemplate[]> = {
-  comcast: [
-    { type: "research_signal", agentName: "Research Agent", priority: "medium", title: "Opportunity detected", explanation: "Platform engineering team evaluating Claude Code for internal tooling documentation.", recommendedAction: "Schedule technical discovery call", operationalPhrase: "opportunity detected in platform engineering" },
-    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "Director of Platform Engineering interested in pilot for 100-engineer cohort.", recommendedAction: "Prepare pilot proposal", operationalPhrase: "champion identified in platform engineering" },
-    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "medium", title: "Competitive pressure elevated", explanation: "GitHub Copilot widely deployed; Cursor adoption in shadow IT.", recommendedAction: "Differentiate on enterprise controls", operationalPhrase: "competitive pressure elevated" },
-    { type: "architecture_recommendation", agentName: "Technical Architecture Agent", priority: "medium", title: "Architecture recommendation", explanation: "Proposed integration with existing SSO and code repository infrastructure.", recommendedAction: "Share with security team", operationalPhrase: "architecture recommendation proposed" },
-    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "high", title: "Expansion path identified", explanation: "Customer support org exploring AI automation for call center workflows.", recommendedAction: "Map support leadership", operationalPhrase: "expansion path identified" },
-    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "Security review recommended", explanation: "Architecture review required before pilot approval.", recommendedAction: "Schedule security review", operationalPhrase: "security review recommended" },
-    { type: "executive_narrative", agentName: "Executive Narrative Agent", priority: "medium", title: "Executive narrative updated", explanation: "Business case refined for CIO and platform leadership.", recommendedAction: "Request exec meeting", operationalPhrase: "executive narrative updated" },
-    { type: "approval_required", agentName: "Human Oversight Agent", priority: "critical", title: "Approval required", explanation: "Pilot launch with 100 engineers requires sign-off.", recommendedAction: "Review and approve", operationalPhrase: "approval required" },
+  jnj: [
+    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Clinical Data Sciences evaluating unified trial analytics platform. Snowflake in the mix.", recommendedAction: "Engage Clinical Data leadership", operationalPhrase: "opportunity detected in clinical data" },
+    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "VP Clinical Data Sciences interested in pilot for trial analytics with Unity Catalog.", recommendedAction: "Prepare pilot proposal", operationalPhrase: "champion identified in clinical data" },
+    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "high", title: "Competitive pressure elevated", explanation: "Snowflake Cortex and data warehouse evaluation in progress.", recommendedAction: "Differentiate on Lakehouse and Mosaic AI", operationalPhrase: "competitive pressure elevated" },
+    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "Quality review recommended", explanation: "Quality and Legal want governance narrative before pilot.", recommendedAction: "Package Unity Catalog and audit story", operationalPhrase: "quality review recommended" },
+    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "RWE and R&D could benefit from unified platform.", recommendedAction: "Map R&D and regulatory leadership", operationalPhrase: "expansion path identified" },
   ],
-  "comcast-business": [
-    { type: "research_signal", agentName: "Research Agent", priority: "medium", title: "Opportunity detected", explanation: "SMB support team exploring AI for ticket deflection.", recommendedAction: "Engage support leadership" },
-    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "VP Customer Support interested in pilot for 50 agents.", recommendedAction: "Draft pilot scope" },
-    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "medium", title: "Competitive pressure elevated", explanation: "Incumbent exploring AI add-ons; opportunity for differentiation.", recommendedAction: "Position Claude for support" },
-    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "Sales team could benefit from proposal and RFP automation.", recommendedAction: "Map sales leadership" },
+  merck: [
+    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "R&D Data Platform wants to consolidate discovery and preclinical data.", recommendedAction: "Engage R&D Data Platform", operationalPhrase: "opportunity detected in R&D data" },
+    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "Director R&D Data Platform interested in data lake and Mosaic AI pilot.", recommendedAction: "Draft pilot scope", operationalPhrase: "champion identified" },
+    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "medium", title: "Competitive pressure", explanation: "Palantir Foundry in some R&D workflows. Land with additive use case.", recommendedAction: "Position as additive, not displacement", operationalPhrase: "competitive pressure" },
+    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "IP and data residency review", explanation: "Security wants IP protection and data residency clarity.", recommendedAction: "Prepare deployment narrative", operationalPhrase: "security review recommended" },
   ],
-  jpmorgan: [
-    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Model risk team exploring document automation with governance controls.", recommendedAction: "Engage model risk and compliance", operationalPhrase: "opportunity detected in model risk" },
-    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "critical", title: "Security review recommended", explanation: "Full architecture and data flow review needed before any pilot.", recommendedAction: "Initiate security review", operationalPhrase: "security review recommended" },
-    { type: "procurement_friction", agentName: "Legal and Procurement Agent", priority: "high", title: "Procurement timeline noted", explanation: "Vendor approval and procurement cycle typically 12–18 months.", recommendedAction: "Build executive sponsor path", operationalPhrase: "procurement timeline noted" },
-    { type: "legal_review", agentName: "Legal and Procurement Agent", priority: "high", title: "Legal review recommended", explanation: "Enterprise agreement and data terms need sign-off.", recommendedAction: "Prepare legal review package", operationalPhrase: "legal review recommended" },
-    { type: "executive_narrative", agentName: "Executive Narrative Agent", priority: "high", title: "Executive narrative updated", explanation: "Business case for finance workflows prepared for CFO review.", recommendedAction: "Request CFO alignment", operationalPhrase: "executive narrative updated" },
-    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "SVP Model Risk interested in pilot with full governance.", recommendedAction: "Design governed pilot", operationalPhrase: "champion identified in model risk" },
-    { type: "approval_required", agentName: "Human Oversight Agent", priority: "critical", title: "Approval required", explanation: "Security architecture review initiation requires sign-off.", recommendedAction: "Review and approve", operationalPhrase: "approval required" },
+  bms: [
+    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Clinical Dev Ops evaluating trial data platform. Snowflake comparison in parallel.", recommendedAction: "Engage Clinical Dev Ops", operationalPhrase: "opportunity detected in clinical ops" },
+    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "VP Clinical Dev Ops interested in Databricks for trial analytics.", recommendedAction: "Win on architecture and time-to-value", operationalPhrase: "champion identified" },
+    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "high", title: "Competitive pressure elevated", explanation: "Snowflake evaluation for data warehouse. Need to land clinical analytics first.", recommendedAction: "Differentiate Lakehouse vs warehouse", operationalPhrase: "competitive pressure elevated" },
   ],
   pfizer: [
-    { type: "research_signal", agentName: "Research Agent", priority: "medium", title: "Opportunity detected", explanation: "Medical affairs exploring regulated document workflows.", recommendedAction: "Engage regulatory affairs" },
-    { type: "legal_review", agentName: "Legal and Procurement Agent", priority: "high", title: "Legal review recommended", explanation: "GxP and FDA validation considerations for AI-assisted workflows.", recommendedAction: "Prepare regulatory package" },
-    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "Compliance review recommended", explanation: "Data residency and audit requirements need mapping.", recommendedAction: "Document compliance requirements" },
-    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "Clinical trial documentation could benefit from AI assistance.", recommendedAction: "Map clinical operations" },
+    { type: "research_signal", agentName: "Research Agent", priority: "medium", title: "Opportunity detected", explanation: "Medical Affairs exploring regulated document workflows.", recommendedAction: "Engage Medical Affairs" },
+    { type: "legal_review", agentName: "Legal and Procurement Agent", priority: "high", title: "Legal review recommended", explanation: "GxP and FDA validation considerations for AI-assisted workflows.", recommendedAction: "Prepare regulatory package", operationalPhrase: "legal review recommended" },
+    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "Compliance review recommended", explanation: "Data residency and audit requirements need mapping.", recommendedAction: "Document compliance requirements", operationalPhrase: "compliance review recommended" },
+    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "Clinical trial documentation and submission prep could benefit.", recommendedAction: "Map clinical operations", operationalPhrase: "expansion path identified" },
   ],
-  salesforce: [
-    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Engineering teams exploring Claude beyond Einstein for internal use.", recommendedAction: "Engage developer productivity org" },
-    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "high", title: "Competitive pressure elevated", explanation: "Internal preference for Einstein; need clear differentiation.", recommendedAction: "Position for specialized workflows" },
-    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "Customer success org could use AI for support and enablement.", recommendedAction: "Map CS leadership" },
-    { type: "architecture_recommendation", agentName: "Technical Architecture Agent", priority: "medium", title: "Integration design", explanation: "Proposed integration with Salesforce data and identity.", recommendedAction: "Share with platform team" },
-  ],
-  nvidia: [
-    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "AI research teams interested in Claude for documentation and reasoning.", recommendedAction: "Engage research leadership" },
-    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "medium", title: "Competitive pressure elevated", explanation: "NVIDIA NIM and NeMo in evaluation; position Claude as application layer.", recommendedAction: "Emphasize complementary use cases" },
-    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "VP Engineering interested in developer productivity pilot.", recommendedAction: "Propose 200-engineer pilot" },
-    { type: "architecture_recommendation", agentName: "Technical Architecture Agent", priority: "medium", title: "Infrastructure integration", explanation: "Claude API integration with existing GPU and data infrastructure.", recommendedAction: "Technical review with platform team" },
-  ],
-  servicenow: [
-    { type: "research_signal", agentName: "Research Agent", priority: "medium", title: "Opportunity detected", explanation: "Legal and HR exploring AI outside Now Platform.", recommendedAction: "Engage legal and HR" },
-    { type: "competitor_detected", agentName: "Competitive Strategy Agent", priority: "high", title: "Competitive pressure elevated", explanation: "Now Assist deployed for IT; position for adjacent workflows.", recommendedAction: "Differentiate on use case breadth" },
-    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "Knowledge teams need search beyond ServiceNow.", recommendedAction: "Map knowledge leadership" },
-  ],
-  adp: [
-    { type: "research_signal", agentName: "Research Agent", priority: "medium", title: "Opportunity detected", explanation: "HR operations exploring payroll and compliance document automation.", recommendedAction: "Engage HR and compliance" },
-    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "critical", title: "Security review recommended", explanation: "Payroll and HR data require strict access and audit controls.", recommendedAction: "Design data boundary" },
-    { type: "expansion_path", agentName: "Expansion Strategy Agent", priority: "medium", title: "Expansion path identified", explanation: "Implementation and client support could use AI augmentation.", recommendedAction: "Map support org" },
-  ],
-  "morgan-stanley": [
-    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Wealth advisors exploring research and document synthesis.", recommendedAction: "Engage wealth leadership" },
-    { type: "legal_review", agentName: "Legal and Procurement Agent", priority: "high", title: "Legal review recommended", explanation: "Regulatory and compliance review for financial workflows.", recommendedAction: "Prepare legal package" },
-    { type: "executive_narrative", agentName: "Executive Narrative Agent", priority: "high", title: "Executive narrative updated", explanation: "Business case for research and operations automation.", recommendedAction: "Request CIO meeting" },
-    { type: "approval_required", agentName: "Human Oversight Agent", priority: "critical", title: "Approval required", explanation: "Initiate legal review for enterprise agreement.", recommendedAction: "Review and approve" },
-  ],
-  "capital-one": [
-    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Engineering org evaluating Claude Code for modernization.", recommendedAction: "Engage developer productivity team" },
-    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "Director of Platform Engineering advocating for pilot.", recommendedAction: "Prepare pilot proposal" },
-    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "Security review recommended", explanation: "Model risk and security review required before pilot.", recommendedAction: "Schedule model risk meeting" },
+  sanofi: [
+    { type: "research_signal", agentName: "Research Agent", priority: "high", title: "Opportunity detected", explanation: "Vaccines Data wants to unify analytics for R&D and manufacturing.", recommendedAction: "Engage Vaccines Data leadership", operationalPhrase: "opportunity detected in vaccines" },
+    { type: "champion_identified", agentName: "Research Agent", priority: "high", title: "Champion identified", explanation: "Head of Data & Analytics, Vaccines interested in unified platform.", recommendedAction: "Prepare EU deployment path", operationalPhrase: "champion identified" },
+    { type: "security_blocker", agentName: "Security and Compliance Agent", priority: "high", title: "EU data residency review", explanation: "EU data residency and GDPR compliance required.", recommendedAction: "Document DPA and deployment options", operationalPhrase: "data residency review" },
   ],
 };
 
 const APPROVAL_TEMPLATES: Record<string, { title: string; reason: string; agent: string; impact: string; risk: "low" | "medium" | "high" }[]> = {
-  comcast: [
-    { title: "Launch Claude Code pilot with 100 engineers", reason: "Platform engineering pilot ready; champion aligned.", agent: "Human Oversight Agent", impact: "$120K land, path to $480K expansion", risk: "low" },
-    { title: "Schedule security architecture review", reason: "Required before pilot approval.", agent: "Human Oversight Agent", impact: "Unblocks pilot timeline", risk: "low" },
-    { title: "Expand into customer support pilot", reason: "Support org interested in AI automation.", agent: "Human Oversight Agent", impact: "+$200K expansion potential", risk: "medium" },
-    { title: "Build executive business case for CIO and CFO", reason: "Executive alignment needed for enterprise rollout.", agent: "Human Oversight Agent", impact: "Moves procurement forward", risk: "low" },
-    { title: "Enter procurement with annual enterprise proposal", reason: "Pilot success supports enterprise discussion.", agent: "Human Oversight Agent", impact: "Toward $480K expansion", risk: "high" },
+  jnj: [
+    { title: "Launch trial analytics pilot with Clinical Data Sciences", reason: "Champion aligned; Quality review in progress.", agent: "Human Oversight Agent", impact: "$2.2M land, path to expansion", risk: "medium" },
+    { title: "Package governance narrative for Quality and Legal", reason: "Required before pilot approval.", agent: "Human Oversight Agent", impact: "Unblocks pilot timeline", risk: "low" },
+    { title: "Build executive brief for CDO", reason: "Executive alignment needed for Snowflake comparison.", agent: "Human Oversight Agent", impact: "Moves decision forward", risk: "low" },
   ],
-  jpmorgan: [
-    { title: "Initiate legal review for enterprise agreement", reason: "Legal sign-off required before any pilot.", agent: "Human Oversight Agent", impact: "Unblocks procurement path", risk: "medium" },
-    { title: "Schedule security architecture review", reason: "Required before deployment.", agent: "Human Oversight Agent", impact: "Required milestone", risk: "low" },
-    { title: "Expand into finance with Claude for Excel", reason: "Model risk team interested in governed finance workflows.", agent: "Human Oversight Agent", impact: "+$2M expansion potential", risk: "high" },
-    { title: "Build executive business case for CIO and CFO", reason: "Executive alignment needed for 12–18 month cycle.", agent: "Human Oversight Agent", impact: "Moves decision forward", risk: "low" },
+  merck: [
+    { title: "Launch R&D data lake pilot", reason: "Champion aligned; additive use case.", agent: "Human Oversight Agent", impact: "$1.9M land, path to expansion", risk: "medium" },
+    { title: "Schedule security and IP review", reason: "Required before pilot.", agent: "Human Oversight Agent", impact: "Unblocks pilot", risk: "low" },
+  ],
+  bms: [
+    { title: "Launch clinical trial analytics pilot", reason: "Clinical Dev Ops interested. Snowflake in parallel.", agent: "Human Oversight Agent", impact: "$1.6M land, path to expansion", risk: "medium" },
+    { title: "Prepare Veeva integration design", reason: "Key for Clinical Dev Ops.", agent: "Human Oversight Agent", impact: "Accelerates pilot", risk: "low" },
   ],
   pfizer: [
-    { title: "Run R&D knowledge pilot", reason: "Medical affairs pilot with regulated workflows.", agent: "Human Oversight Agent", impact: "$180K land, path to expansion", risk: "medium" },
-    { title: "Initiate legal review for enterprise agreement", reason: "GxP and IP considerations.", agent: "Human Oversight Agent", impact: "Unblocks regulated deployment", risk: "medium" },
+    { title: "Run Medical Affairs knowledge pilot", reason: "Regulated document workflows pilot.", agent: "Human Oversight Agent", impact: "$2M land, path to expansion", risk: "medium" },
+    { title: "Initiate Legal and Quality review", reason: "GxP and IP considerations.", agent: "Human Oversight Agent", impact: "Unblocks deployment", risk: "medium" },
+  ],
+  sanofi: [
+    { title: "Launch Vaccines data platform pilot", reason: "Champion aligned. EU residency required.", agent: "Human Oversight Agent", impact: "$1.5M land, path to expansion", risk: "medium" },
+    { title: "Complete EU data residency and DPA review", reason: "Legal and DPO sign-off required.", agent: "Human Oversight Agent", impact: "Unblocks pilot", risk: "low" },
   ],
   default: [
     { title: "Launch pilot", reason: "Champion aligned; pilot scope defined.", agent: "Human Oversight Agent", impact: "Unblocks expansion path", risk: "medium" },
@@ -113,7 +82,7 @@ let eventId = 0;
 let approvalId = 0;
 
 function getEventTemplates(accountId: string): EventTemplate[] {
-  return EVENT_TEMPLATES[accountId] ?? EVENT_TEMPLATES.comcast;
+  return EVENT_TEMPLATES[accountId] ?? EVENT_TEMPLATES.jnj;
 }
 
 function getApprovalTemplates(accountId: string) {
@@ -161,72 +130,30 @@ export function generateApprovalRequest(accountId: string, tick: number): Approv
   };
 }
 
-export function updateAgentsFromEvent(
-  agents: Agent[],
-  event: SimulationEvent
-): Agent[] {
-  return agents.map((a) => {
-    if (a.name !== event.agentName) return a;
-    const confidence = Math.min(95, 60 + deterministicIndex(eventId, 35));
-    return {
-      ...a,
-      status: event.type === "approval_required" ? "awaiting_approval" : "recommending",
-      confidenceScore: confidence / 100,
-      lastActionAt: event.timestamp,
-      activeRecommendation: event.recommendedAction ?? a.activeRecommendation,
-    };
-  });
-}
-
-export function createInitialOrgNodes(accountId: string): OrgNode[] {
+export function buildOrgNodes(accountId: string): OrgNode[] {
   const account = accounts.find((a) => a.id === accountId);
-  const base = [
-    { id: "eng", name: "Engineering", useCase: "Code generation and review", baseLikelihood: 75, baseArr: 0.4 },
-    { id: "platform", name: "Platform Engineering", useCase: "Internal tooling and docs", baseLikelihood: 78, baseArr: 0.35 },
-    { id: "security", name: "Security", useCase: "Policy and compliance review", baseLikelihood: 55, baseArr: 0.15 },
-    { id: "it", name: "IT", useCase: "Help desk and provisioning", baseLikelihood: 65, baseArr: 0.25 },
-    { id: "finance", name: "Finance", useCase: "Excel and reporting automation", baseLikelihood: 60, baseArr: 0.3 },
-    { id: "legal", name: "Legal", useCase: "Contract and document review", baseLikelihood: 58, baseArr: 0.2 },
-    { id: "ops", name: "Operations", useCase: "Process documentation", baseLikelihood: 62, baseArr: 0.2 },
-    { id: "support", name: "Customer Support", useCase: "Ticket handling and knowledge", baseLikelihood: 70, baseArr: 0.35 },
-    { id: "product", name: "Product", useCase: "PRD and spec generation", baseLikelihood: 72, baseArr: 0.25 },
-    { id: "data", name: "Data / AI", useCase: "Model and data workflows", baseLikelihood: 68, baseArr: 0.3 },
-    { id: "exec", name: "Executive Leadership", useCase: "Strategic synthesis and reporting", baseLikelihood: 50, baseArr: 0.5 },
+  if (!account) return [];
+
+  const baseNodes: OrgNode[] = [
+    { id: "rnd", name: "R&D", useCase: "Drug discovery, computational chemistry", buyingLikelihood: 72, arrPotential: account.estimatedExpansionValue * 0.25, status: "identified", recommendedNextStep: "Map R&D Data Platform", },
+    { id: "clinical", name: "Clinical Ops", useCase: "Trial analytics, site performance", buyingLikelihood: 78, arrPotential: account.estimatedExpansionValue * 0.3, status: "engaged", recommendedNextStep: "Pilot design", },
+    { id: "regulatory", name: "Regulatory", useCase: "Submission prep, document workflows", buyingLikelihood: 65, arrPotential: account.estimatedExpansionValue * 0.15, status: "latent", recommendedNextStep: "Discover use cases", },
+    { id: "medical", name: "Medical Affairs", useCase: "HCP engagement, knowledge retrieval", buyingLikelihood: 70, arrPotential: account.estimatedExpansionValue * 0.2, status: "identified", recommendedNextStep: "Pilot scope", },
+    { id: "manufacturing", name: "Manufacturing", useCase: "Quality, supply chain analytics", buyingLikelihood: 60, arrPotential: account.estimatedExpansionValue * 0.1, status: "latent", recommendedNextStep: "Map data needs", },
   ];
-  const land = account?.estimatedLandValue ?? 1;
-  const expand = account?.estimatedExpansionValue ?? 4;
-  const scale = land / 2 + expand / 8;
-  const statuses: OrgNode["status"][] = ["latent", "identified", "engaged", "pilot", "deployed"];
-  return base.map((b, i) => ({
-    id: b.id,
-    name: b.name,
-    useCase: b.useCase,
-    buyingLikelihood: Math.min(95, b.baseLikelihood + deterministicIndex(accountId.length + i, 20)),
-    arrPotential: Math.round(b.baseArr * scale * 100) / 100,
-    status: statuses[deterministicIndex(i + accountId.length, statuses.length)] as OrgNode["status"],
-    recommendedNextStep: i === 0 ? "Schedule discovery call" : i < 4 ? "Map stakeholders" : "Identify champion",
-  }));
+
+  return baseNodes;
 }
 
-export function advanceOrgNodeOnApproval(
-  nodes: OrgNode[],
-  approvalTitle: string,
-  approved: boolean
-): OrgNode[] {
-  if (!approved) return nodes;
-  const pilotMatch = approvalTitle.toLowerCase().includes("pilot");
-  const financeMatch = approvalTitle.toLowerCase().includes("finance");
-  const supportMatch = approvalTitle.toLowerCase().includes("support");
-  return nodes.map((n) => {
-    if (pilotMatch && (n.name === "Engineering" || n.name === "Platform Engineering")) {
-      return { ...n, status: "pilot" as const, arrPotential: n.arrPotential * 1.2 };
-    }
-    if (financeMatch && n.name === "Finance") {
-      return { ...n, status: "engaged" as const, arrPotential: n.arrPotential * 1.5 };
-    }
-    if (supportMatch && n.name === "Customer Support") {
-      return { ...n, status: "engaged" as const };
-    }
-    return n;
-  });
+export function buildAgents(): Agent[] {
+  return [
+    { id: "territory", name: "Territory Intelligence Agent", role: "Market and timing signals", status: "idle", confidenceScore: 82, priority: "medium", lastActionAt: new Date() },
+    { id: "research", name: "Research Agent", role: "Champion and opportunity detection", status: "idle", confidenceScore: 85, priority: "high", lastActionAt: new Date() },
+    { id: "competitive", name: "Competitive Strategy Agent", role: "Competitive positioning", status: "idle", confidenceScore: 78, priority: "medium", lastActionAt: new Date() },
+    { id: "technical", name: "Technical Architecture Agent", role: "Integration and deployment", status: "idle", confidenceScore: 80, priority: "medium", lastActionAt: new Date() },
+    { id: "security", name: "Security and Compliance Agent", role: "Security and compliance", status: "idle", confidenceScore: 88, priority: "high", lastActionAt: new Date() },
+    { id: "executive", name: "Executive Narrative Agent", role: "Executive storytelling", status: "idle", confidenceScore: 75, priority: "medium", lastActionAt: new Date() },
+    { id: "expansion", name: "Expansion Strategy Agent", role: "Expansion opportunities", status: "idle", confidenceScore: 77, priority: "medium", lastActionAt: new Date() },
+    { id: "oversight", name: "Human Oversight Agent", role: "Approval recommendations", status: "idle", confidenceScore: 90, priority: "critical", lastActionAt: new Date() },
+  ];
 }

@@ -1,224 +1,118 @@
 import type { Competitor } from "@/types";
 
 export const competitorCategories = [
-  "Frontier models",
-  "Coding tools",
-  "Enterprise search and knowledge",
-  "Workflow and agent platforms",
+  "Data platforms",
   "Cloud incumbents",
   "Vertical specialists",
+  "AI/ML platforms",
 ] as const;
 
 export const competitors: Competitor[] = [
   {
-    id: "openai",
-    name: "OpenAI",
-    category: "frontier",
-    strengthAreas: ["GPT-4 deployment", "API adoption", "Microsoft relationship"],
-    claudeDifferentiation: ["Governance controls", "longer context", "constitutional AI"],
+    id: "snowflake",
+    name: "Snowflake",
+    category: "cloud",
+    strengthAreas: ["Cortex AI", "data cloud", "enterprise data warehouse", "life sciences focus"],
+    databricksDifferentiation: ["Lakehouse architecture", "open Delta Lake", "unified analytics + AI", "Mosaic AI"],
     accountRiskLevel: 85,
-    detectedFootprint: "API usage in engineering, Microsoft 365 integration",
+    detectedFootprint: "Data warehouse evaluation, Cortex pilots in some pharma",
   },
   {
-    id: "microsoft",
-    name: "Microsoft",
-    category: "frontier",
-    strengthAreas: ["Office 365 bundling", "Azure integration", "enterprise sales"],
-    claudeDifferentiation: ["Model choice", "data residency options", "API-first"],
-    accountRiskLevel: 90,
-    detectedFootprint: "Microsoft 365 enterprise agreement, Copilot pilots",
-  },
-  {
-    id: "google",
-    name: "Google / Gemini",
-    category: "frontier",
-    strengthAreas: ["Workspace integration", "GCP", "enterprise search"],
-    claudeDifferentiation: ["Accuracy and safety", "no ad model", "research credibility"],
-    accountRiskLevel: 78,
-    detectedFootprint: "Workspace in some divisions, GCP data platform",
-  },
-  {
-    id: "xai",
-    name: "xAI",
-    category: "frontier",
-    strengthAreas: ["Grok enterprise", "compute relationships"],
-    claudeDifferentiation: ["Enterprise maturity", "support", "governance"],
-    accountRiskLevel: 45,
-  },
-  {
-    id: "github-copilot",
-    name: "GitHub Copilot",
-    category: "coding",
-    strengthAreas: ["Developer adoption", "IDE integration", "Microsoft bundling"],
-    claudeDifferentiation: ["Full reasoning", "documentation", "beyond code completion"],
+    id: "palantir",
+    name: "Palantir",
+    category: "vertical",
+    strengthAreas: ["Pharma relationships", "Foundry", "AIP", "regulated workflows"],
+    databricksDifferentiation: ["Open platform", "data lakehouse", "avoid vendor lock-in", "ecosystem flexibility"],
     accountRiskLevel: 82,
-    detectedFootprint: "Widespread in engineering orgs",
-  },
-  {
-    id: "cursor",
-    name: "Cursor",
-    category: "coding",
-    strengthAreas: ["Developer preference", "multi-model", "productivity"],
-    claudeDifferentiation: ["Enterprise controls", "audit", "vendor governance"],
-    accountRiskLevel: 75,
-    detectedFootprint: "Shadow IT adoption in platform engineering",
-  },
-  {
-    id: "windsurf",
-    name: "Windsurf",
-    category: "coding",
-    strengthAreas: ["Code generation", "developer workflow"],
-    claudeDifferentiation: ["Enterprise deployment", "compliance", "support"],
-    accountRiskLevel: 55,
-  },
-  {
-    id: "devin",
-    name: "Devin",
-    category: "coding",
-    strengthAreas: ["Autonomous coding", "emerging interest"],
-    claudeDifferentiation: ["Enterprise readiness", "human oversight", "security"],
-    accountRiskLevel: 40,
-  },
-  {
-    id: "perplexity",
-    name: "Perplexity",
-    category: "search",
-    strengthAreas: ["Research workflows", "citation", "broad adoption"],
-    claudeDifferentiation: ["Enterprise deployment", "data control", "customization"],
-    accountRiskLevel: 68,
-    detectedFootprint: "Individual subscriptions, research teams",
-  },
-  {
-    id: "glean",
-    name: "Glean",
-    category: "search",
-    strengthAreas: ["Enterprise search", "knowledge graphs", "integrations"],
-    claudeDifferentiation: ["Reasoning depth", "model quality", "agent workflows"],
-    accountRiskLevel: 72,
-    detectedFootprint: "Enterprise search RFP in progress",
-  },
-  {
-    id: "moveworks",
-    name: "Moveworks",
-    category: "search",
-    strengthAreas: ["IT support", "help desk", "ticket deflection"],
-    claudeDifferentiation: ["Broader use cases", "reasoning", "multi-workflow"],
-    accountRiskLevel: 65,
-    detectedFootprint: "IT exploring alternatives",
-  },
-  {
-    id: "salesforce-agentforce",
-    name: "Salesforce Agentforce",
-    category: "workflow",
-    strengthAreas: ["CRM integration", "Salesforce ecosystem", "agent builder"],
-    claudeDifferentiation: ["Model quality", "vendor choice", "beyond CRM"],
-    accountRiskLevel: 70,
-  },
-  {
-    id: "servicenow",
-    name: "ServiceNow",
-    category: "workflow",
-    strengthAreas: ["IT workflows", "Now Platform", "enterprise footprint"],
-    claudeDifferentiation: ["Specialized workflows", "model quality", "integration flexibility"],
-    accountRiskLevel: 78,
-    detectedFootprint: "Core IT service management",
+    detectedFootprint: "Foundry in R&D, clinical ops at some pharma",
   },
   {
     id: "aws",
     name: "AWS",
     category: "cloud",
-    strengthAreas: ["Bedrock", "infrastructure", "enterprise relationships"],
-    claudeDifferentiation: ["Direct Claude", "support", "roadmap control"],
-    accountRiskLevel: 75,
+    strengthAreas: ["Redshift", "SageMaker", "infrastructure", "enterprise relationships"],
+    databricksDifferentiation: ["Unified platform", "Delta Lake", "Mosaic AI", "better ML governance"],
+    accountRiskLevel: 78,
+    detectedFootprint: "AWS infrastructure, Redshift/SageMaker in some divisions",
   },
   {
-    id: "databricks",
-    name: "Databricks",
+    id: "google",
+    name: "Google Cloud",
     category: "cloud",
-    strengthAreas: ["Data platform", "Mosaic", "ML workloads"],
-    claudeDifferentiation: ["General reasoning", "beyond data", "conversational AI"],
-    accountRiskLevel: 68,
-  },
-  {
-    id: "snowflake",
-    name: "Snowflake",
-    category: "cloud",
-    strengthAreas: ["Cortex", "data cloud", "enterprise data"],
-    claudeDifferentiation: ["Full model control", "reasoning", "multi-workflow"],
-    accountRiskLevel: 62,
+    strengthAreas: ["BigQuery", "Vertex AI", "life sciences solutions", "data clean rooms"],
+    databricksDifferentiation: ["Lakehouse vs warehouse", "Unity Catalog", "open architecture", "Mosaic AI"],
+    accountRiskLevel: 72,
+    detectedFootprint: "BigQuery, Vertex AI pilots, Google Workspace",
   },
   {
     id: "oracle",
     name: "Oracle",
     category: "cloud",
-    strengthAreas: ["Database", "ERP", "enterprise stack"],
-    claudeDifferentiation: ["Model quality", "modern architecture", "AI-first"],
-    accountRiskLevel: 58,
+    strengthAreas: ["Fusion", "database", "enterprise relationships", "healthcare vertical"],
+    databricksDifferentiation: ["Modern data platform", "open standards", "AI/ML at scale"],
+    accountRiskLevel: 65,
+    detectedFootprint: "ERP, HR in some divisions",
+  },
+  {
+    id: "sap",
+    name: "SAP",
+    category: "cloud",
+    strengthAreas: ["S/4HANA", "Datasphere", "BTP", "life sciences footprint"],
+    databricksDifferentiation: ["Purpose-built for analytics + AI", "Delta Lake", "data engineering"],
+    accountRiskLevel: 68,
+    detectedFootprint: "ERP, finance, supply chain",
+  },
+  {
+    id: "databrix",
+    name: "Databrix",
+    category: "vertical",
+    strengthAreas: ["Life sciences focus", "clinical data", "FDA relationships"],
+    databricksDifferentiation: ["Scale", "Lakehouse", "ecosystem", "Mosaic AI", "Unity Catalog"],
+    accountRiskLevel: 55,
+  },
+  {
+    id: "veeva",
+    name: "Veeva",
+    category: "vertical",
+    strengthAreas: ["CRM", "Vault", "clinical", "commercial", "pharma standard"],
+    databricksDifferentiation: ["Complementary: analytics layer", "data lake", "AI/ML on top of Veeva data"],
+    accountRiskLevel: 60,
+    detectedFootprint: "Core commercial and clinical systems",
   },
   {
     id: "ibm",
     name: "IBM",
     category: "cloud",
-    strengthAreas: ["Watsonx", "legacy relationships", "regulatory"],
-    claudeDifferentiation: ["Model performance", "reasoning", "innovation pace"],
-    accountRiskLevel: 55,
+    strengthAreas: ["Watsonx", "legacy relationships", "regulatory experience"],
+    databricksDifferentiation: ["Modern platform", "open Lakehouse", "innovation pace"],
+    accountRiskLevel: 58,
   },
   {
-    id: "nvidia",
-    name: "NVIDIA",
-    category: "vertical",
-    strengthAreas: ["NIM", "NeMo", "compute platform"],
-    claudeDifferentiation: ["Application layer", "conversational AI", "enterprise deployment"],
+    id: "cloudera",
+    name: "Cloudera",
+    category: "cloud",
+    strengthAreas: ["Hadoop heritage", "data platform", "financial services"],
+    databricksDifferentiation: ["Lakehouse", "AI-native", "cloud-first", "Unity Catalog"],
     accountRiskLevel: 50,
-  },
-  {
-    id: "harvey",
-    name: "Harvey",
-    category: "vertical",
-    strengthAreas: ["Legal AI", "law firm adoption"],
-    claudeDifferentiation: ["Enterprise breadth", "multi-department", "governance"],
-    accountRiskLevel: 45,
-  },
-  {
-    id: "cohere",
-    name: "Cohere",
-    category: "frontier",
-    strengthAreas: ["Enterprise RAG", "embedding", "privacy"],
-    claudeDifferentiation: ["Reasoning", "conversational", "full-stack AI"],
-    accountRiskLevel: 48,
-  },
-  {
-    id: "mistral",
-    name: "Mistral",
-    category: "frontier",
-    strengthAreas: ["European footprint", "open weights", "pricing"],
-    claudeDifferentiation: ["US enterprise support", "safety", "scale"],
-    accountRiskLevel: 42,
   },
 ];
 
 export function getCompetitorsByAccount(accountId: string): Competitor[] {
-  const engineeringHeavy = ["nvidia", "salesforce", "capital-one", "morgan-stanley"];
-  const knowledgeHeavy = ["comcast", "comcast-business", "jpmorgan", "pfizer"];
-  const platformHeavy = ["servicenow", "salesforce", "jpmorgan", "morgan-stanley"];
-  const complianceHeavy = ["jpmorgan", "pfizer", "adp", "morgan-stanley", "capital-one"];
+  const palantirAccounts = ["merck"];
+  const snowflakeAccounts = ["bms", "jnj"];
+  const awsHeavy = ["pfizer", "jnj", "sanofi"];
 
   return competitors.map((c) => {
     let risk = c.accountRiskLevel;
-    if (engineeringHeavy.includes(accountId) && ["cursor", "github-copilot"].includes(c.id)) {
+    if (palantirAccounts.includes(accountId) && c.id === "palantir") {
       risk = Math.min(95, risk + 10);
     }
-    if (knowledgeHeavy.includes(accountId) && ["perplexity", "glean", "moveworks"].includes(c.id)) {
+    if (snowflakeAccounts.includes(accountId) && c.id === "snowflake") {
       risk = Math.min(95, risk + 8);
     }
-    if (platformHeavy.includes(accountId) && ["microsoft", "servicenow", "salesforce-agentforce", "aws"].includes(c.id)) {
+    if (awsHeavy.includes(accountId) && c.id === "aws") {
       risk = Math.min(95, risk + 5);
     }
-    if (complianceHeavy.includes(accountId) && ["microsoft", "ibm", "oracle"].includes(c.id)) {
-      risk = Math.min(95, risk + 5);
-    }
-    if (accountId === "nvidia" && c.id === "nvidia") risk = 35;
-    if (accountId === "salesforce" && c.id === "salesforce-agentforce") risk = 85;
     return { ...c, accountRiskLevel: risk };
   });
 }

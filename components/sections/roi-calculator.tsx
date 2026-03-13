@@ -6,7 +6,7 @@ import { Calculator, DollarSign, Users, Clock } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
@@ -45,7 +45,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
         type: "roi_calculator",
         account,
         competitors,
-        context: `Use case: ${useCase}\nTeam size: ${teamSize || "Not specified"}\nAvg salary/cost per person: ${avgSalary ? `$${avgSalary}` : "Not specified"}\nHours/week on tasks Claude could assist: ${hoursPerWeek || "Not specified"}\nCurrent tool costs: ${currentToolCost ? `$${currentToolCost}/year` : "Not specified"}${additionalContext ? `\nAdditional context: ${additionalContext}` : ""}\n\nGenerate a detailed ROI model for this use case at ${account.name}. Use the inputs provided, and where inputs are missing, use reasonable industry estimates for a company of ${account.employeeCount.toLocaleString()} employees with ${account.developerPopulation.toLocaleString()} developers.`,
+        context: `Use case: ${useCase}\nTeam size: ${teamSize || "Not specified"}\nAvg salary/cost per person: ${avgSalary ? `$${avgSalary}` : "Not specified"}\nHours/week on tasks Databricks could assist: ${hoursPerWeek || "Not specified"}\nCurrent tool costs: ${currentToolCost ? `$${currentToolCost}/year` : "Not specified"}${additionalContext ? `\nAdditional context: ${additionalContext}` : ""}\n\nGenerate a detailed ROI model for this use case at ${account.name}. Use the inputs provided, and where inputs are missing, use reasonable industry estimates for a company of ${account.employeeCount.toLocaleString()} employees with ${account.developerPopulation.toLocaleString()} developers.`,
       },
     });
   }, [useCase, teamSize, avgSalary, hoursPerWeek, currentToolCost, additionalContext, account, competitors, roi]);
@@ -59,7 +59,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
     >
       <SectionHeader
         title="ROI & business case generator"
-        subtitle="Build a data-driven business case for any Claude use case"
+        subtitle="Build a data-driven business case for any Databricks use case"
       />
 
       {/* Use case selector */}
@@ -75,7 +75,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
               className={cn(
                 "rounded-lg border px-4 py-3 text-[12px] text-left transition-all",
                 useCase === uc
-                  ? "border-claude-coral/30 bg-claude-coral/[0.05] text-text-primary"
+                  ? "border-accent/30 bg-accent/[0.05] text-text-primary"
                   : "border-surface-border/40 text-text-muted hover:border-surface-border/60 hover:text-text-secondary"
               )}
             >
@@ -99,7 +99,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
             onChange={(e) => setTeamSize(e.target.value)}
             placeholder="e.g., 50"
             type="number"
-            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
         </div>
         <div>
@@ -114,7 +114,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
             onChange={(e) => setAvgSalary(e.target.value)}
             placeholder="e.g., 150000"
             type="number"
-            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
         </div>
         <div>
@@ -129,7 +129,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
             onChange={(e) => setHoursPerWeek(e.target.value)}
             placeholder="e.g., 8"
             type="number"
-            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
         </div>
         <div>
@@ -144,7 +144,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
             onChange={(e) => setCurrentToolCost(e.target.value)}
             placeholder="e.g., 50000"
             type="number"
-            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
         </div>
       </div>
@@ -159,7 +159,7 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
           onChange={(e) => setAdditionalContext(e.target.value)}
           placeholder="e.g., They're currently spending $200K on contractor reviews. Main goal is reducing time-to-market..."
           rows={2}
-          className="w-full resize-none rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+          className="w-full resize-none rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
         />
       </div>
 
@@ -170,11 +170,11 @@ export function ROICalculator({ account, competitors }: ROICalculatorProps) {
         className={cn(
           "flex items-center gap-2 rounded-lg px-5 py-3 text-[13px] font-medium transition-colors",
           useCase
-            ? "border border-claude-coral/20 bg-claude-coral/[0.06] text-claude-coral/90 hover:bg-claude-coral/10"
+            ? "border border-accent/20 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
             : "border border-surface-border/30 bg-surface-muted/20 text-text-muted/50 cursor-not-allowed"
         )}
       >
-        <ClaudeSparkle size={14} />
+        <DatabricksLogoIcon size={14} />
         Generate Business Case
       </button>
 

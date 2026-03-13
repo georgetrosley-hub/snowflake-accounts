@@ -19,11 +19,11 @@ const priorityStyles = {
     label: "Medium",
   },
   high: {
-    dot: "bg-claude-coral/60",
+    dot: "bg-accent/60",
     label: "High",
   },
   critical: {
-    dot: "bg-claude-coral",
+    dot: "bg-accent",
     label: "Critical",
   },
 };
@@ -67,7 +67,7 @@ export function LiveEventCard({ event, isNew }: LiveEventCardProps) {
       className={cn(
         "group flex gap-4 rounded-md px-5 py-4 transition-colors",
         isCritical
-          ? "bg-claude-coral/[0.02] hover:bg-claude-coral/[0.035]"
+          ? "bg-accent/[0.02] hover:bg-accent/[0.035]"
           : "bg-surface-elevated/20 hover:bg-surface-elevated/35"
       )}
     >
@@ -76,7 +76,7 @@ export function LiveEventCard({ event, isNew }: LiveEventCardProps) {
           className={cn(
             "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-[11px] font-medium",
             isCritical
-              ? "border-claude-coral/20 bg-claude-coral/5 text-claude-coral"
+              ? "border-accent/20 bg-accent/5 text-accent"
               : "border-surface-border/60 bg-surface/60 text-text-secondary"
           )}
         >
@@ -94,7 +94,7 @@ export function LiveEventCard({ event, isNew }: LiveEventCardProps) {
             {formatTime(event.timestamp)}
           </span>
           <span
-            className={cn("text-[10px]", isCritical ? "text-claude-coral/80" : "text-text-faint")}
+            className={cn("text-[10px]", isCritical ? "text-accent/80" : "text-text-faint")}
           >
             {priority.label}
           </span>
@@ -106,7 +106,7 @@ export function LiveEventCard({ event, isNew }: LiveEventCardProps) {
           {event.explanation}
         </p>
         {event.recommendedAction && (
-          <p className="mt-3 text-[12px] text-claude-coral/80">
+          <p className="mt-3 text-[12px] text-accent/80">
             {event.recommendedAction}
           </p>
         )}

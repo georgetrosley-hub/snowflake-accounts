@@ -6,20 +6,19 @@ import { Search, Lightbulb, Code, HeadphonesIcon, FileText, BarChart3, Scale, Sh
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
 const useCases = [
-  { id: "dev_productivity", name: "Developer Productivity", icon: Code, industry: "Cross-industry", function: "Engineering", complexity: "Low", timeToValue: "2-4 weeks", description: "Code generation, review, documentation, and debugging with Claude Code and API" },
-  { id: "customer_support", name: "Customer Support AI", icon: HeadphonesIcon, industry: "Cross-industry", function: "Support", complexity: "Medium", timeToValue: "4-8 weeks", description: "Ticket deflection, agent assist, knowledge base Q&A, and response drafting" },
-  { id: "doc_processing", name: "Document Processing", icon: FileText, industry: "Financial Services, Legal, Pharma", function: "Operations", complexity: "Medium", timeToValue: "6-10 weeks", description: "Contract review, regulatory filings, research synthesis, and document summarization" },
-  { id: "data_analysis", name: "Data Analysis & Insights", icon: BarChart3, industry: "Cross-industry", function: "Analytics", complexity: "Medium", timeToValue: "4-6 weeks", description: "Data interpretation, report generation, Excel automation, and trend analysis" },
-  { id: "legal_compliance", name: "Legal & Compliance", icon: Scale, industry: "Financial Services, Pharma, Enterprise", function: "Legal", complexity: "High", timeToValue: "8-12 weeks", description: "Contract analysis, compliance monitoring, regulatory document preparation" },
-  { id: "security_ops", name: "Security Operations", icon: ShieldCheck, industry: "Tech, Financial Services", function: "Security", complexity: "Medium", timeToValue: "4-8 weeks", description: "Threat analysis, policy review, incident documentation, and audit preparation" },
-  { id: "knowledge_mgmt", name: "Enterprise Knowledge", icon: Search, industry: "Cross-industry", function: "IT / Knowledge", complexity: "Medium", timeToValue: "6-10 weeks", description: "Enterprise search, knowledge retrieval, FAQ generation, and internal documentation" },
-  { id: "sales_enablement", name: "Sales Enablement", icon: Users, industry: "Cross-industry", function: "Sales", complexity: "Low", timeToValue: "2-4 weeks", description: "Proposal generation, RFP responses, competitive analysis, and meeting prep" },
-  { id: "research_rd", name: "R&D / Research", icon: Lightbulb, industry: "Pharma, Tech, Manufacturing", function: "R&D", complexity: "High", timeToValue: "8-12 weeks", description: "Literature review, hypothesis generation, experiment documentation, patent analysis" },
+  { id: "clinical_analytics", name: "Clinical Trial Analytics", icon: BarChart3, industry: "Life Sciences", function: "Clinical Ops", complexity: "Medium", timeToValue: "6-10 weeks", description: "Trial data ingestion, site performance, enrollment analytics with Delta Lake and Unity Catalog" },
+  { id: "rwe", name: "Real-World Evidence", icon: Lightbulb, industry: "Life Sciences", function: "R&D", complexity: "High", timeToValue: "8-12 weeks", description: "RWE data platform, outcomes research, patient analytics with Lakehouse and Mosaic AI" },
+  { id: "rd_data_lake", name: "R&D Data Lake", icon: Search, industry: "Life Sciences", function: "R&D", complexity: "High", timeToValue: "8-12 weeks", description: "Unified discovery, preclinical, and early clinical data with Delta Lake and Unity Catalog" },
+  { id: "gxp_mlops", name: "GxP MLOps", icon: ShieldCheck, industry: "Life Sciences", function: "R&D", complexity: "High", timeToValue: "10-16 weeks", description: "Validated MLOps for drug discovery, model governance, audit trails" },
+  { id: "regulatory_submission", name: "Regulatory Submissions", icon: FileText, industry: "Life Sciences", function: "Regulatory", complexity: "High", timeToValue: "8-12 weeks", description: "Submission prep, document workflows, regulatory intelligence with governed AI" },
+  { id: "medical_affairs", name: "Medical Affairs", icon: Users, industry: "Life Sciences", function: "Medical Affairs", complexity: "Medium", timeToValue: "6-10 weeks", description: "HCP engagement prep, knowledge retrieval, medical information requests" },
+  { id: "manufacturing_analytics", name: "Manufacturing Analytics", icon: BarChart3, industry: "Life Sciences", function: "Manufacturing", complexity: "Medium", timeToValue: "6-10 weeks", description: "Quality, supply chain, and production analytics with Delta Lake" },
+  { id: "veeva_integration", name: "Veeva Integration", icon: Code, industry: "Life Sciences", function: "Clinical Ops", complexity: "Medium", timeToValue: "6-10 weeks", description: "Analytics on Veeva Vault and CRM data with Databricks" },
 ];
 
 interface UseCaseLibraryProps {
@@ -48,7 +47,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
         type: "use_case_recommendation",
         account,
         competitors,
-        context: `Based on ${account.name}'s profile, recommend the top 5 Claude use cases in priority order. Consider their industry, developer population of ${account.developerPopulation.toLocaleString()}, AI maturity of ${account.aiMaturityScore}/100, and existing vendor footprint.`,
+        context: `Based on ${account.name}'s profile, recommend the top 5 Databricks use cases for life sciences in priority order. Consider their industry, developer population of ${account.developerPopulation.toLocaleString()}, AI maturity of ${account.aiMaturityScore}/100, and existing vendor footprint.`,
       },
     });
   }, [account, competitors, recommendation]);
@@ -81,14 +80,14 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
       <div className="flex flex-col gap-3 sm:gap-4 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeader
           title="Use case library"
-          subtitle="Claude use cases by industry and function"
+          subtitle="Databricks use cases for life sciences"
         />
         <button
           onClick={generateRecommendation}
           disabled={recommendation.isStreaming}
-          className="flex w-full items-center justify-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-4 py-2.5 text-[12px] font-medium text-claude-coral/90 transition-colors hover:bg-claude-coral/10 disabled:opacity-50 sm:w-auto lg:shrink-0"
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-4 py-2.5 text-[12px] font-medium text-accent/90 transition-colors hover:bg-accent/10 disabled:opacity-50 sm:w-auto lg:shrink-0"
         >
-          <ClaudeSparkle size={12} />
+          <DatabricksLogoIcon size={12} />
           Recommend for {account.name}
         </button>
       </div>
@@ -110,7 +109,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search use cases by name, industry, or function..."
-          className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 pl-10 pr-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+          className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 pl-10 pr-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
         />
       </div>
 
@@ -123,7 +122,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
             className={cn(
               "rounded-lg border p-4 text-left transition-all",
               selectedUseCase === uc.id
-                ? "border-claude-coral/30 bg-claude-coral/[0.05]"
+                ? "border-accent/30 bg-accent/[0.05]"
                 : "border-surface-border/40 bg-surface-elevated/20 hover:border-surface-border/60"
             )}
             whileHover={{ y: -1 }}
@@ -132,7 +131,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
               <uc.icon
                 className={cn(
                   "h-4 w-4",
-                  selectedUseCase === uc.id ? "text-claude-coral/70" : "text-text-muted"
+                  selectedUseCase === uc.id ? "text-accent/70" : "text-text-muted"
                 )}
                 strokeWidth={1.8}
               />

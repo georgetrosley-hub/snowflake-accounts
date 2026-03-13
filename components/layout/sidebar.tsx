@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import {
   FileText,
   Users,
@@ -92,16 +92,16 @@ function SidebarBody({
       <div className={cn("relative px-5 py-5", compact && "px-3 py-4")}>
         <div className="flex items-center justify-between gap-2">
           <div className={cn("flex items-center gap-2", compact && "justify-center")}>
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-claude-coral/10">
-              <ClaudeSparkle size={14} className="text-claude-coral" />
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-accent/10">
+              <DatabricksLogoIcon size={14} className="text-accent" />
             </div>
             {!compact && (
               <div>
                 <h1 className="text-[13px] font-semibold tracking-tight text-text-primary">
-                  Claude
+                  Databricks
                 </h1>
                 <p className="text-[11px] text-text-muted">
-                  GTM War Room
+                  Life Sciences GTM
                 </p>
               </div>
             )}
@@ -142,14 +142,14 @@ function SidebarBody({
             onCloseMobile?.();
           }}
           className={cn(
-            "flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-3 py-3 text-[12px] font-medium text-claude-coral/90 transition-colors active:bg-claude-coral/10 hover:bg-claude-coral/10",
+            "flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-3 py-3 text-[12px] font-medium text-accent/90 transition-colors active:bg-accent/10 hover:bg-accent/10",
             compact && "justify-center px-0 py-2 min-h-[40px]"
           )}
-          aria-label="Ask Claude"
-          title="Ask Claude"
+          aria-label="Ask Databricks AI"
+          title="Ask Databricks AI"
         >
           <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.8} />
-          {!compact && "Ask Claude"}
+          {!compact && "Ask Databricks AI"}
         </button>
       </div>
 
@@ -182,7 +182,7 @@ function SidebarBody({
                     <Icon
                       className={cn(
                         "h-[14px] w-[14px] shrink-0 transition-colors duration-200",
-                        isActive ? "text-claude-coral/70" : "opacity-45 group-hover:opacity-70"
+                        isActive ? "text-accent/70" : "opacity-45 group-hover:opacity-70"
                       )}
                       strokeWidth={1.8}
                     />
@@ -190,7 +190,7 @@ function SidebarBody({
                       <span className={cn(isActive && "font-medium")}>{label}</span>
                     )}
                     {isActive && !compact && (
-                      <span className="ml-auto h-1 w-1 rounded-full bg-claude-coral/60" />
+                      <span className="ml-auto h-1 w-1 rounded-full bg-accent/60" />
                     )}
                   </button>
                 );
@@ -217,7 +217,7 @@ function SidebarBody({
       {!compact && (
         <div className="px-5 pb-4">
           <p className="text-[10px] text-text-faint/60">
-            Powered by Anthropic
+            Powered by Databricks
           </p>
         </div>
       )}

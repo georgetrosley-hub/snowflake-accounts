@@ -6,7 +6,7 @@ import { FileText, Presentation, BarChart3 } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import type { Account, Competitor } from "@/types";
 
 interface ExecutiveNarrativeProps {
@@ -55,7 +55,7 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
         messages: [
           {
             role: "user",
-            content: `Generate a board-level summary for ${account.name}. This should be a 1-page executive brief suitable for sharing with Anthropic leadership. Include: account overview, strategic importance, deal status, revenue potential ($${account.estimatedLandValue}M land / $${account.estimatedExpansionValue}M expansion), key risks, competitive dynamics, and what we need from leadership to win. Keep it concise and strategic.`,
+            content: `Generate a board-level summary for ${account.name}. This should be a 1-page executive brief suitable for sharing with Databricks leadership. Include: account overview, strategic importance, deal status, revenue potential ($${account.estimatedLandValue}M land / $${account.estimatedExpansionValue}M expansion), key risks, competitive dynamics, and what we need from leadership to win. Keep it concise and strategic.`,
           },
         ],
         account,
@@ -64,30 +64,38 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
     });
   }, [account, competitors, boardSummary]);
 
-  const staticNarratives: Record<string, { whyNow: string; whyClaude: string; whyNot: string; impact: string; governance: string; rollout: string }> = {
-    comcast: {
-      whyNow: "Comcast is accelerating platform engineering and developer productivity investments. Microsoft agreement renewal in Q3 creates a window for complementary AI evaluation.",
-      whyClaude: "Claude offers enterprise-grade reasoning, long context, and strong constitutional AI positioning — critical for telecom-scale internal knowledge and code workflows.",
-      whyNot: "GitHub Copilot and Cursor lack enterprise governance and audit. Microsoft Copilot is bundled but limited for specialized platform workflows.",
-      impact: "Platform engineering productivity lift, customer support automation, and enterprise search across field operations.",
-      governance: "SSO, audit logging, data residency controls. Architecture review in progress.",
-      rollout: "Phase 1: 100-engineer platform pilot. Phase 2: Customer support pilot. Phase 3: Enterprise expansion.",
+  const staticNarratives: Record<string, { whyNow: string; whyDatabricks: string; whyNot: string; impact: string; governance: string; rollout: string }> = {
+    jnj: {
+      whyNow: "J&J Clinical Data Sciences is unifying trial analytics. Snowflake is in evaluation — we need to move fast. Quality and Legal want clear governance before pilot.",
+      whyDatabricks: "Lakehouse, Unity Catalog, and Mosaic AI offer unified analytics + AI with governance pharma requires. Delta Lake and open architecture avoid lock-in.",
+      whyNot: "Snowflake Cortex is in the mix. Internal tools lack scale. Need to differentiate on architecture and time-to-value.",
+      impact: "Clinical trial analytics, RWE platform, expansion to R&D and regulatory workflows.",
+      governance: "Unity Catalog, audit trail, data residency. Quality and Legal review in progress.",
+      rollout: "Phase 1: Clinical Data Sciences pilot. Phase 2: RWE and R&D. Phase 3: Regulatory and manufacturing.",
     },
-    jpmorgan: {
-      whyNow: "Finance and model risk teams are evaluating AI for document automation with strict governance. Regulatory environment demands auditable, controllable AI.",
-      whyClaude: "Constitutional AI and enterprise governance controls align with model risk requirements. Long context and reasoning depth for finance workflows.",
-      whyNot: "OpenAI and Microsoft require additional governance layers. Internal models not yet ready for production finance use cases.",
-      impact: "Model risk documentation, legal and compliance automation, research synthesis.",
-      governance: "Full architecture review, model risk sign-off, legal and procurement alignment required.",
-      rollout: "Phase 1: Governed pilot in model risk. Phase 2: Legal and compliance. Phase 3: Operations expansion.",
+    merck: {
+      whyNow: "R&D Data Platform wants to consolidate discovery and preclinical data. Palantir is entrenched in some workflows; we land with an additive use case first.",
+      whyDatabricks: "Lakehouse and Mosaic AI for R&D data. Open platform, ecosystem flexibility. Mosaic AI for computational chemistry is a strong hook.",
+      whyNot: "Palantir Foundry has relationships. Need additive use case — R&D data lake — not displacement.",
+      impact: "Unified R&D data, Mosaic AI for chemistry, expansion to clinical and manufacturing.",
+      governance: "Unity Catalog, IP protection, data residency. Security and IP review required.",
+      rollout: "Phase 1: R&D data lake pilot. Phase 2: Clinical data. Phase 3: Manufacturing analytics.",
+    },
+    pfizer: {
+      whyNow: "Medical Affairs exploring regulated document workflows. Legal and Quality want explicit deployment narrative before sign-off.",
+      whyDatabricks: "Governed data + AI platform. Unity Catalog for compliance. Mosaic AI for knowledge retrieval. Safe choice for regulated environment.",
+      whyNot: "Microsoft Copilot, Veeva, internal tools. Need proof package Legal and Quality can forward internally.",
+      impact: "R&D knowledge retrieval, HCP engagement prep, clinical documentation, submission workflows.",
+      governance: "Data residency, access controls, audit trail. Legal and Quality sign-off required.",
+      rollout: "Phase 1: Medical Affairs pilot. Phase 2: Clinical documentation. Phase 3: Submission prep.",
     },
   };
 
-  const n = staticNarratives[account.id] ?? staticNarratives.comcast;
+  const n = staticNarratives[account.id] ?? staticNarratives.jnj;
 
   const sections = [
     { label: "Why now", content: n.whyNow },
-    { label: "Why Claude", content: n.whyClaude },
+    { label: "Why Databricks", content: n.whyDatabricks },
     { label: "Alternatives", content: n.whyNot },
     { label: "Impact", content: n.impact },
     { label: "Governance", content: n.governance },
@@ -126,8 +134,8 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
         ))}
         <div className="pt-3 border-t border-surface-border/40">
           <div className="flex items-center gap-2 mb-2">
-            <ClaudeSparkle size={10} className="text-claude-coral/40" />
-            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral/50">Value · Sponsors</p>
+            <DatabricksLogoIcon size={10} className="text-accent/40" />
+            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/50">Value · Sponsors</p>
           </div>
           <p className="text-[13px] text-text-secondary leading-relaxed">
             Land: ${account.estimatedLandValue.toFixed(2)}M. Expansion: ${account.estimatedExpansionValue.toFixed(2)}M. {account.executiveSponsors.join(", ")}.
@@ -135,14 +143,14 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
         </div>
       </motion.div>
 
-      {/* Claude-powered generation buttons */}
+      {/* AI-powered generation buttons */}
       <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={generateNarrative}
           disabled={narrative.isStreaming}
-          className="flex items-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-4 py-2.5 text-[13px] font-medium text-claude-coral/90 hover:bg-claude-coral/10 transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-4 py-2.5 text-[13px] font-medium text-accent/90 hover:bg-accent/10 transition-colors disabled:opacity-50"
         >
-          <ClaudeSparkle size={14} />
+          <DatabricksLogoIcon size={14} />
           {narrativeLoaded ? "Refresh Full Narrative" : "Generate Full Narrative"}
         </button>
         <button

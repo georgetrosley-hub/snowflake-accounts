@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Clock3, PauseCircle, PlayCircle, ShieldCheck } from "lucide-react";
-import { ClaudeActionBar } from "@/components/ui/claude-action-bar";
+import { DatabricksActionBar } from "@/components/ui/databricks-action-bar";
 import { SectionHeader } from "@/components/ui/section-header";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/app/context/toast-context";
@@ -77,9 +77,9 @@ export function Execution({
         subtitle="The sequence I would run: land the pilot, clear governance, tighten the executive story, start commercial work early, then expand."
       />
 
-      <ClaudeActionBar
-        title="Ask Claude from inside the deal plan"
-        subtitle="Use Claude for mutual action planning, pilot design, and unblockers while you are actively running the deal."
+      <DatabricksActionBar
+        title="Ask Databricks AI from inside the deal plan"
+        subtitle="Use AI for mutual action planning, pilot design, and unblockers while you are actively running the deal."
         account={account}
         competitors={competitors}
         actions={[
@@ -107,10 +107,10 @@ export function Execution({
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            className="flex items-center gap-3 rounded-[24px] border border-claude-coral/20 bg-claude-coral/[0.05] px-5 py-4"
+            className="flex items-center gap-3 rounded-[24px] border border-accent/20 bg-accent/[0.05] px-5 py-4"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-claude-coral/15">
-              <Check className="h-4 w-4 text-claude-coral" strokeWidth={2.2} />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/15">
+              <Check className="h-4 w-4 text-accent" strokeWidth={2.2} />
             </div>
             <div>
               <p className="text-[13px] font-medium text-text-primary">Decision recorded</p>
@@ -123,8 +123,8 @@ export function Execution({
       {pendingDecisions.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-claude-coral/80" strokeWidth={1.8} />
-            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral/70">
+            <ShieldCheck className="h-4 w-4 text-accent/80" strokeWidth={1.8} />
+            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/70">
               Decisions I would force early
             </p>
           </div>
@@ -132,7 +132,7 @@ export function Execution({
             {pendingDecisions.map((item) => (
               <div
                 key={item.id}
-                className="rounded-[24px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4"
+                className="rounded-[24px] border border-accent/20 bg-white/[0.02] px-4 py-4"
               >
                 <p className="text-[14px] font-medium text-text-primary">{item.title}</p>
                 <p className="mt-2 text-[12px] text-text-muted">
@@ -158,7 +158,7 @@ export function Execution({
                 <div className="mt-4 flex flex-wrap gap-2">
                   <button
                     onClick={() => handleApprove(item.id)}
-                    className="rounded-full border border-claude-coral/20 bg-claude-coral/[0.10] px-3 py-1.5 text-[12px] font-medium text-claude-coral"
+                    className="rounded-full border border-accent/20 bg-accent/[0.10] px-3 py-1.5 text-[12px] font-medium text-accent"
                   >
                     Approve
                   </button>
@@ -182,7 +182,7 @@ export function Execution({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.04, duration: 0.35 }}
-            className="rounded-[28px] border border-claude-coral/20 bg-white/[0.02] p-5"
+            className="rounded-[28px] border border-accent/20 bg-white/[0.02] p-5"
           >
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
@@ -238,7 +238,7 @@ export function Execution({
                   className={cn(
                     "rounded-full border px-3 py-1.5 text-[12px] transition-colors",
                     item.status === status
-                      ? "border-claude-coral/20 bg-claude-coral/[0.10] text-claude-coral"
+                      ? "border-accent/20 bg-accent/[0.10] text-accent"
                       : "border-white/10 bg-white/[0.04] text-text-secondary hover:bg-white/[0.06]"
                   )}
                 >

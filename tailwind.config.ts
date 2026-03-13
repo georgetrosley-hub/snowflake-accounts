@@ -31,12 +31,12 @@ const config: Config = {
           subtle: cssColor("--accent-subtle"),
           glow: "rgb(var(--accent) / 0.12)",
         },
-        claude: {
-          coral: cssColor("--accent"),
-          "coral-light": "#E8917A",
-          "coral-dark": "#B5614A",
-          sand: "#D4C5B2",
-          "sand-muted": "#A89B8C",
+        databricks: {
+          orange: cssColor("--accent"),
+          "orange-light": "#FF6B4D",
+          "orange-dark": "#CC2B1A",
+          teal: "#1B3139",
+          "teal-muted": "#2D4A54",
         },
       },
       fontFamily: {
@@ -59,8 +59,8 @@ const config: Config = {
         lg: "12px",
       },
       boxShadow: {
-        "glow-sm": "0 0 12px rgba(218, 119, 86, 0.08)",
-        "glow-md": "0 0 24px rgba(218, 119, 86, 0.12)",
+        "glow-sm": "0 0 12px rgba(255, 54, 33, 0.08)",
+        "glow-md": "0 0 24px rgba(255, 54, 33, 0.12)",
         "elevated": "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08)",
       },
     },

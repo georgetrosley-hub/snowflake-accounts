@@ -1,14 +1,15 @@
 import { NextRequest } from "next/server";
 import { CHAT_SYSTEM_PROMPT, buildAccountContext } from "@/lib/prompts/base";
 import {
-  createAnthropicClient,
-  getAnthropicErrorMessage,
-  getAnthropicErrorStatus,
-} from "@/lib/server/anthropic";
+  createDatabricksClient,
+  DEFAULT_MODEL,
+  getDatabricksErrorMessage,
+  getDatabricksErrorStatus,
+} from "@/lib/server/databricks";
 
 export async function POST(req: NextRequest) {
   try {
-    const anthropic = createAnthropicClient(req);
+    const client = createDatabricksClient(req);
     const { messages, account, competitors, section } = await req.json();
 
     const accountContext = account
@@ -20,27 +21,30 @@ export async function POST(req: NextRequest) {
 ${accountContext ? `\n## Current Account Context\n${accountContext}` : ""}
 ${section ? `\nThe seller is currently viewing the "${section}" section of the platform.` : ""}`;
 
-    const stream = anthropic.messages.stream({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 4096,
-      system: systemPrompt,
-      messages: messages.map((m: { role: string; content: string }) => ({
-        role: m.role as "user" | "assistant",
+    const messagesWithSystem = [
+      { role: "system" as const, content: systemPrompt },
+      ...messages.map((m: { role: string; content: string }) => ({
+        role: (m.role === "assistant" ? "assistant" : "user") as "user" | "assistant",
         content: m.content,
       })),
+    ];
+
+    const stream = await client.chat.completions.create({
+      model: DEFAULT_MODEL,
+      max_tokens: 4096,
+      messages: messagesWithSystem,
+      stream: true,
     });
 
     const encoder = new TextEncoder();
     const readableStream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const event of stream) {
-            if (
-              event.type === "content_block_delta" &&
-              event.delta.type === "text_delta"
-            ) {
+          for await (const chunk of stream) {
+            const text = chunk.choices[0]?.delta?.content ?? "";
+            if (text) {
               controller.enqueue(
-                encoder.encode(`data: ${JSON.stringify({ text: event.delta.text })}\n\n`)
+                encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
               );
             }
           }
@@ -62,9 +66,9 @@ ${section ? `\nThe seller is currently viewing the "${section}" section of the p
   } catch (error) {
     console.error("Chat API error:", error);
     return new Response(
-      JSON.stringify({ error: getAnthropicErrorMessage(error) }),
+      JSON.stringify({ error: getDatabricksErrorMessage(error) }),
       {
-        status: getAnthropicErrorStatus(error),
+        status: getDatabricksErrorStatus(error),
         headers: { "Content-Type": "application/json" },
       }
     );

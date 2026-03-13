@@ -7,7 +7,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { OrgNodeCard } from "@/components/ui/org-node-card";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import type { OrgNode, Account, Competitor } from "@/types";
 
 interface OrgExpansionMapProps {
@@ -60,7 +60,7 @@ const laneConfig = [
     title: "Active motion",
     description: "Departments already in live conversations, pilots, or deployment.",
     emptyState: "No departments are in active motion yet.",
-    className: "border-claude-coral/12 bg-claude-coral/[0.04]",
+    className: "border-accent/12 bg-accent/[0.04]",
     items: (nodes: OrgNode[]) => nodes.filter((node) => activeStatuses.has(node.status)),
   },
   {
@@ -207,8 +207,8 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
           </p>
         </div>
 
-        <div className="rounded-[24px] border border-claude-coral/12 bg-claude-coral/[0.04] p-4">
-          <p className="text-[10px] uppercase tracking-[0.12em] text-claude-coral/65">
+        <div className="rounded-[24px] border border-accent/12 bg-accent/[0.04] p-4">
+          <p className="text-[10px] uppercase tracking-[0.12em] text-accent/65">
             Highest priority
           </p>
           <p className="mt-3 text-[18px] font-semibold tracking-tight text-text-primary">
@@ -233,7 +233,7 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
                 next, and what can wait.
               </p>
             </div>
-            <div className="inline-flex items-center gap-2 text-[12px] text-claude-coral/70">
+            <div className="inline-flex items-center gap-2 text-[12px] text-accent/70">
               <TrendingUp className="h-3.5 w-3.5" strokeWidth={1.8} />
               Expansion strategy, not org-chart spaghetti
             </div>
@@ -283,13 +283,13 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-[24px] border border-claude-coral/12 bg-gradient-to-br from-claude-coral/[0.06] via-surface-elevated/70 to-surface/60 p-4 sm:rounded-[30px] sm:p-6">
+          <div className="rounded-[24px] border border-accent/12 bg-gradient-to-br from-accent/[0.06] via-surface-elevated/70 to-surface/60 p-4 sm:rounded-[30px] sm:p-6">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-claude-coral/[0.12]">
-                <ClaudeSparkle size={14} className="text-claude-coral" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-accent/[0.12]">
+                <DatabricksLogoIcon size={14} className="text-accent" />
               </div>
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral/65">
+                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/65">
                   Expansion brief
                 </p>
                 <p className="text-[13px] font-medium text-text-primary">{account.name}</p>
@@ -306,7 +306,7 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
             <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
               <div className="rounded-[22px] border border-white/8 bg-white/[0.03] p-4">
                 <div className="flex items-center gap-2 text-text-secondary">
-                  <Users className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+                  <Users className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
                   <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">
                     Executive sponsors
                   </p>
@@ -325,7 +325,7 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
 
               <div className="rounded-[22px] border border-white/8 bg-white/[0.03] p-4">
                 <div className="flex items-center gap-2 text-text-secondary">
-                  <CircleAlert className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+                  <CircleAlert className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
                   <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">
                     Key blockers
                   </p>
@@ -346,7 +346,7 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
 
           <div className="rounded-[24px] border border-white/8 bg-white/[0.03] p-4 sm:p-5">
             <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+              <Target className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
               <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
                 Best expansion paths
               </p>
@@ -388,10 +388,10 @@ export function OrgExpansionMap({ nodes, account, competitors }: OrgExpansionMap
                   </div>
                   <button
                     onClick={() => generateExpansionPitch(node.name)}
-                    className="self-start rounded-full border border-claude-coral/15 bg-claude-coral/[0.08] p-2 text-claude-coral/80 transition-colors hover:bg-claude-coral/[0.14] sm:self-auto"
+                    className="self-start rounded-full border border-accent/15 bg-accent/[0.08] p-2 text-accent/80 transition-colors hover:bg-accent/[0.14] sm:self-auto"
                     title={`Generate expansion pitch for ${node.name}`}
                   >
-                    <ClaudeSparkle size={11} />
+                    <DatabricksLogoIcon size={11} />
                   </button>
                 </div>
               ))}

@@ -6,7 +6,7 @@ import { Mail, UserPlus, Reply, FileText, Crown, Shield, ArrowUpRight } from "lu
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
@@ -36,7 +36,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
 
     let prompt: string;
     if (selectedType === "champion_enablement") {
-      prompt = `Generate an internal email that our champion at ${account.name} can send to their leadership to advocate for Claude.${recipientRole ? ` The champion's boss is: ${recipientRole}.` : ""}${context ? ` Context: ${context}` : ""}\n\nThe email should come FROM the champion (not from Anthropic), explaining why they want to move forward with Claude. Make it persuasive but authentic — it should sound like an internal advocate, not a vendor.`;
+      prompt = `Generate an internal email that our champion at ${account.name} can send to their leadership to advocate for Databricks.${recipientRole ? ` The champion's boss is: ${recipientRole}.` : ""}${context ? ` Context: ${context}` : ""}\n\nThe email should come FROM the champion (not from Databricks), explaining why they want to move forward with the platform. Make it persuasive but authentic — it should sound like an internal advocate, not a vendor.`;
     } else {
       prompt = `Email type: ${typeLabel}${recipientRole ? `\nRecipient role: ${recipientRole}` : ""}${context ? `\nContext: ${context}` : ""}`;
     }
@@ -61,7 +61,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
     >
       <SectionHeader
         title="Email & outreach studio"
-        subtitle="Claude-drafted, account-specific communications"
+        subtitle="AI-drafted, account-specific communications"
       />
 
       {/* Email type grid */}
@@ -77,7 +77,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
               className={cn(
                 "rounded-lg border p-4 text-left transition-all",
                 selectedType === id
-                  ? "border-claude-coral/30 bg-claude-coral/[0.05]"
+                  ? "border-accent/30 bg-accent/[0.05]"
                   : "border-surface-border/40 bg-surface-elevated/20 hover:border-surface-border/60"
               )}
             >
@@ -85,7 +85,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
                 <Icon
                   className={cn(
                     "h-4 w-4",
-                    selectedType === id ? "text-claude-coral/70" : "text-text-muted"
+                    selectedType === id ? "text-accent/70" : "text-text-muted"
                   )}
                   strokeWidth={1.8}
                 />
@@ -109,7 +109,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
             value={recipientRole}
             onChange={(e) => setRecipientRole(e.target.value)}
             placeholder="e.g., VP Engineering, CISO, Head of Platform"
-            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
         </div>
         <div>
@@ -120,7 +120,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
             value={context}
             onChange={(e) => setContext(e.target.value)}
             placeholder="e.g., Just had a demo, they loved the coding features"
-            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="w-full rounded-lg border border-surface-border/40 bg-surface-elevated/20 px-4 py-3 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
         </div>
       </div>
@@ -132,7 +132,7 @@ export function EmailStudio({ account, competitors }: EmailStudioProps) {
         className={cn(
           "flex items-center gap-2 rounded-lg px-5 py-3 text-[13px] font-medium transition-colors",
           selectedType
-            ? "border border-claude-coral/20 bg-claude-coral/[0.06] text-claude-coral/90 hover:bg-claude-coral/10"
+            ? "border border-accent/20 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
             : "border border-surface-border/30 bg-surface-muted/20 text-text-muted/50 cursor-not-allowed"
         )}
       >

@@ -2,14 +2,15 @@ import { NextRequest } from "next/server";
 import { buildAccountContext } from "@/lib/prompts/base";
 import { CONTENT_PROMPTS } from "@/lib/prompts/content";
 import {
-  createAnthropicClient,
-  getAnthropicErrorMessage,
-  getAnthropicErrorStatus,
-} from "@/lib/server/anthropic";
+  createDatabricksClient,
+  DEFAULT_MODEL,
+  getDatabricksErrorMessage,
+  getDatabricksErrorStatus,
+} from "@/lib/server/databricks";
 
 export async function POST(req: NextRequest) {
   try {
-    const anthropic = createAnthropicClient(req);
+    const client = createDatabricksClient(req);
     const { type, account, competitors, context } = await req.json();
 
     const contentPrompt = CONTENT_PROMPTS[type] ?? CONTENT_PROMPTS.strategy_assessment;
@@ -19,24 +20,25 @@ export async function POST(req: NextRequest) {
       ? `${accountContext}\n\n## Additional Context\n${context}`
       : accountContext;
 
-    const stream = anthropic.messages.stream({
-      model: "claude-sonnet-4-20250514",
+    const stream = await client.chat.completions.create({
+      model: DEFAULT_MODEL,
       max_tokens: 4096,
-      system: contentPrompt,
-      messages: [{ role: "user", content: userMessage }],
+      messages: [
+        { role: "system", content: contentPrompt },
+        { role: "user", content: userMessage },
+      ],
+      stream: true,
     });
 
     const encoder = new TextEncoder();
     const readableStream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const event of stream) {
-            if (
-              event.type === "content_block_delta" &&
-              event.delta.type === "text_delta"
-            ) {
+          for await (const chunk of stream) {
+            const text = chunk.choices[0]?.delta?.content ?? "";
+            if (text) {
               controller.enqueue(
-                encoder.encode(`data: ${JSON.stringify({ text: event.delta.text })}\n\n`)
+                encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
               );
             }
           }
@@ -58,9 +60,9 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Generate API error:", error);
     return new Response(
-      JSON.stringify({ error: getAnthropicErrorMessage(error) }),
+      JSON.stringify({ error: getDatabricksErrorMessage(error) }),
       {
-        status: getAnthropicErrorStatus(error),
+        status: getDatabricksErrorStatus(error),
         headers: { "Content-Type": "application/json" },
       }
     );

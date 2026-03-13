@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useApiKey } from "@/app/context/api-key-context";
 import { cn } from "@/lib/utils";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import type { Account } from "@/types";
 import type { DealHealthSummary } from "@/lib/deal-health";
 
@@ -114,7 +114,7 @@ export function StatusBar({
                 className={cn(
                   "flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-[11px] transition-colors",
                   hasApiKey
-                    ? "border-claude-coral/25 bg-claude-coral/[0.06] text-claude-coral/90 hover:bg-claude-coral/10"
+                    ? "border-accent/25 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
                     : "border-surface-border/50 bg-surface-elevated/30 text-text-secondary hover:text-text-primary"
                 )}
               >
@@ -129,23 +129,23 @@ export function StatusBar({
                   className="flex items-center gap-1.5 rounded-md px-2 py-1 text-[11px] text-text-secondary transition-colors hover:bg-surface-muted/30 hover:text-text-primary"
                 >
                   <MessageCircle className="h-3 w-3" />
-                  <span className="hidden sm:inline">Ask Claude</span>
+                  <span className="hidden sm:inline">Ask Databricks AI</span>
                 </button>
               )}
               <div className="flex items-center gap-2 text-[11px]">
                 {oversightStatus === "active" ? (
                   <>
                     <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-claude-coral/40" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-claude-coral/70" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/40" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-accent/70" />
                     </span>
-                    <span className="hidden text-claude-coral/80 sm:inline">
+                    <span className="hidden text-accent/80 sm:inline">
                       {pendingDecisions} decision{pendingDecisions === 1 ? "" : "s"} pending
                     </span>
                   </>
                 ) : (
                   <>
-                    <ClaudeSparkle size={10} className="text-text-faint" />
+                    <DatabricksLogoIcon size={10} className="text-text-faint" />
                     <span className="hidden text-[11px] text-text-faint sm:inline">In sync</span>
                   </>
                 )}
@@ -160,7 +160,7 @@ export function StatusBar({
                   dealHealth.status === "healthy"
                     ? "text-emerald-400/90"
                     : dealHealth.status === "attention"
-                      ? "text-claude-coral/90"
+                      ? "text-accent/90"
                       : "text-rose-400/90"
                 }`}
                 title={dealHealth.reason}
@@ -173,7 +173,7 @@ export function StatusBar({
               {" "}in play
             </span>
             <span className="text-text-muted">
-              <span className="tabular-nums text-claude-coral/90">${estimatedArr.toFixed(2)}M</span>
+              <span className="tabular-nums text-accent/90">${estimatedArr.toFixed(2)}M</span>
               {" "}at stake
             </span>
             <span className="hidden text-text-muted md:inline">{currentPhase}</span>
@@ -190,7 +190,7 @@ export function StatusBar({
           <div className="w-full max-w-md rounded-xl border border-surface-border/50 bg-surface-elevated shadow-2xl">
             <div className="flex items-center justify-between border-b border-surface-border/40 px-5 py-4">
               <div>
-                <p className="text-[13px] font-medium text-text-primary">Claude API Key</p>
+                <p className="text-[13px] font-medium text-text-primary">Databricks API Key</p>
                 <p className="mt-1 text-[11px] text-text-muted">
                   Demo-only local key storage for generating deal materials in this artifact.
                 </p>
@@ -207,23 +207,23 @@ export function StatusBar({
 
             <div className="space-y-4 px-5 py-5">
               <div className="space-y-2">
-                <label htmlFor="claude-api-key" className="text-[11px] font-medium uppercase tracking-[0.08em] text-text-muted">
-                  API Key
+                <label htmlFor="databricks-api-key" className="text-[11px] font-medium uppercase tracking-[0.08em] text-text-muted">
+                  Databricks API Key
                 </label>
                 <input
-                  id="claude-api-key"
+                  id="databricks-api-key"
                   type="password"
                   value={draftApiKey}
                   onChange={(e) => setDraftApiKey(e.target.value)}
-                  placeholder="sk-ant-..."
-                  className="w-full rounded-lg border border-surface-border/50 bg-surface px-3 py-2.5 text-[13px] text-text-primary placeholder:text-text-muted/60 focus:border-claude-coral/30 focus:outline-none"
+                  placeholder="dapi..."
+                  className="w-full rounded-lg border border-surface-border/50 bg-surface px-3 py-2.5 text-[13px] text-text-primary placeholder:text-text-muted/60 focus:border-accent/30 focus:outline-none"
                 />
               </div>
 
               <div className="rounded-lg bg-surface/60 px-3 py-2 text-[11px] text-text-secondary">
                 {hasApiKey
-                  ? "A Claude API key is currently saved for this browser."
-                  : "No Claude API key is saved yet. Add one here to enable chat and content generation."}
+                  ? "A Databricks API key is currently saved for this browser."
+                  : "No Databricks API key is saved yet. Add one here to enable chat and content generation."}
               </div>
 
               <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -256,7 +256,7 @@ export function StatusBar({
                     className={cn(
                       "rounded-md px-3 py-2 text-[11px] font-medium transition-colors",
                       draftApiKey.trim()
-                        ? "bg-claude-coral/90 text-white hover:bg-claude-coral"
+                        ? "bg-accent/90 text-white hover:bg-accent"
                         : "bg-surface-muted/50 text-text-muted"
                     )}
                   >

@@ -7,7 +7,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { CompetitorCard } from "@/components/ui/competitor-card";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import type { Account, Competitor } from "@/types";
 
 const categoryOrder = ["frontier", "coding", "search", "workflow", "cloud", "vertical"] as const;
@@ -75,11 +75,11 @@ export function CompetitiveBattlefield({ competitors, account }: CompetitiveBatt
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.4 }}
-          className="rounded-lg border border-claude-coral/15 bg-claude-coral/[0.03] px-4 py-4 sm:px-6 sm:py-5"
+          className="rounded-lg border border-accent/15 bg-accent/[0.03] px-4 py-4 sm:px-6 sm:py-5"
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral/50 mb-2">
+              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/50 mb-2">
                 Primary competitive pressure
               </p>
               <p className="text-[15px] font-medium text-text-primary">{topRisk.name}</p>
@@ -88,7 +88,7 @@ export function CompetitiveBattlefield({ competitors, account }: CompetitiveBatt
             <button
               onClick={() => generateBattleCard(topRisk.name)}
               disabled={battleCard.isStreaming}
-              className="flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-3 py-2 text-[12px] font-medium text-claude-coral/90 transition-colors hover:bg-claude-coral/10 disabled:opacity-50 sm:w-auto"
+              className="flex w-full shrink-0 items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-3 py-2 text-[12px] font-medium text-accent/90 transition-colors hover:bg-accent/10 disabled:opacity-50 sm:w-auto"
             >
               <Swords className="h-3.5 w-3.5" />
               Generate Battle Card
@@ -118,17 +118,17 @@ export function CompetitiveBattlefield({ competitors, account }: CompetitiveBatt
                   <CompetitorCard competitor={c} />
                   <button
                     onClick={() => generateBattleCard(c.name)}
-                    className="absolute right-2 top-2 hidden rounded bg-surface-elevated/80 p-1 text-text-muted opacity-0 transition-opacity hover:text-claude-coral/80 sm:block sm:group-hover:opacity-100"
+                    className="absolute right-2 top-2 hidden rounded bg-surface-elevated/80 p-1 text-text-muted opacity-0 transition-opacity hover:text-accent/80 sm:block sm:group-hover:opacity-100"
                     title={`Battle card for ${c.name}`}
                   >
-                    <ClaudeSparkle size={10} />
+                    <DatabricksLogoIcon size={10} />
                   </button>
                   <button
                     onClick={() => generateBattleCard(c.name)}
-                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-claude-coral/15 bg-claude-coral/[0.04] px-3 py-2 text-[11px] font-medium text-claude-coral/85 transition-colors hover:bg-claude-coral/[0.08] sm:hidden"
+                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg border border-accent/15 bg-accent/[0.04] px-3 py-2 text-[11px] font-medium text-accent/85 transition-colors hover:bg-accent/[0.08] sm:hidden"
                     title={`Battle card for ${c.name}`}
                   >
-                    <ClaudeSparkle size={10} />
+                    <DatabricksLogoIcon size={10} />
                     Battle Card
                   </button>
                 </div>

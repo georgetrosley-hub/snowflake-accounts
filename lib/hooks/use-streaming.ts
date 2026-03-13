@@ -76,7 +76,7 @@ export function useStreaming() {
         setContent(
           error instanceof Error
             ? error.message
-            : "I couldn't generate that response. Add your Claude API key in the top right and try again."
+            : "I couldn't generate that response. Add your Databricks API key in the top right and try again."
         );
       }
     } finally {

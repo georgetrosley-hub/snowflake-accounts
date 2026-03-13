@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { RefreshCw, Zap } from "lucide-react";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
 import type { Account, Agent, Competitor } from "@/types";
@@ -134,7 +134,7 @@ export function CommandCenter({
           </div>
           <div>
             <p className="text-[12px] text-text-muted mb-1.5">Opportunity</p>
-            <p className="text-3xl sm:text-4xl font-semibold tabular-nums text-claude-coral tracking-tight">
+            <p className="text-3xl sm:text-4xl font-semibold tabular-nums text-accent tracking-tight">
               ${totalOpportunity.toFixed(2)}M
             </p>
           </div>
@@ -214,8 +214,8 @@ export function CommandCenter({
         >
           <div className="flex items-center justify-between gap-2 mb-3">
             <div className="flex items-center gap-2">
-              <ClaudeSparkle size={12} className="text-claude-coral/60" />
-              <p className="text-[12px] text-text-muted">Claude recommendation</p>
+              <DatabricksLogoIcon size={12} className="text-accent/60" />
+              <p className="text-[12px] text-text-muted">AI recommendation</p>
             </div>
           </div>
           <p className="text-[16px] leading-relaxed text-text-primary sm:text-[18px]">
@@ -224,18 +224,18 @@ export function CommandCenter({
         </motion.div>
       </section>
 
-      {/* Claude-powered strategy + weekly plan */}
+      {/* AI-powered strategy + weekly plan */}
       <section className="space-y-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <button
             onClick={generateStrategy}
             disabled={strategy.isStreaming}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-4 py-2.5 text-[13px] font-medium text-claude-coral/90 transition-colors hover:bg-claude-coral/10 disabled:opacity-50 sm:w-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-4 py-2.5 text-[13px] font-medium text-accent/90 transition-colors hover:bg-accent/10 disabled:opacity-50 sm:w-auto"
           >
             {strategy.isStreaming ? (
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
             ) : (
-              <ClaudeSparkle size={14} className="text-claude-coral" />
+              <DatabricksLogoIcon size={14} className="text-accent" />
             )}
             {strategyLoaded ? "Refresh Strategy" : "Generate Strategy Assessment"}
           </button>

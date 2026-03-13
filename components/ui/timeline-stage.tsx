@@ -23,8 +23,8 @@ export function TimelineStage({ stage, index, isLast }: TimelineStageProps) {
         <div
           className={cn(
             "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[10px] font-medium transition-colors",
-            stage.current && "border-claude-coral/50 bg-claude-coral/10 text-claude-coral",
-            stage.completed && !stage.current && "border-claude-coral/30 bg-claude-coral/5 text-claude-coral/60",
+            stage.current && "border-accent/50 bg-accent/10 text-accent",
+            stage.completed && !stage.current && "border-accent/30 bg-accent/5 text-accent/60",
             !stage.completed && !stage.current && "border-surface-border/70 bg-transparent text-text-faint"
           )}
         >
@@ -34,7 +34,7 @@ export function TimelineStage({ stage, index, isLast }: TimelineStageProps) {
           <div
             className={cn(
               "my-0.5 h-10 w-px",
-              stage.completed ? "bg-claude-coral/20" : "bg-surface-border/50"
+              stage.completed ? "bg-accent/20" : "bg-surface-border/50"
             )}
           />
         )}
@@ -50,7 +50,7 @@ export function TimelineStage({ stage, index, isLast }: TimelineStageProps) {
         </p>
         <div className="mt-1 flex gap-4 text-[11px] text-text-muted">
           <span className="tabular-nums">{stage.confidence}%</span>
-          <span className="tabular-nums text-claude-coral/70">${stage.projectedArr.toFixed(2)}M</span>
+          <span className="tabular-nums text-accent/70">${stage.projectedArr.toFixed(2)}M</span>
         </div>
         {stage.blockers.length > 0 && (
           <p className="mt-2 text-[11px] text-text-faint leading-relaxed">

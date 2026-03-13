@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import type { Account, Competitor } from "@/types";
 
 interface ArchitectureSecurityProps {
@@ -30,7 +30,7 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
         type: "strategy_assessment",
         account,
         competitors,
-        context: `Generate a detailed architecture recommendation for deploying Claude at ${account.name}. Their existing tech stack includes: ${account.existingVendorFootprint.join(", ")}. Security sensitivity: ${account.securitySensitivity}/100. Compliance complexity: ${account.complianceComplexity}/100.\n\nInclude:\n1. Recommended deployment option (Direct API vs AWS Bedrock vs GCP Vertex) with reasoning\n2. Integration architecture with their existing stack\n3. Data flow design and access control patterns\n4. Security controls needed (SSO, audit, encryption, data residency)\n5. Compliance requirements specific to their industry\n6. Phased rollout plan\n7. Technical prerequisites and blockers to address`,
+        context: `Generate a detailed architecture recommendation for deploying Databricks at ${account.name}. Their existing tech stack includes: ${account.existingVendorFootprint.join(", ")}. Security sensitivity: ${account.securitySensitivity}/100. Compliance complexity: ${account.complianceComplexity}/100.\n\nInclude:\n1. Recommended deployment (Lakehouse, Unity Catalog, Mosaic AI) with reasoning\n2. Integration architecture with their existing stack (Veeva, clinical systems)\n3. Data flow design and access control with Unity Catalog\n4. Security controls (encryption, audit, data residency)\n5. Compliance requirements for life sciences (GxP, HIPAA)\n6. Phased rollout plan\n7. Technical prerequisites and blockers`,
       },
     });
   }, [account, competitors, archRecommendation]);
@@ -56,8 +56,8 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
           <div className="flex min-h-[220px] items-center rounded-md border border-surface-border/40 bg-surface/40 p-4 sm:aspect-video sm:min-h-0 sm:p-6">
             <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="flex flex-col gap-2">
-                <div className="rounded-md border border-claude-coral/25 bg-claude-coral/[0.04] px-3 py-2 text-[12px] font-medium text-claude-coral/90">
-                  Claude API
+                <div className="rounded-md border border-accent/25 bg-accent/[0.04] px-3 py-2 text-[12px] font-medium text-accent/90">
+                  Databricks API
                 </div>
                 <div className="rounded-md border border-surface-border/50 px-3 py-2 text-[11px] text-text-muted">
                   Retrieval
@@ -75,10 +75,10 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="rounded-md border border-claude-coral/15 bg-claude-coral/[0.02] px-3 py-2 text-[11px] text-text-secondary">
+                <div className="rounded-md border border-accent/15 bg-accent/[0.02] px-3 py-2 text-[11px] text-text-secondary">
                   SSO · Access
                 </div>
-                <div className="rounded-md border border-claude-coral/15 bg-claude-coral/[0.02] px-3 py-2 text-[11px] text-text-secondary">
+                <div className="rounded-md border border-accent/15 bg-accent/[0.02] px-3 py-2 text-[11px] text-text-secondary">
                   Audit · Governance
                 </div>
               </div>
@@ -97,11 +97,11 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
             </p>
             <ul className="space-y-2 text-[13px] text-text-secondary">
               <li className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
-                <span className="h-1 w-8 rounded-full bg-gradient-to-r from-claude-coral/60 to-claude-coral/20" style={{ width: `${account.securitySensitivity * 0.4}px` }} />
+                <span className="h-1 w-8 rounded-full bg-gradient-to-r from-accent/60 to-accent/20" style={{ width: `${account.securitySensitivity * 0.4}px` }} />
                 Data sensitivity {account.securitySensitivity}%
               </li>
               <li className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
-                <span className="h-1 w-8 rounded-full bg-gradient-to-r from-claude-coral/60 to-claude-coral/20" style={{ width: `${account.complianceComplexity * 0.4}px` }} />
+                <span className="h-1 w-8 rounded-full bg-gradient-to-r from-accent/60 to-accent/20" style={{ width: `${account.complianceComplexity * 0.4}px` }} />
                 Compliance {account.complianceComplexity}%
               </li>
               <li className="flex items-center gap-3">
@@ -135,13 +135,13 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
         </div>
       </div>
 
-      {/* Claude architecture recommendation */}
+      {/* Databricks architecture recommendation */}
       <button
         onClick={generateArchRecommendation}
         disabled={archRecommendation.isStreaming}
-        className="flex w-full items-center justify-center gap-2 rounded-lg border border-claude-coral/20 bg-claude-coral/[0.06] px-4 py-2.5 text-[13px] font-medium text-claude-coral/90 transition-colors hover:bg-claude-coral/10 disabled:opacity-50 sm:w-auto"
+        className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-4 py-2.5 text-[13px] font-medium text-accent/90 transition-colors hover:bg-accent/10 disabled:opacity-50 sm:w-auto"
       >
-        <ClaudeSparkle size={14} />
+        <DatabricksLogoIcon size={14} />
         {archLoaded ? "Refresh Architecture Recommendation" : "Generate Architecture Recommendation"}
       </button>
 

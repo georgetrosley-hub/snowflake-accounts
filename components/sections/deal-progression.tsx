@@ -3,7 +3,7 @@
 import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/section-header";
-import { ClaudeActionBar } from "@/components/ui/claude-action-bar";
+import { DatabricksActionBar } from "@/components/ui/databricks-action-bar";
 import { getFlagshipDealContext } from "@/data/flagship-deals";
 import { useToast } from "@/app/context/toast-context";
 import { getPlansForThisWeek } from "@/lib/plans-for-week";
@@ -64,7 +64,7 @@ export function DealProgression({
           />
           <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
             <div className="xl:col-span-2 space-y-6">
-              <div className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4">
+              <div className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-text-faint">Champion</p>
                 <p className="mt-2 text-[15px] font-medium text-text-primary">
                   {flagshipDeal.championName} · {flagshipDeal.championTitle}
@@ -75,7 +75,7 @@ export function DealProgression({
                   </p>
                 )}
               </div>
-              <div className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4">
+              <div className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-text-faint">Pilot criteria</p>
                 <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
                   {flagshipDeal.pilotCriteria.scope}
@@ -89,7 +89,7 @@ export function DealProgression({
                   {flagshipDeal.pilotCriteria.timeline} · Owner: {flagshipDeal.pilotCriteria.owner}
                 </p>
               </div>
-              <div className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4">
+              <div className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-text-faint">Competitive battle</p>
                 <p className="mt-2 text-[13px] font-medium text-text-primary">
                   Incumbent: {flagshipDeal.competitiveBattle.incumbent}
@@ -97,12 +97,12 @@ export function DealProgression({
                 <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
                   {flagshipDeal.competitiveBattle.displacementStrategy}
                 </p>
-                <p className="mt-3 text-[12px] text-claude-coral/80">
+                <p className="mt-3 text-[12px] text-accent/80">
                   Win condition: {flagshipDeal.competitiveBattle.winCondition}
                 </p>
               </div>
             </div>
-            <div className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4">
+            <div className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4">
               <p className="text-[10px] uppercase tracking-[0.12em] text-text-faint">Deal milestones</p>
               <div className="mt-4 space-y-3">
                 {flagshipDeal.milestones.map((m, i) => (
@@ -112,7 +112,7 @@ export function DealProgression({
                         m.status === "done"
                           ? "bg-emerald-500/80"
                           : m.status === "in_progress"
-                            ? "bg-claude-coral/80"
+                            ? "bg-accent/80"
                             : "bg-white/30"
                       }`}
                     />
@@ -139,7 +139,7 @@ export function DealProgression({
           />
           <div className="grid gap-4">
             <div>
-              <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral">
+              <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-accent">
                 Deal thesis
               </label>
               <textarea
@@ -147,12 +147,12 @@ export function DealProgression({
                 onChange={(event) => handleWorkspaceFieldChange("dealThesis", event.target.value)}
                 rows={3}
                 placeholder="e.g. Why we'll win this account, how we're positioned vs incumbent, key proof points…"
-                className="w-full resize-none rounded-[22px] border border-claude-coral/25 bg-surface-muted/20 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint/60 focus:border-claude-coral/40 focus:outline-none focus:text-text-primary focus:placeholder:opacity-0"
+                className="w-full resize-none rounded-[22px] border border-accent/25 bg-surface-muted/20 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint/60 focus:border-accent/40 focus:outline-none focus:text-text-primary focus:placeholder:opacity-0"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral">
+              <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-accent">
                 Win theme
               </label>
               <textarea
@@ -160,12 +160,12 @@ export function DealProgression({
                 onChange={(event) => handleWorkspaceFieldChange("winTheme", event.target.value)}
                 rows={3}
                 placeholder="e.g. One-line narrative the champion uses internally, outcome we're tying to…"
-                className="w-full resize-none rounded-[22px] border border-claude-coral/25 bg-surface-muted/20 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint/60 focus:border-claude-coral/40 focus:outline-none focus:text-text-primary focus:placeholder:opacity-0"
+                className="w-full resize-none rounded-[22px] border border-accent/25 bg-surface-muted/20 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint/60 focus:border-accent/40 focus:outline-none focus:text-text-primary focus:placeholder:opacity-0"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral">
+              <label className="mb-2 block text-[11px] font-medium uppercase tracking-[0.12em] text-accent">
                 Operator notes
               </label>
               <textarea
@@ -173,7 +173,7 @@ export function DealProgression({
                 onChange={(event) => handleWorkspaceFieldChange("operatorNotes", event.target.value)}
                 rows={4}
                 placeholder="e.g. Call prep, follow-ups, internal alignment, things to remember…"
-                className="w-full resize-none rounded-[22px] border border-claude-coral/25 bg-surface-muted/20 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint/60 focus:border-claude-coral/40 focus:outline-none focus:text-text-primary focus:placeholder:opacity-0"
+                className="w-full resize-none rounded-[22px] border border-accent/25 bg-surface-muted/20 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint/60 focus:border-accent/40 focus:outline-none focus:text-text-primary focus:placeholder:opacity-0"
               />
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <button
@@ -182,7 +182,7 @@ export function DealProgression({
                     if (saveToastRef.current) clearTimeout(saveToastRef.current);
                     showToast("Saved");
                   }}
-                  className="touch-target min-h-[44px] rounded-xl border border-surface-border/60 bg-white/80 px-4 py-2.5 text-[13px] font-medium text-text-primary shadow-sm transition active:bg-white hover:border-claude-coral/30 hover:bg-white"
+                  className="touch-target min-h-[44px] rounded-xl border border-surface-border/60 bg-white/80 px-4 py-2.5 text-[13px] font-medium text-text-primary shadow-sm transition active:bg-white hover:border-accent/30 hover:bg-white"
                 >
                   Save
                 </button>
@@ -194,7 +194,7 @@ export function DealProgression({
                     onAddAccountUpdate(title, note, "internal");
                     showToast("Added to account log");
                   }}
-                  className="touch-target min-h-[44px] rounded-xl border border-claude-coral/30 bg-claude-coral/10 px-4 py-2.5 text-[13px] font-medium text-claude-coral transition active:bg-claude-coral/15 hover:border-claude-coral/50 hover:bg-claude-coral/15"
+                  className="touch-target min-h-[44px] rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-[13px] font-medium text-accent transition active:bg-accent/15 hover:border-accent/50 hover:bg-accent/15"
                 >
                   Add to notes
                 </button>
@@ -203,9 +203,9 @@ export function DealProgression({
           </div>
         </section>
 
-        <ClaudeActionBar
-          title="Ask Claude inside the capture plan"
-          subtitle="Use Claude as the AE's live operator, not just a separate utility. These requests are specific to the deal you're in."
+        <DatabricksActionBar
+          title="Ask Databricks AI inside the capture plan"
+          subtitle="Use Databricks AI as the AE's live operator, not just a separate utility. These requests are specific to the deal you're in."
           account={account}
           competitors={competitors}
           actions={[

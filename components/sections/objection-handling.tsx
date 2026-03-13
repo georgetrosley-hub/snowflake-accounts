@@ -6,7 +6,7 @@ import { MessageSquare, Send } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
@@ -24,16 +24,16 @@ const commonObjections = [
     "How do we know you won't train on our data?",
   ]},
   { category: "Pricing & Value", items: [
-    "Claude is too expensive compared to alternatives",
+    "Databricks is too expensive compared to alternatives",
     "We don't have budget for another AI tool",
     "What's the ROI? Show me hard numbers",
-    "Why pay for Claude when open-source models are free?",
+    "Why pay for Databricks when open-source models are free?",
   ]},
   { category: "Technical", items: [
-    "We tried Claude and it hallucinated",
+    "We tried the platform and had quality concerns",
     "Our use case needs fine-tuning, which you don't support",
     "Integration is too complex for our stack",
-    "We need multi-modal and Claude isn't strong enough",
+    "We need multi-modal and The platform isn't strong enough",
   ]},
   { category: "Organizational", items: [
     "We're not ready for AI yet",
@@ -83,13 +83,13 @@ export function ObjectionHandling({ account, competitors }: ObjectionHandlingPro
     >
       <SectionHeader
         title="Objection handling"
-        subtitle="Claude-powered responses with evidence and follow-ups"
+        subtitle="AI-powered responses with evidence and follow-ups"
       />
 
       {/* Custom objection input */}
       <div className="rounded-lg border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
         <div className="flex items-center gap-2 mb-3">
-          <MessageSquare className="h-4 w-4 text-claude-coral/60" strokeWidth={1.8} />
+          <MessageSquare className="h-4 w-4 text-accent/60" strokeWidth={1.8} />
           <p className="text-[13px] font-medium text-text-primary">What are they saying?</p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
@@ -98,7 +98,7 @@ export function ObjectionHandling({ account, competitors }: ObjectionHandlingPro
             onChange={(e) => setCustomObjection(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleCustomSubmit()}
             placeholder="Type the objection you're hearing..."
-            className="flex-1 rounded-lg border border-surface-border/40 bg-surface/60 px-4 py-2.5 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+            className="flex-1 rounded-lg border border-surface-border/40 bg-surface/60 px-4 py-2.5 text-[13px] text-text-primary placeholder:text-text-muted/50 focus:border-accent/30 focus:outline-none"
           />
           <button
             onClick={handleCustomSubmit}
@@ -106,7 +106,7 @@ export function ObjectionHandling({ account, competitors }: ObjectionHandlingPro
             className={cn(
               "flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-[12px] font-medium transition-colors sm:w-auto sm:shrink-0",
               customObjection.trim()
-                ? "border border-claude-coral/20 bg-claude-coral/[0.06] text-claude-coral/90 hover:bg-claude-coral/10"
+                ? "border border-accent/20 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
                 : "border border-surface-border/30 bg-surface-muted/20 text-text-muted/40 cursor-not-allowed"
             )}
           >
@@ -133,7 +133,7 @@ export function ObjectionHandling({ account, competitors }: ObjectionHandlingPro
                   className={cn(
                     "rounded-lg border px-3 py-2 text-[12px] text-left transition-all",
                     currentObjection === item
-                      ? "border-claude-coral/30 bg-claude-coral/[0.05] text-text-primary"
+                      ? "border-accent/30 bg-accent/[0.05] text-text-primary"
                       : "border-surface-border/30 text-text-muted hover:border-surface-border/50 hover:text-text-secondary"
                   )}
                 >

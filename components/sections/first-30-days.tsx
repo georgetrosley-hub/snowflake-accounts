@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, BriefcaseBusiness } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { ClaudeActionBar } from "@/components/ui/claude-action-bar";
+import { DatabricksActionBar } from "@/components/ui/databricks-action-bar";
 import type { Account, Competitor, ExecutionItem } from "@/types";
 
 interface First30DaysProps {
@@ -30,17 +30,17 @@ export function First30Days({
     >
       <section className="space-y-4">
         <div className="flex items-center gap-2">
-          <BriefcaseBusiness className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+          <BriefcaseBusiness className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
           <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
             My first 30 days
           </p>
         </div>
         <p className="max-w-2xl text-[14px] leading-relaxed text-text-muted">
-          The execution items that move the deal: in progress and ready. Use Claude below to get a sequenced plan or messaging suggestions.
+          The execution items that move the deal: in progress and ready. Use Databricks AI below to get a sequenced plan or messaging suggestions.
         </p>
         <div className="mt-5 space-y-3">
           {thisWeek.length === 0 ? (
-            <div className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-6 text-center text-[14px] text-text-muted">
+            <div className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-6 text-center text-[14px] text-text-muted">
               No in-progress or ready items this week. Check the Deal Plan for upcoming work.
             </div>
           ) : (
@@ -48,9 +48,9 @@ export function First30Days({
               <div
                 key={item.id}
                 id={`execution-item-${item.id}`}
-                className="flex items-start gap-3 rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4"
+                className="flex items-start gap-3 rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4"
               >
-                <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-claude-coral/70" strokeWidth={1.8} />
+                <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-accent/70" strokeWidth={1.8} />
                 <div className="min-w-0">
                   <p className="text-[14px] font-medium text-text-primary">{item.title}</p>
                   <p className="mt-1 text-[12px] text-text-muted">
@@ -66,8 +66,8 @@ export function First30Days({
         </div>
       </section>
 
-      <ClaudeActionBar
-        title="Ask Claude about your first 30 days"
+      <DatabricksActionBar
+        title="Ask Databricks AI about your first 30 days"
         subtitle="Get a sequenced plan, messaging for the champion, or next-step recommendations for this account."
         account={account}
         competitors={competitors}

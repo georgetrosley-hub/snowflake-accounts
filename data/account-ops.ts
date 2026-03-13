@@ -113,29 +113,37 @@ function getSecondSponsor(account: Account) {
 
 function getLastTouchLabel(account: Account) {
   const flagship = getFlagshipDealContext(account.id);
-  if (account.id === "jpmorgan" && flagship)
+  if (account.id === "jnj" && flagship)
     return `Call with ${flagship.championName} · Mon 09:30`;
-  if (account.id === "comcast" && flagship)
+  if (account.id === "merck" && flagship)
     return `Call with ${flagship.championName} · Tue 14:00`;
   if (account.id === "pfizer" && flagship)
     return `Call with ${flagship.championName} · Wed 11:15`;
-  if (account.id === "jpmorgan") return "Model risk intro call · Mon 09:30";
-  if (account.id === "comcast") return "Platform follow-up · Tue 14:00";
+  if (account.id === "jnj") return "Clinical Data intro call · Mon 09:30";
+  if (account.id === "merck") return "R&D Data Platform follow-up · Tue 14:00";
   if (account.id === "pfizer") return "Medical affairs prep note · Wed 11:15";
   return "Account review note · This week";
 }
 
 function getRecentMoment(account: Account) {
-  if (account.id === "jpmorgan") {
-    return "Model risk team reacted positively to a governed pilot framed around documentation and review workflows.";
+  if (account.id === "jnj") {
+    return "Clinical Data Sciences reacted positively to a governed pilot framed around trial analytics and Unity Catalog.";
   }
 
-  if (account.id === "comcast") {
-    return "Platform engineering showed interest in a controlled developer productivity wedge if security gets clean deployment answers quickly.";
+  if (account.id === "merck") {
+    return "R&D Data Platform showed interest in a data lake and Mosaic AI wedge. Palantir is in play but not blocking.";
   }
 
   if (account.id === "pfizer") {
     return "Regulated document workflows continue to resonate, but legal and validation concerns need a tighter response package.";
+  }
+
+  if (account.id === "bms") {
+    return "Clinical Dev Ops is evaluating Snowflake. Need to land Databricks for trial analytics before that decision.";
+  }
+
+  if (account.id === "sanofi") {
+    return "Vaccines Data wants to unify analytics. EU data residency is non-negotiable. Legal and DPO review pending.";
   }
 
   return "Recent conversations support a narrow first wedge, but the executive case still needs tightening.";
@@ -229,7 +237,7 @@ export function buildAccountSignals(
       confidence: 76,
       owner: secondSponsor.name,
       impact: "A stronger narrative shortens the gap between functional interest and sponsor-level commitment.",
-      recommendedAction: `Prepare a briefing for ${secondSponsor.name} that names why now, why Claude, what the first proof point is, and what support is needed.`,
+      recommendedAction: `Prepare a briefing for ${secondSponsor.name} that names why now, why Databricks, what the first proof point is, and what support is needed.`,
       sourceType: "crm",
       sourceLabel: "Executive account summary",
       sourceFreshness: "Working hypothesis",
@@ -311,7 +319,7 @@ export function buildStakeholders(account: Account): Stakeholder[] {
       influence: "high",
       relationshipStrength: 38,
       nextStep: "Bring a clean deployment narrative before asking for approval.",
-      note: "This stakeholder is not anti-Claude; they are anti-ambiguity.",
+      note: "This stakeholder is not anti-Databricks; they are anti-ambiguity.",
       lastTouch: "Security prep queue · Pending",
       proofNeeded: "Data flow, identity controls, retention posture, and a clearly bounded pilot scope.",
       recentMoment: "This workstream will likely determine the speed of the deal.",
@@ -372,7 +380,7 @@ export function buildExecutionItems(account: Account): ExecutionItem[] {
       owner: primarySponsor.name,
       status: "ready",
       dueLabel: "Before next sponsor sync",
-      detail: "Frame why now, why Claude, what the first win is, and what support is needed to move.",
+      detail: "Frame why now, why Databricks, what the first win is, and what support is needed to move.",
       decisionRequired: true,
       decisionStatus: "pending",
       checkpoint: "Executive sponsor has a usable internal brief",
@@ -460,14 +468,14 @@ export function buildAccountUpdates(account: Account): AccountUpdate[] {
 
   const flagship = getFlagshipDealContext(account.id);
 
-  if (account.id === "jpmorgan" && flagship) {
+  if (account.id === "jnj" && flagship) {
     return [
       {
         id: `${account.id}-specific-1`,
         createdAt: "Today · 07:55",
         author: "George",
-        title: "Marcus aligned on pilot scope",
-        note: `${flagship.championName} is bought in. Security review is the gating item — they want a written deployment narrative and data-flow diagram before the Mar 18 meeting. Legal is watching but won't block if Model Risk and Security are comfortable.`,
+        title: "Sarah aligned on pilot scope",
+        note: `${flagship.championName} is bought in. Snowflake is in the mix — we need to move fast. Quality wants a clear governance narrative before the pilot.`,
         tag: "call",
       },
       {
@@ -475,21 +483,21 @@ export function buildAccountUpdates(account: Account): AccountUpdate[] {
         createdAt: "Yesterday · 16:10",
         author: "George",
         title: "Need a tighter sponsor ask",
-        note: `Before I bring ${sponsor.name} deeper in, I need a crisp internal brief that explains why this pilot is small, governable, and worth executive attention. Microsoft EA renewal risk is real — need to land before procurement folds us into a bundle.`,
+        note: `Before I bring ${sponsor.name} deeper in, I need a crisp internal brief that explains why this pilot is small, governable, and worth executive attention. Snowflake is evaluating — need to land before they gain momentum.`,
         tag: "exec",
       },
       ...baseUpdates,
     ];
   }
 
-  if (account.id === "comcast" && flagship) {
+  if (account.id === "merck" && flagship) {
     return [
       {
         id: `${account.id}-specific-1`,
         createdAt: "Today · 09:05",
         author: "George",
         title: "Jennifer ready, Security is the blocker",
-        note: `${flagship.championName} is ready to go. Security wants a written deployment narrative and answers on data flow before the Mar 22 review. Platform team is eager; we need to unblock Security quickly. Microsoft EA renewal in Q3 — need to land pilot before that conversation.`,
+        note: `${flagship.championName} wants to consolidate R&D data. Palantir is in play but we're landing with an additive use case. Security wants IP and data residency clarity.`,
         tag: "call",
       },
       {
@@ -497,7 +505,7 @@ export function buildAccountUpdates(account: Account): AccountUpdate[] {
         createdAt: "Yesterday · 15:25",
         author: "George",
         title: "Expansion should stay in the background",
-        note: "Support automation is the likely second act, but I should not oversell expansion before the platform pilot has a real owner and success metrics.",
+        note: "Clinical and manufacturing analytics are the likely second act, but I should not oversell expansion before the R&D data platform pilot has a real owner and success metrics.",
         tag: "next_step",
       },
       ...baseUpdates,

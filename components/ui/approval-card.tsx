@@ -35,13 +35,13 @@ export function ApprovalCard({
         </p>
         <div className="mt-4 flex flex-wrap gap-4 text-[11px] text-text-muted">
           <span>{approval.requestingAgent}</span>
-          <span className="text-claude-coral/70">{approval.estimatedImpact}</span>
+          <span className="text-accent/70">{approval.estimatedImpact}</span>
         </div>
       </div>
       <div className="flex flex-col gap-2 sm:flex-row">
         <button
           onClick={onApprove}
-          className="rounded-md bg-claude-coral/12 px-3 py-2 text-[12px] font-medium text-claude-coral transition-colors duration-150 hover:bg-claude-coral/18"
+          className="rounded-md bg-accent/12 px-3 py-2 text-[12px] font-medium text-accent transition-colors duration-150 hover:bg-accent/18"
         >
           Approve
         </button>

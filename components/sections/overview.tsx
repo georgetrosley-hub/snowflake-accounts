@@ -6,7 +6,7 @@ import { AlertTriangle, ArrowRight, Crosshair, Users, Eye, CircleDot, Zap, Targe
 import { SectionHeader } from "@/components/ui/section-header";
 import type { SectionId } from "@/components/layout/sidebar";
 import { MetricCard } from "@/components/ui/metric-card";
-import { ClaudeSparkle } from "@/components/ui/claude-logo";
+import { DatabricksLogoIcon } from "@/components/ui/databricks-logo";
 import { useToast } from "@/app/context/toast-context";
 import { isStale } from "@/lib/deal-health";
 import { getPlansForThisWeek, getPlansForThisWeekShort } from "@/lib/plans-for-week";
@@ -111,7 +111,7 @@ export function Overview({
       className="space-y-10 sm:space-y-12"
     >
       {/* VP oversight — 30-second scan for Ryan */}
-      <section className="rounded-2xl border border-claude-coral/20 bg-white/[0.02] p-4 sm:p-6">
+      <section className="rounded-2xl border border-accent/20 bg-white/[0.02] p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <Eye className="h-4 w-4 text-text-faint" strokeWidth={1.8} />
           <p className="text-[11px] font-medium uppercase tracking-wider text-text-faint">
@@ -124,7 +124,7 @@ export function Overview({
               dealHealth.status === "healthy"
                 ? "bg-emerald-500/10 text-emerald-400/90"
                 : dealHealth.status === "attention"
-                  ? "bg-claude-coral/10 text-claude-coral/90"
+                  ? "bg-accent/10 text-accent/90"
                   : "bg-rose-500/10 text-rose-400/90"
             }`}
           >
@@ -133,7 +133,7 @@ export function Overview({
                 dealHealth.status === "healthy"
                   ? "bg-emerald-400"
                   : dealHealth.status === "attention"
-                    ? "bg-claude-coral"
+                    ? "bg-accent"
                     : "bg-rose-400"
               }`}
             />
@@ -146,7 +146,7 @@ export function Overview({
             </div>
           )}
           {needsAttention.length > 0 && (
-            <div className="flex items-center gap-2 rounded-full bg-claude-coral/10 px-3 py-1.5 text-[12px] font-medium text-claude-coral/90">
+            <div className="flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1.5 text-[12px] font-medium text-accent/90">
               {needsAttention.length} decision{needsAttention.length === 1 ? "" : "s"} pending
             </div>
           )}
@@ -176,11 +176,11 @@ export function Overview({
           <button
             type="button"
             onClick={() => document.getElementById("plans-for-this-week-detail")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-            className="flex min-h-[88px] touch-target flex-col justify-start rounded-xl border border-claude-coral/25 bg-surface-muted/50 px-4 py-3.5 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-claude-coral/40 sm:min-h-0"
+            className="flex min-h-[88px] touch-target flex-col justify-start rounded-xl border border-accent/25 bg-surface-muted/50 px-4 py-3.5 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-accent/40 sm:min-h-0"
           >
             <div className="flex items-center gap-2">
-              <Zap className="h-4 w-4 shrink-0 text-claude-coral" strokeWidth={2} />
-              <p className="text-[11px] font-bold uppercase tracking-wider text-claude-coral">Plans for this week</p>
+              <Zap className="h-4 w-4 shrink-0 text-accent" strokeWidth={2} />
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Plans for this week</p>
             </div>
             <p className="mt-2.5 whitespace-pre-wrap text-[13px] leading-relaxed text-text-secondary">
               {plansForThisWeekShort}
@@ -192,11 +192,11 @@ export function Overview({
           <button
             type="button"
             onClick={() => onSectionChange?.("accountLog")}
-            className="flex min-h-[88px] touch-target flex-col justify-center rounded-xl border border-claude-coral/25 bg-surface-muted/50 px-4 py-4 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-claude-coral/40 sm:min-h-0 sm:py-3.5"
+            className="flex min-h-[88px] touch-target flex-col justify-center rounded-xl border border-accent/25 bg-surface-muted/50 px-4 py-4 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-accent/40 sm:min-h-0 sm:py-3.5"
           >
             <div className="flex items-center gap-2">
-              <ArrowRight className="h-4 w-4 shrink-0 text-claude-coral" strokeWidth={2} />
-              <p className="text-[11px] font-bold uppercase tracking-wider text-claude-coral">Where I left off</p>
+              <ArrowRight className="h-4 w-4 shrink-0 text-accent" strokeWidth={2} />
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Where I left off</p>
             </div>
             <p className="mt-2 text-[15px] font-bold text-text-primary">
               {lastUpdate?.title ?? "Daily account reset"}
@@ -205,12 +205,17 @@ export function Overview({
           </button>
           <button
             type="button"
+<<<<<<< HEAD
             onClick={() => onSectionChange?.("first90Days")}
             className="flex min-h-[88px] touch-target flex-col justify-center rounded-xl border border-claude-coral/25 bg-surface-muted/50 px-4 py-4 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-claude-coral/40 sm:min-h-0 sm:py-3.5"
+=======
+            onClick={() => onSectionChange?.("first30Days")}
+            className="flex min-h-[88px] touch-target flex-col justify-center rounded-xl border border-accent/25 bg-surface-muted/50 px-4 py-4 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-accent/40 sm:min-h-0 sm:py-3.5"
+>>>>>>> 54c62ee4d230b0f27771a9d6e06d79314126b676
           >
             <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 shrink-0 text-claude-coral" strokeWidth={2} />
-              <p className="text-[11px] font-bold uppercase tracking-wider text-claude-coral">Today&apos;s priority</p>
+              <Target className="h-4 w-4 shrink-0 text-accent" strokeWidth={2} />
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Today&apos;s priority</p>
             </div>
             <p className="mt-2 text-[15px] font-bold text-text-primary">
               {topPriority?.title ?? "Define the first pilot"}
@@ -228,7 +233,7 @@ export function Overview({
         </p>
         <div className="max-w-4xl space-y-2">
           <h2 className="text-xl font-semibold tracking-tight text-text-primary sm:text-2xl">
-            How I&apos;d build pipeline and expansion for Claude Enterprise inside {account.name}
+            How I&apos;d build pipeline and expansion for Databricks inside {account.name}
           </h2>
           <p className="max-w-3xl text-[14px] leading-relaxed text-text-muted">
             First wedge, champion path, pilot design, executive alignment, competitive displacement, and the expansion story.
@@ -260,7 +265,7 @@ export function Overview({
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.4fr)_380px]">
-        <section className="min-w-0 rounded-[28px] border border-claude-coral/20 bg-white/[0.02] p-4 sm:p-6">
+        <section className="min-w-0 rounded-[28px] border border-accent/20 bg-white/[0.02] p-4 sm:p-6">
           <SectionHeader
             title="How I&apos;d run this account"
             subtitle="The capture-plan view: how I&apos;d create urgency, who I&apos;d build with, what pilot I&apos;d land, and how I&apos;d expand."
@@ -308,10 +313,10 @@ export function Overview({
         </section>
 
         <aside className="min-w-0 space-y-4">
-          <div className="rounded-[28px] border border-claude-coral/15 bg-claude-coral/[0.05] p-4 sm:p-6">
+          <div className="rounded-[28px] border border-accent/15 bg-accent/[0.05] p-4 sm:p-6">
             <div className="flex items-center gap-2">
-              <ClaudeSparkle size={14} className="text-claude-coral" />
-              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-claude-coral/70">
+              <DatabricksLogoIcon size={14} className="text-accent" />
+              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/70">
                 My current take
               </p>
             </div>
@@ -320,9 +325,9 @@ export function Overview({
             </p>
           </div>
 
-          <div className="rounded-[28px] border border-claude-coral/20 bg-white/[0.02] p-4 sm:p-5">
+          <div className="rounded-[28px] border border-accent/20 bg-white/[0.02] p-4 sm:p-5">
             <div className="flex items-center gap-2 text-text-secondary">
-              <Crosshair className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
+              <Crosshair className="h-4 w-4 text-accent/75" strokeWidth={1.8} />
               <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
                 Competitive displacement
               </p>
@@ -337,7 +342,7 @@ export function Overview({
             </p>
             <p className="mt-3 text-[12px] leading-relaxed text-text-muted">
               I would not try to out-market the incumbent. I would force a narrower comparison around model quality,
-              enterprise governance, and the specific workflow where Claude wins.
+              enterprise governance, and the specific workflow where Databricks wins.
             </p>
           </div>
         </aside>
@@ -345,12 +350,12 @@ export function Overview({
 
       <section id="plans-for-this-week-detail" className="scroll-mt-6 space-y-4">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-claude-coral/75" strokeWidth={2} />
+          <Zap className="h-4 w-4 text-accent/75" strokeWidth={2} />
           <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
             Plans for this week · full detail
           </p>
         </div>
-        <div className="rounded-2xl border border-claude-coral/20 bg-surface-muted/50 p-4 sm:p-6">
+        <div className="rounded-2xl border border-accent/20 bg-surface-muted/50 p-4 sm:p-6">
           <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-text-secondary">
             {plansForThisWeek}
           </p>
@@ -369,7 +374,7 @@ export function Overview({
           {signals.slice(0, 3).map((signal) => (
             <div
               key={signal.id}
-              className="rounded-[22px] border border-claude-coral/20 bg-white/[0.02] px-4 py-4"
+              className="rounded-[22px] border border-accent/20 bg-white/[0.02] px-4 py-4"
             >
               <div className="flex flex-wrap items-center gap-2">
                 <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.08em] text-text-faint">
@@ -383,7 +388,7 @@ export function Overview({
               <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
                 {signal.summary}
               </p>
-              <p className="mt-3 text-[12px] leading-relaxed text-claude-coral/80">
+              <p className="mt-3 text-[12px] leading-relaxed text-accent/80">
                 {signal.recommendedAction}
               </p>
             </div>

@@ -12,9 +12,9 @@
   --text-secondary: 214 207 199;
   --text-muted: 157 146 137;
   --text-faint: 120 111 103;
-  --accent: 218 119 86;
-  --accent-muted: 192 106 75;
-  --accent-subtle: 74 47 36;
+  --accent: 255 54 33;
+  --accent-muted: 255 90 70;
+  --accent-subtle: 60 25 20;
   --warm: 59 52 48;
 }
 
@@ -91,10 +91,10 @@ body {
 }
 
 @keyframes subtle-glow {
-  0%, 100% { box-shadow: 0 0 0 rgba(218, 119, 86, 0); }
-  50% { box-shadow: 0 0 20px rgba(218, 119, 86, 0.06); }
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 54, 33, 0); }
+  50% { box-shadow: 0 0 20px rgba(255, 54, 33, 0.06); }
 }
 
-.anthropic-glow {
+.databricks-glow {
   animation: subtle-glow 4s ease-in-out infinite;
 }

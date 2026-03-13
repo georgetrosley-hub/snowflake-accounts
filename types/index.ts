@@ -52,7 +52,7 @@ export interface Competitor {
   name: string;
   category: "frontier" | "coding" | "search" | "workflow" | "cloud" | "vertical";
   strengthAreas: string[];
-  claudeDifferentiation: string[];
+  databricksDifferentiation: string[];
   accountRiskLevel: number;
   detectedFootprint?: string;
 }

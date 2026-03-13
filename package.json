@@ -1,5 +1,5 @@
 {
-  "name": "claude-enterprise-expansion-engine",
+  "name": "databricks-life-sciences-gtm",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
+    "openai": "^4.77.0",
     "next": "14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
