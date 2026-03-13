@@ -176,38 +176,38 @@ export function Overview({
         </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="flex flex-col rounded-xl border border-surface-border bg-surface px-4 py-3.5 shadow-elevated">
+          <div className="flex flex-col rounded-xl border-l-4 border-l-accent border border-surface-border bg-accent-subtle/30 px-4 py-3.5">
             <div className="flex items-center gap-2">
-              <Zap className="h-3.5 w-3.5 text-accent" strokeWidth={2} />
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">This week</p>
+              <Zap className="h-4 w-4 text-accent" strokeWidth={2} />
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">This week</p>
             </div>
             <textarea
               value={workspaceDraft.thisWeekFocus}
               onChange={(e) => handleWorkspaceFieldChange("thisWeekFocus", e.target.value)}
               placeholder="Lock the pilot sponsor, define success criteria, and schedule the governance workstream."
               rows={2}
-              className="mt-2.5 w-full resize-none border-none bg-transparent p-0 text-[14px] font-medium leading-relaxed text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-0"
+              className="mt-2.5 w-full resize-none border-none bg-transparent p-0 text-[15px] font-semibold leading-relaxed text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-0"
             />
           </div>
-          <div className="flex flex-col justify-center rounded-xl border border-surface-border bg-surface-muted px-4 py-3.5 shadow-elevated">
+          <div className="flex flex-col justify-center rounded-xl border-l-4 border-l-accent border border-surface-border bg-accent-subtle/30 px-4 py-3.5">
             <div className="flex items-center gap-2">
-              <ArrowRight className="h-3.5 w-3.5 text-accent" strokeWidth={2} />
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">Where I left off</p>
+              <ArrowRight className="h-4 w-4 text-accent" strokeWidth={2} />
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Where I left off</p>
             </div>
-            <p className="mt-2 text-[14px] font-semibold text-text-primary">
+            <p className="mt-2 text-[15px] font-bold text-text-primary">
               {lastUpdate?.title ?? "Daily account reset"}
             </p>
-            <p className="mt-0.5 text-[12px] text-text-muted">{lastUpdate?.createdAt ?? "Today"}</p>
+            <p className="mt-0.5 text-[13px] text-text-secondary">{lastUpdate?.createdAt ?? "Today"}</p>
           </div>
-          <div className="flex flex-col justify-center rounded-xl border border-surface-border bg-surface-muted px-4 py-3.5 shadow-elevated">
+          <div className="flex flex-col justify-center rounded-xl border-l-4 border-l-accent border border-surface-border bg-accent-subtle/30 px-4 py-3.5">
             <div className="flex items-center gap-2">
-              <Target className="h-3.5 w-3.5 text-accent" strokeWidth={2} />
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">Today&apos;s priority</p>
+              <Target className="h-4 w-4 text-accent" strokeWidth={2} />
+              <p className="text-[11px] font-bold uppercase tracking-wider text-accent">Today&apos;s priority</p>
             </div>
-            <p className="mt-2 text-[14px] font-semibold text-text-primary">
+            <p className="mt-2 text-[15px] font-bold text-text-primary">
               {topPriority?.title ?? "Define the first pilot"}
             </p>
-            <p className="mt-0.5 text-[12px] text-text-muted">
+            <p className="mt-0.5 text-[13px] text-text-secondary">
               {topPriority?.owner ?? champion?.name} · {topPriority?.dueLabel ?? "This week"}
             </p>
           </div>
