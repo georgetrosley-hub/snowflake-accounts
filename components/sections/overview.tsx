@@ -184,12 +184,21 @@ export function Overview({
             <textarea
               value={workspaceDraft.thisWeekFocus}
               onChange={(e) => handleWorkspaceFieldChange("thisWeekFocus", e.target.value)}
-              placeholder="Lock the pilot sponsor, define success criteria, and schedule the governance workstream."
+              placeholder="e.g. Lock the pilot sponsor, define success criteria, schedule governance…"
               rows={2}
-              className="mt-2.5 w-full resize-none border-none bg-transparent p-0 text-[15px] font-semibold leading-relaxed text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-0"
+              className="mt-2.5 w-full resize-none border-none bg-transparent p-0 text-[14px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint focus:outline-none focus:ring-0 focus:text-text-primary focus:placeholder:text-text-muted"
             />
           </div>
-          <div className="flex flex-col justify-center rounded-xl border border-surface-border bg-surface-muted/50 px-4 py-3.5">
+          <button
+            type="button"
+            onClick={() => {
+              const el = lastUpdate
+                ? document.getElementById(`account-update-${lastUpdate.id}`)
+                : document.getElementById("account-log");
+              el?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="flex flex-col justify-center rounded-xl border border-surface-border bg-surface-muted/50 px-4 py-3.5 text-left transition-colors hover:bg-surface-muted/70"
+          >
             <div className="flex items-center gap-2">
               <ArrowRight className="h-4 w-4 text-text-muted" strokeWidth={2} />
               <p className="text-[11px] font-bold uppercase tracking-wider text-text-muted">Where I left off</p>
@@ -198,8 +207,16 @@ export function Overview({
               {lastUpdate?.title ?? "Daily account reset"}
             </p>
             <p className="mt-0.5 text-[13px] text-text-secondary">{lastUpdate?.createdAt ?? "Today"}</p>
-          </div>
-          <div className="flex flex-col justify-center rounded-xl border border-surface-border bg-surface-muted/50 px-4 py-3.5">
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const inThisWeek = topPriority && thisWeek.some((i) => i.id === topPriority.id);
+              const targetId = inThisWeek ? `execution-item-${topPriority!.id}` : "my-first-30-days";
+              document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="flex flex-col justify-center rounded-xl border border-surface-border bg-surface-muted/50 px-4 py-3.5 text-left transition-colors hover:bg-surface-muted/70"
+          >
             <div className="flex items-center gap-2">
               <Target className="h-4 w-4 text-text-muted" strokeWidth={2} />
               <p className="text-[11px] font-bold uppercase tracking-wider text-text-muted">Today&apos;s priority</p>
@@ -210,7 +227,7 @@ export function Overview({
             <p className="mt-0.5 text-[13px] text-text-secondary">
               {topPriority?.owner ?? champion?.name} · {topPriority?.dueLabel ?? "This week"}
             </p>
-          </div>
+          </button>
         </div>
       </section>
 
@@ -449,7 +466,8 @@ export function Overview({
                 value={workspaceDraft.thisWeekFocus}
                 onChange={(event) => handleWorkspaceFieldChange("thisWeekFocus", event.target.value)}
                 rows={2}
-                className="w-full resize-none rounded-[22px] border border-white/10 bg-black/10 px-4 py-3 text-[13px] leading-relaxed text-text-primary placeholder:text-text-muted/50 focus:border-claude-coral/30 focus:outline-none"
+                placeholder="e.g. Lock pilot sponsor, define success criteria, schedule governance…"
+                className="w-full resize-none rounded-[22px] border border-white/10 bg-black/10 px-4 py-3 text-[13px] font-normal leading-relaxed text-text-muted placeholder:text-text-faint focus:border-claude-coral/30 focus:outline-none focus:text-text-primary"
               />
             </div>
 
@@ -498,7 +516,7 @@ export function Overview({
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-        <section className="rounded-[28px] border border-white/8 bg-white/[0.03] p-5 sm:p-6">
+        <section id="account-log" className="rounded-[28px] border border-white/8 bg-white/[0.03] p-5 sm:p-6 scroll-mt-6">
           <SectionHeader
             title="Account log"
             subtitle="The place the AE tracks what happened, what changed, what slipped, and what to do next."
@@ -507,7 +525,8 @@ export function Overview({
             {recentUpdates.map((update) => (
               <div
                 key={update.id}
-                className="rounded-[22px] border border-white/8 bg-black/10 px-4 py-4"
+                id={`account-update-${update.id}`}
+                className="rounded-[22px] border border-white/8 bg-black/10 px-4 py-4 scroll-mt-6"
               >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.08em] text-text-secondary">
@@ -596,7 +615,7 @@ export function Overview({
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <section className="rounded-[28px] border border-white/8 bg-white/[0.03] p-5 sm:p-6">
+        <section id="my-first-30-days" className="rounded-[28px] border border-white/8 bg-white/[0.03] p-5 sm:p-6 scroll-mt-6">
           <div className="flex items-center gap-2">
             <BriefcaseBusiness className="h-4 w-4 text-claude-coral/75" strokeWidth={1.8} />
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
@@ -607,7 +626,8 @@ export function Overview({
             {thisWeek.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-black/10 px-4 py-4"
+                id={`execution-item-${item.id}`}
+                className="flex items-start gap-3 rounded-[22px] border border-white/8 bg-black/10 px-4 py-4 scroll-mt-6"
               >
                 <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-claude-coral/70" strokeWidth={1.8} />
                 <div className="min-w-0">
