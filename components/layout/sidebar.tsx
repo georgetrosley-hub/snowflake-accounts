@@ -13,6 +13,7 @@ import {
   FileText,
   Lightbulb,
   Sparkles,
+  Calculator,
 } from "lucide-react";
 
 const SNOWFLAKE_SUMMIT_URL = "https://www.snowflake.com/en/summit/";
@@ -23,6 +24,7 @@ const sectionGroups = [
     label: "Start",
     items: [
       { id: "platformStrategy", label: "Platform & Strategy", icon: Sparkles },
+      { id: "roiTco", label: "ROI / TCO Model", icon: Calculator },
     ],
   },
   {
