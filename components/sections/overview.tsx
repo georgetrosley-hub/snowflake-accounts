@@ -213,7 +213,7 @@ export function Overview({
           </button>
           <button
             type="button"
-            onClick={() => onSectionChange?.("accountLog")}
+            onClick={() => onSectionChange?.("first90AndFieldKit")}
             className="flex min-h-[88px] touch-target flex-col justify-center rounded-xl border border-accent/25 bg-surface-muted/50 px-4 py-4 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-accent/40 sm:min-h-0 sm:py-3.5"
           >
             <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export function Overview({
           </button>
           <button
             type="button"
-            onClick={() => onSectionChange?.("first90Days")}
+            onClick={() => onSectionChange?.("first90AndFieldKit")}
             className="flex min-h-[88px] touch-target flex-col justify-center rounded-xl border border-accent/25 bg-surface-muted/50 px-4 py-4 text-left transition-colors active:bg-surface-muted/70 hover:bg-surface-muted/70 hover:border-accent/40 sm:min-h-0 sm:py-3.5"
           >
             <div className="flex items-center gap-2">

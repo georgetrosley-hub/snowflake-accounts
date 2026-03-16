@@ -6,26 +6,14 @@ import { Sidebar, type SectionId } from "@/components/layout/sidebar";
 import { StatusBar } from "@/components/layout/status-bar";
 import { ChatPanel } from "@/components/layout/chat-panel";
 import { Overview } from "@/components/sections/overview";
-import { AccountIntelligence } from "@/components/sections/account-intelligence";
 import { PipelineDashboard } from "@/components/sections/pipeline-dashboard";
-import { DealSimulation } from "@/components/sections/deal-simulation";
-import { DealProgression } from "@/components/sections/deal-progression";
-import { AccountLog } from "@/components/sections/account-log";
-import { Stakeholders } from "@/components/sections/stakeholders";
-import { Execution } from "@/components/sections/execution";
-import { First90Days } from "@/components/sections/first-90-days";
-import { Signals } from "@/components/sections/signals";
-import { ArtifactsWorkspace } from "@/components/sections/artifacts-workspace";
-import { UseCaseLibrary } from "@/components/sections/use-case-library";
-import { ROICalculator } from "@/components/sections/roi-calculator";
-import { TerritoryEngine } from "@/components/sections/territory-engine";
-import { EnterpriseComparison } from "@/components/sections/enterprise-comparison";
-import { Resume } from "@/components/sections/resume";
-import { WhyGeorge } from "@/components/sections/why-george";
+import { PlatformStrategy } from "@/components/sections/platform-strategy";
+import { First90AndFieldKit } from "@/components/sections/first90-and-field-kit";
+import { UseCasesAndPositioning } from "@/components/sections/use-cases-and-positioning";
 import { motion, AnimatePresence } from "framer-motion";
 
 function MainContent() {
-  const [activeSection, setActiveSection] = useState<SectionId>("resume"); // Platform Overview
+  const [activeSection, setActiveSection] = useState<SectionId>("platformStrategy");
   const [chatOpen, setChatOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -74,8 +62,7 @@ function MainContent() {
   const oversightStatus = pendingDecisionCount > 0 ? "active" as const : "idle" as const;
 
   const sections: Record<SectionId, React.ReactNode> = {
-    resume: <Resume />,
-    whyGeorge: <WhyGeorge />,
+    platformStrategy: <PlatformStrategy />,
     overview: (
       <Overview
         account={account}
@@ -93,99 +80,9 @@ function MainContent() {
         onSectionChange={handleSectionChange}
       />
     ),
-    accountIntelligence: (
-      <AccountIntelligence
-        account={account}
-        competitors={competitors}
-        stakeholders={stakeholders}
-        onNavigateTo={(section) => handleSectionChange(section as SectionId)}
-      />
-    ),
     pipeline: <PipelineDashboard />,
-    dealSimulation: (
-      <DealSimulation
-        account={account}
-        stakeholders={stakeholders}
-        competitors={competitors}
-      />
-    ),
-    dealProgression: (
-      <DealProgression
-        account={account}
-        competitors={competitors}
-        workspaceDraft={workspaceDraft}
-        accountUpdates={accountUpdates}
-        executionItems={executionItems}
-        onUpdateWorkspaceField={updateWorkspaceField}
-        onAddAccountUpdate={addAccountUpdate}
-      />
-    ),
-    accountLog: (
-      <AccountLog
-        accountUpdates={accountUpdates}
-        onAddAccountUpdate={addAccountUpdate}
-      />
-    ),
-    stakeholders: (
-      <Stakeholders
-        account={account}
-        competitors={competitors}
-        stakeholders={stakeholders}
-        onUpdateStakeholderStance={updateStakeholderStance}
-      />
-    ),
-    execution: (
-      <Execution
-        account={account}
-        competitors={competitors}
-        executionItems={executionItems}
-        lastDecisionTitle={lastDecisionTitle}
-        clearLastDecision={clearLastDecision}
-        onApproveDecision={handleApproveDecision}
-        onDeferDecision={handleDeferDecision}
-        onUpdateExecutionStatus={updateExecutionStatus}
-      />
-    ),
-    first90Days: (
-      <First90Days
-        account={account}
-        competitors={competitors}
-        executionItems={executionItems}
-      />
-    ),
-    signals: (
-      <Signals
-        account={account}
-        competitors={competitors}
-        signals={signals}
-        onUpdateSignalDisposition={updateSignalDisposition}
-      />
-    ),
-    artifacts: (
-      <ArtifactsWorkspace
-        account={account}
-        competitors={competitors}
-      />
-    ),
-    useCaseLibrary: (
-      <UseCaseLibrary
-        account={account}
-        competitors={competitors}
-      />
-    ),
-    roiCalculator: (
-      <ROICalculator
-        account={account}
-        competitors={competitors}
-      />
-    ),
-    territoryEngine: (
-      <TerritoryEngine
-        account={account}
-        competitors={competitors}
-      />
-    ),
-    enterpriseComparison: <EnterpriseComparison />,
+    first90AndFieldKit: <First90AndFieldKit />,
+    useCasesAndCompetitive: <UseCasesAndPositioning />,
   };
 
   return (

@@ -4,67 +4,39 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SnowflakeLogoIcon, SnowflakeWordmark } from "@/components/ui/snowflake-logo";
 import {
-  FileText,
-  Users,
   MessageCircle,
   LayoutDashboard,
-  Radar,
-  Workflow,
   PanelLeftClose,
   PanelLeftOpen,
   X,
-  TrendingUp,
-  ClipboardList,
-  CalendarCheck,
   BarChart3,
-  GitBranch,
-  Cpu,
-  Shield,
-  Crosshair,
-  Calculator,
+  FileText,
   Lightbulb,
-  Target,
   Sparkles,
 } from "lucide-react";
 
 const SNOWFLAKE_SUMMIT_URL = "https://www.snowflake.com/en/summit/";
 
+/** Simplified nav for interview: 5 sections, merged content. */
 const sectionGroups = [
   {
-    label: "Platform",
+    label: "Start",
     items: [
-      { id: "resume", label: "Platform Overview", icon: Sparkles },
-      { id: "whyGeorge", label: "Why Snowflake, Why Now", icon: Target },
+      { id: "platformStrategy", label: "Platform & Strategy", icon: Sparkles },
     ],
   },
   {
     label: "Territory",
     items: [
       { id: "overview", label: "War Room", icon: LayoutDashboard },
-      { id: "accountIntelligence", label: "Account Intelligence", icon: Crosshair },
       { id: "pipeline", label: "Pipeline", icon: BarChart3 },
-      { id: "dealSimulation", label: "Deal Playbook", icon: GitBranch },
-      { id: "dealProgression", label: "Deal Progression", icon: TrendingUp },
-      { id: "accountLog", label: "Account Log", icon: ClipboardList },
-      { id: "stakeholders", label: "Stakeholder Map", icon: Users },
-      { id: "execution", label: "Deal Plan", icon: Workflow },
     ],
   },
   {
-    label: "Execution",
+    label: "Execution & Reference",
     items: [
-      { id: "first90Days", label: "First 90 Days", icon: CalendarCheck },
-      { id: "signals", label: "Deal Signals", icon: Radar },
-      { id: "artifacts", label: "Field Kit", icon: FileText },
-    ],
-  },
-  {
-    label: "GTM Intel",
-    items: [
-      { id: "useCaseLibrary", label: "Use Case Library", icon: Lightbulb },
-      { id: "roiCalculator", label: "ROI Calculator", icon: Calculator },
-      { id: "territoryEngine", label: "Territory Engine", icon: Cpu },
-      { id: "enterpriseComparison", label: "Platform vs Alternatives", icon: Shield },
+      { id: "first90AndFieldKit", label: "First 90 Days & Field Kit", icon: FileText },
+      { id: "useCasesAndCompetitive", label: "Use Cases & Positioning", icon: Lightbulb },
     ],
   },
 ] as const;
