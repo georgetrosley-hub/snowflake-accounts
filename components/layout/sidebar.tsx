@@ -14,6 +14,7 @@ import {
   Lightbulb,
   Sparkles,
   Calculator,
+  GraduationCap,
 } from "lucide-react";
 
 const SNOWFLAKE_SUMMIT_URL = "https://www.snowflake.com/en/summit/";
@@ -37,6 +38,7 @@ const sectionGroups = [
   {
     label: "Execution & Reference",
     items: [
+      { id: "crashCourse", label: "3-Day Crash Course", icon: GraduationCap },
       { id: "first90AndFieldKit", label: "First 90 Days & Field Kit", icon: FileText },
       { id: "useCasesAndCompetitive", label: "Use Cases & Positioning", icon: Lightbulb },
     ],
