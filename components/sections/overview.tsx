@@ -120,18 +120,16 @@ export function Overview({
             <SnowflakeLogoIcon size={32} className="shrink-0 opacity-95" />
             <div>
               <h1 className="text-[18px] font-semibold tracking-tight text-text-primary sm:text-[20px]">
-                How I would operate and expand {account.name}
+                How I Would Operate and Expand This Snowflake Territory
               </h1>
               <p className="mt-0.5 text-[13px] text-text-muted">
-                Practical territory operating system: own the patch, advance real deals daily, and expand into
-                multi-threaded platform adoption.
+                A practical system for prioritizing accounts, tracking market signals, and converting insight into action.
               </p>
             </div>
           </div>
         </div>
         <p className="mt-4 text-[12px] text-text-secondary">
-          This view is designed to show execution quality: where the territory stands now, what to prioritize this
-          week, which signals matter most, and how the account strategy translates into expansion.
+          This territory view is built for execution cadence: clear priorities, active deal movement, and disciplined expansion planning.
         </p>
       </div>
 
