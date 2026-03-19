@@ -60,43 +60,46 @@ export function Overview({
 
   const territoryPriorityAccounts = useMemo(() => [
     {
-      id: "css-confirming",
-      name: "CSS (confirming)",
+      id: "us-financial-technology",
+      name: "U.S. Financial Technology",
       industry: "Financial Technology",
-      why: "Complex data and risk requirements create strong demand for governed analytics and AI-ready execution.",
-      likelyLand: "Governed analytics and data engineering for a high-visibility operating workflow.",
-      expansionPath: "Expand into AI/ML enablement, secure data sharing, and cross-functional data product delivery.",
-      pressure: "Initial hypothesis: Databricks likely has momentum in engineering-led teams, with cloud-native alternatives in consideration.",
+      status: "Existing Snowflake customer (footprint to validate)",
+      why: "Financial technology operations run on high-volume, high-sensitivity data where governed execution matters. The account can support multi-workload expansion across risk, operations, and analytics teams.",
+      likelyLand: "Expand existing Snowflake footprint in governed analytics and data engineering tied to a business-critical operating workflow.",
+      expansionPath: "Increase consumption across teams by extending adoption into secure data sharing, governance-heavy reporting, and AI-adjacent decision workflows.",
+      pressure: "Databricks may already be entrenched in some engineering paths, so expansion needs to be workload-specific and outcome-led.",
       personas: "CDO, Head of Data Engineering, Risk/Compliance leader, Analytics leadership.",
-      hypothesis: "Likely hypothesis: the account will prioritize controlled delivery speed over broad platform change. Why I believe it: public signals suggest modernization pressure and governance sensitivity. How I would validate it: confirm decision ownership, risk requirements, and first 90-day success criteria.",
-      nextMove: "Determine who owns data and AI strategy, test where Databricks is entrenched, and anchor the first conversation on one business use case with executive visibility.",
-      validateFirst: "Current Snowflake footprint, competitor depth by workflow, budget ownership, and where urgency is measurable this quarter.",
+      hypothesis: "I am stepping into an existing Snowflake account where platform decisions are likely shared across business, data, and risk leaders. Expansion execution should prioritize controlled delivery speed, governance confidence, and clear workload ownership.",
+      nextMove: "Map current Snowflake usage across teams, identify one realistic expansion workload, and anchor the next conversation around that business workflow rather than platform preference.",
+      validateFirst: "Current Snowflake footprint and usage patterns, teams actively using Snowflake today, where Databricks or other tools are embedded, active data/analytics/AI initiatives, and ownership plus buying process.",
     },
     {
       id: "sagent-lending",
       name: "Sagent Lending",
       industry: "Lending Technology",
-      why: "Platform modernization and delivery pressure suggest a clear need for better governed data execution.",
-      likelyLand: "Data engineering + analytics standardization in one customer-impacting workflow.",
-      expansionPath: "Expand into AI-assisted operations, broader data products, and stronger governance posture.",
-      pressure: "Initial hypothesis: Databricks and cloud-native alternatives are likely present in engineering or ML paths.",
+      status: "Active account with expansion opportunity",
+      why: "Lending operations are data-intensive and operationally complex, with direct business impact from execution speed and control. This creates room to expand Snowflake usage into adjacent, high-value workflows.",
+      likelyLand: "Build on existing deployment by expanding data engineering and analytics usage around a customer-impacting lending workflow.",
+      expansionPath: "Broaden platform adoption across operations, analytics, and governance stakeholders to increase consumption in production business processes.",
+      pressure: "Databricks and cloud alternatives may already be embedded in engineering or ML paths, so expansion must align to business workflow outcomes.",
       personas: "CIO/CTO, Data Platform leader, Product/Operations analytics leader, Security/Governance owner.",
-      hypothesis: "Likely hypothesis: consolidation and execution speed are immediate priorities. Why I believe it: public signals indicate active platform and operating-model change. How I would validate it: map where data is fragmented and where Snowflake can unify access, governance, and workload execution.",
-      nextMove: "Test whether Databricks is entrenched in ML or engineering workflows, then position a first land around the highest-friction business use case rather than platform features.",
-      validateFirst: "Actual platform footprint, buying process and budget owner, partner influence, and where urgency is real versus assumed.",
+      hypothesis: "This is an existing Snowflake account with an opportunity to expand where data is still fragmented across teams and tools. The account plan should focus on increasing consumption through better governed execution in core lending workflows.",
+      nextMove: "Determine where Databricks is entrenched versus where Snowflake can expand, then align the next meeting to one high-friction lending workflow with a clear near-term expansion path.",
+      validateFirst: "Current Snowflake footprint and usage patterns, which teams are active on Snowflake, where Databricks or other platforms are embedded, active lending data/AI initiatives, and buying ownership.",
     },
     {
       id: "ciena-corp",
       name: "Ciena Corp",
       industry: "Networking Technology",
-      why: "Cross-functional data and AI demands create an opportunity for a governed platform motion with practical business impact.",
-      likelyLand: "AI/ML-ready governed data foundation for one priority operating or product domain.",
-      expansionPath: "Expand into additional domains, shared data products, and enterprise AI execution patterns.",
-      pressure: "Initial hypothesis: Databricks may hold strength in technical teams while cloud-native alternatives shape procurement defaults.",
+      status: "Existing deployment, scope to be mapped",
+      why: "Ciena operates at enterprise scale with cross-functional data and analytics requirements across product, operations, and commercial teams. The account has clear potential for multi-workload Snowflake expansion.",
+      likelyLand: "Expand existing Snowflake footprint into one priority operating domain where governed analytics and AI-readiness drive measurable business value.",
+      expansionPath: "Increase adoption across adjacent teams through shared data products, stronger governance standards, and higher-impact operational workflows.",
+      pressure: "Databricks may hold influence in technical teams, so expansion needs to be tied to business workflow impact and production governance.",
       personas: "Chief Digital/Data leadership, Data Science leadership, Platform owner, Security/Governance.",
-      hypothesis: "Likely hypothesis: risk-controlled speed is the winning narrative for early momentum. Why I believe it: public signals show innovation pressure with enterprise governance expectations. How I would validate it: identify active ML initiatives, confirm ownership model, and verify where governance slows production.",
-      nextMove: "Determine whether data and AI decisions are centralized or split, map where data is fragmented, and propose a first realistic land that can expand over time.",
-      validateFirst: "Current Snowflake/competitor presence, active workloads tied to business priorities, decision process, and partner influence on architecture choices.",
+      hypothesis: "I am inheriting an active Snowflake account where expansion depends on clarifying ownership and mapping where teams still operate outside the existing deployment. The motion should prioritize controlled rollout in business-critical workflows.",
+      nextMove: "Map current Snowflake usage and team coverage, pinpoint where governance or workflow fragmentation limits adoption, and identify one expansion workload that can drive near-term consumption.",
+      validateFirst: "Current Snowflake footprint and usage patterns, team-level adoption today, where Databricks or other tools are embedded, active analytics or AI programs, and ownership plus buying process.",
     },
   ] as const, []);
   type PriorityAccount = (typeof territoryPriorityAccounts)[number];
@@ -118,7 +121,7 @@ export function Overview({
     recommendedAction: string;
   } | null>(null);
   const [accountLastUpdated, setAccountLastUpdated] = useState<Record<PriorityAccount["id"], string>>({
-    "css-confirming": "",
+    "us-financial-technology": "",
     "sagent-lending": "",
     "ciena-corp": "",
   });
@@ -147,7 +150,7 @@ export function Overview({
       }
     >
   > = useMemo(() => ({
-    "css-confirming": {
+    "us-financial-technology": {
       "24h": {
         keySignals: "Public signals suggest active modernization priorities and tighter execution expectations from leadership.",
         whatChanged: "Likely decision ownership is converging across business, platform, and governance stakeholders.",
@@ -323,7 +326,7 @@ export function Overview({
     {
       title: "Secure pilot scope and sponsor alignment",
       whyNow: "Decision criteria are still being shaped this week.",
-      targetAccount: "CSS (confirming)",
+      targetAccount: "U.S. Financial Technology",
       expectedOutcome: "Approved 90-day pilot charter with success metrics.",
     },
     {
@@ -510,16 +513,16 @@ export function Overview({
       {/* SECTION 1: HERO */}
       <div className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
         <h1 className="text-[20px] font-semibold tracking-tight text-text-primary sm:text-[24px]">
-          3 Priority Accounts. Clear Entry Points. Expansion-First Execution.
+          3 Priority Accounts. Existing Footprint. Expansion-First Execution.
         </h1>
         <p className="mt-2 text-[13px] text-text-muted">
-          This is a focused Snowflake territory plan built around three accounts I would prioritize first: CSS (confirming), Sagent Lending, and Ciena Corp. The goal is not broad coverage. The goal is to identify the right initial workload, earn the first win, and expand consumption over time.
+          This is a focused Snowflake territory plan built around three existing customer accounts I would prioritize first: U.S. Financial Technology, Sagent Lending, and Ciena Corp. I am stepping into an existing footprint, and the objective is to expand usage, increase consumption, and broaden Snowflake adoption across teams.
         </p>
         <p className="mt-3 text-[12px] text-text-secondary">
-          Built to reflect how strong enterprise reps actually operate: account selection, workload hypothesis, execution plan, and expansion path.
+          Built to reflect how strong enterprise reps actually operate when taking over live accounts: footprint mapping, expansion planning, execution discipline, and cross-team adoption growth.
         </p>
         <p className="mt-3 rounded-lg border border-surface-border/50 bg-surface-muted/30 px-3 py-2 text-[11px] text-text-muted">
-          Built using public information and structured hypotheses. Internal account detail, current consumption, active opportunities, and competitive footprint would need to be validated quickly post-onboarding.
+          Built using public information and operator assumptions. Current consumption, team-level usage, active opportunities, and competitor depth should be validated quickly after territory transition.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <button
@@ -542,23 +545,23 @@ export function Overview({
       <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
         <SectionHeader
           title="Priority Accounts"
-          subtitle="These are the first three accounts I would focus on entering the patch."
+          subtitle="These are the first three existing Snowflake accounts I would focus on expanding."
         />
         <div className="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-3">
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
-            <p className="text-[14px] font-semibold text-text-primary">CSS (confirming)</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-text-faint">Status: validating priority and fit</p>
-            <p className="mt-2 text-[12px] text-text-secondary">Initial focus: confirm strategic relevance, org structure, and likely Snowflake entry points.</p>
+            <p className="text-[14px] font-semibold text-text-primary">U.S. Financial Technology</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-text-faint">Status: existing Snowflake customer (footprint to validate)</p>
+            <p className="mt-2 text-[12px] text-text-secondary">Expansion focus: map current usage by team, then grow consumption in governance-heavy risk and operations workflows.</p>
           </article>
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
             <p className="text-[14px] font-semibold text-text-primary">Sagent Lending</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-text-faint">Status: initial account hypothesis</p>
-            <p className="mt-2 text-[12px] text-text-secondary">Initial focus: identify high-value data workflows, platform ownership, and expansion potential.</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-text-faint">Status: active account with expansion opportunity</p>
+            <p className="mt-2 text-[12px] text-text-secondary">Expansion focus: increase adoption across lending operations, analytics, and engineering where Snowflake can scale business-critical workflows.</p>
           </article>
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
             <p className="text-[14px] font-semibold text-text-primary">Ciena Corp</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-text-faint">Status: initial account hypothesis</p>
-            <p className="mt-2 text-[12px] text-text-secondary">Initial focus: evaluate where Snowflake can align to analytics, operational data, and AI-oriented use cases.</p>
+            <p className="mt-1 text-[11px] uppercase tracking-[0.08em] text-text-faint">Status: existing deployment, scope to be mapped</p>
+            <p className="mt-2 text-[12px] text-text-secondary">Expansion focus: broaden platform adoption into adjacent product and operational domains with governed analytics and AI-ready execution.</p>
           </article>
         </div>
       </section>
@@ -632,12 +635,13 @@ export function Overview({
               </div>
 
               <div className="mt-4 space-y-2.5 text-[12px] leading-relaxed">
+                <p><span className="font-semibold text-text-primary">Status:</span> <span className="text-text-secondary">{priority.status}</span></p>
                 <p><span className="font-semibold text-text-primary">Why This Account Matters:</span> <span className="text-text-secondary">{priority.why}</span></p>
-                <p><span className="font-semibold text-text-primary">Likely Land:</span> <span className="text-text-secondary">{priority.likelyLand}</span></p>
-                <p><span className="font-semibold text-text-primary">Expansion Path:</span> <span className="text-text-secondary">{priority.expansionPath}</span></p>
-                <p><span className="font-semibold text-text-primary">Competitive Pressure:</span> <span className="text-text-secondary">{priority.pressure}</span></p>
+                <p><span className="font-semibold text-text-primary">Expansion Focus:</span> <span className="text-text-secondary">{priority.likelyLand}</span></p>
+                <p><span className="font-semibold text-text-primary">Broader Expansion Path:</span> <span className="text-text-secondary">{priority.expansionPath}</span></p>
+                <p><span className="font-semibold text-text-primary">Competitive Context:</span> <span className="text-text-secondary">{priority.pressure}</span></p>
                 <p><span className="font-semibold text-text-primary">Key Personas:</span> <span className="text-text-secondary">{priority.personas}</span></p>
-                <p><span className="font-semibold text-text-primary">Current Hypothesis:</span> <span className="text-text-secondary">{priority.hypothesis}</span></p>
+                <p><span className="font-semibold text-text-primary">Account Context:</span> <span className="text-text-secondary">{priority.hypothesis}</span></p>
                 <p><span className="font-semibold text-text-primary">What I&apos;d Validate First:</span> <span className="text-text-secondary">{priority.validateFirst}</span></p>
                 <p><span className="font-semibold text-text-primary">Next Best Move:</span> <span className="text-text-secondary">{priority.nextMove}</span></p>
               </div>
