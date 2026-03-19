@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useCallback, useState } from "react";
+import { useMemo, useRef, useCallback, useState, useEffect } from "react";
 import { ArrowRight, Crosshair, CircleDot, Zap, Target } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import type { SectionId } from "@/components/layout/sidebar";
@@ -30,6 +30,18 @@ function getTodayLabel() {
 function formatMillionCurrency(value: number): string | null {
   if (!Number.isFinite(value) || value <= 0) return null;
   return `$${value.toFixed(2)}M`;
+}
+
+function formatUpdatedAt(iso?: string): string {
+  if (!iso) return "Not refreshed yet";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "Not refreshed yet";
+  return d.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 interface OverviewProps {
@@ -158,6 +170,18 @@ export function Overview({
     databricksImplication: string;
     recommendedAction: string;
   } | null>(null);
+  const [accountLastUpdated, setAccountLastUpdated] = useState<Record<PriorityAccount["id"], string>>({
+    "t1-01": "",
+    "t1-02": "",
+    "t1-03": "",
+    "t1-04": "",
+    "t1-05": "",
+  });
+  const [dossierLastUpdated, setDossierLastUpdated] = useState<string>("");
+  const [territoryLastUpdated, setTerritoryLastUpdated] = useState<string>("");
+  const [refreshingAccountId, setRefreshingAccountId] = useState<PriorityAccount["id"] | null>(null);
+  const [refreshingDossier, setRefreshingDossier] = useState(false);
+  const [refreshingTerritory, setRefreshingTerritory] = useState(false);
 
   const saveToastRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { showToast } = useToast();
@@ -416,9 +440,19 @@ export function Overview({
       recommendedAction:
         "Run one weekly executive cadence across Tier 1 accounts: confirm sponsor, lock pilot criteria, and pre-wire next expansion workload.",
     });
+    setTerritoryLastUpdated(new Date().toISOString());
     void windows;
     showToast("Full territory brief generated");
   }, [activeBriefingWindow, territoryPriorityAccounts, briefingByAccount, showToast]);
+
+  const refreshTerritoryBrief = useCallback(async () => {
+    setRefreshingTerritory(true);
+    await new Promise((resolve) => setTimeout(resolve, 950));
+    const nowIso = new Date().toISOString();
+    setTerritoryLastUpdated(nowIso);
+    setRefreshingTerritory(false);
+    showToast("Territory brief refreshed");
+  }, [showToast]);
 
   const copyNotebookPrompt = useCallback(async () => {
     const source = briefingOutput ?? {
@@ -575,6 +609,85 @@ export function Overview({
     </div>
   );
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("snowflake-territory-intelligence-state");
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as {
+        accountLastUpdated?: Record<PriorityAccount["id"], string>;
+        dossierLastUpdated?: string;
+        territoryLastUpdated?: string;
+        briefingOutputTitle?: string;
+        briefingOutput?: typeof briefingOutput;
+      };
+      if (parsed.accountLastUpdated) setAccountLastUpdated(parsed.accountLastUpdated);
+      if (parsed.dossierLastUpdated) setDossierLastUpdated(parsed.dossierLastUpdated);
+      if (parsed.territoryLastUpdated) setTerritoryLastUpdated(parsed.territoryLastUpdated);
+      if (parsed.briefingOutputTitle) setBriefingOutputTitle(parsed.briefingOutputTitle);
+      if (parsed.briefingOutput) setBriefingOutput(parsed.briefingOutput);
+    } catch {
+      // Keep defaults if persisted state cannot be parsed.
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "snowflake-territory-intelligence-state",
+        JSON.stringify({
+          accountLastUpdated,
+          dossierLastUpdated,
+          territoryLastUpdated,
+          briefingOutputTitle,
+          briefingOutput,
+        })
+      );
+    } catch {
+      // Ignore persistence errors.
+    }
+  }, [accountLastUpdated, dossierLastUpdated, territoryLastUpdated, briefingOutputTitle, briefingOutput]);
+
+  const refreshAccount = useCallback(
+    async (accountId: PriorityAccount["id"]) => {
+      setRefreshingAccountId(accountId);
+      await new Promise((resolve) => setTimeout(resolve, 850));
+      const nowIso = new Date().toISOString();
+      setAccountLastUpdated((prev) => ({ ...prev, [accountId]: nowIso }));
+      setRefreshingAccountId(null);
+      showToast("Account intelligence refreshed");
+    },
+    [showToast]
+  );
+
+  const generateAccountPov = useCallback(
+    (accountId: PriorityAccount["id"]) => {
+      setActiveDossierId(accountId);
+      setActiveDossierTab("Snowflake POV");
+      setBriefingOutputTitle(
+        `${territoryPriorityAccounts.find((p) => p.id === accountId)?.name ?? "Tier 1 Account"} · Account POV`
+      );
+      const p = territoryPriorityAccounts.find((priority) => priority.id === accountId) ?? territoryPriorityAccounts[0];
+      setBriefingOutput({
+        whatChanged: `Stakeholder motion around ${p.name} is becoming more decision-oriented and workflow-specific.`,
+        whyItMatters: "The best time to shape evaluation criteria is before requirements harden around incumbent defaults.",
+        snowflakeImplication: `Lead with ${p.likelyLand.toLowerCase()} and tie it to executive-level business outcomes.`,
+        databricksImplication: "Databricks remains strong when evaluations stay tool-first instead of outcome-first.",
+        recommendedAction: p.nextMove,
+      });
+      showToast("Account POV generated");
+    },
+    [territoryPriorityAccounts, showToast]
+  );
+
+  const refreshDossierAnalysis = useCallback(async () => {
+    setRefreshingDossier(true);
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    const nowIso = new Date().toISOString();
+    setDossierLastUpdated(nowIso);
+    setRefreshingDossier(false);
+    showToast("Dossier analysis refreshed");
+  }, [showToast]);
+
   return (
     <div className="space-y-10 sm:space-y-12">
       {/* Hero */}
@@ -634,19 +747,39 @@ export function Overview({
                 <p><span className="font-semibold text-text-primary">Next Best Move:</span> <span className="text-text-secondary">{priority.nextMove}</span></p>
               </div>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveDossierId(priority.id);
-                  setActiveDossierTab("Business Overview");
-                  document
-                    .getElementById("account-dossier-view")
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                className="mt-4 rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
-              >
-                Open Account Dossier
-              </button>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => refreshAccount(priority.id)}
+                  disabled={refreshingAccountId === priority.id}
+                  className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary disabled:opacity-60"
+                >
+                  {refreshingAccountId === priority.id ? "Refreshing..." : "Refresh Account"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => generateAccountPov(priority.id)}
+                  className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+                >
+                  Generate Account POV
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveDossierId(priority.id);
+                    setActiveDossierTab("Business Overview");
+                    document
+                      .getElementById("account-dossier-view")
+                      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+                >
+                  Open Account Dossier
+                </button>
+              </div>
+              <p className="mt-2 text-[10px] text-text-faint">
+                Last updated: {formatUpdatedAt(accountLastUpdated[priority.id])}
+              </p>
             </article>
           ))}
         </div>
@@ -726,6 +859,14 @@ export function Overview({
         <div className="mt-4 flex flex-wrap gap-2">
           <button
             type="button"
+            onClick={refreshTerritoryBrief}
+            disabled={refreshingTerritory}
+            className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary disabled:opacity-60"
+          >
+            {refreshingTerritory ? "Refreshing..." : "Refresh Territory Brief"}
+          </button>
+          <button
+            type="button"
             onClick={buildAccountBrief}
             className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
           >
@@ -752,6 +893,9 @@ export function Overview({
           >
             Export PDF
           </button>
+          <p className="ml-auto self-center text-[10px] text-text-faint">
+            Last updated: {formatUpdatedAt(territoryLastUpdated)}
+          </p>
         </div>
 
         <div className="mt-4 rounded-xl border border-surface-border/50 bg-surface-muted/30 p-4">
@@ -826,6 +970,40 @@ export function Overview({
               {tab}
             </button>
           ))}
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={refreshDossierAnalysis}
+            disabled={refreshingDossier}
+            className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary disabled:opacity-60"
+          >
+            {refreshingDossier ? "Refreshing..." : "Refresh Analysis"}
+          </button>
+          <button
+            type="button"
+            onClick={buildAccountBrief}
+            className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+          >
+            Generate Brief
+          </button>
+          <button
+            type="button"
+            onClick={copyNotebookPrompt}
+            className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
+          >
+            Copy NotebookLM Prompt
+          </button>
+          <button
+            type="button"
+            onClick={exportPdf}
+            className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
+          >
+            Export PDF
+          </button>
+          <p className="ml-auto text-[10px] text-text-faint">
+            Last updated: {formatUpdatedAt(dossierLastUpdated)}
+          </p>
         </div>
 
         {activeDossierTab === "Business Overview" && (
