@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Square, Trash2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useApiKey } from "@/app/context/api-key-context";
 import { cn } from "@/lib/utils";
 import { readApiErrorMessage } from "@/lib/client/api";
@@ -156,6 +158,44 @@ export function ChatPanel({
     }
   };
 
+  const assistantMarkdownComponents = {
+    h1: (props: React.ComponentPropsWithoutRef<"h1">) => (
+      <h1 className="mt-2 text-[14px] font-semibold text-text-primary" {...props} />
+    ),
+    h2: (props: React.ComponentPropsWithoutRef<"h2">) => (
+      <h2 className="mt-2 text-[13px] font-semibold text-text-primary" {...props} />
+    ),
+    h3: (props: React.ComponentPropsWithoutRef<"h3">) => (
+      <h3 className="mt-2 text-[13px] font-medium text-text-primary" {...props} />
+    ),
+    p: (props: React.ComponentPropsWithoutRef<"p">) => (
+      <p className="mt-1.5 first:mt-0 text-[13px] leading-relaxed text-text-secondary" {...props} />
+    ),
+    strong: (props: React.ComponentPropsWithoutRef<"strong">) => (
+      <strong className="font-semibold text-text-primary" {...props} />
+    ),
+    ul: (props: React.ComponentPropsWithoutRef<"ul">) => (
+      <ul className="mt-1.5 list-disc space-y-1 pl-4" {...props} />
+    ),
+    ol: (props: React.ComponentPropsWithoutRef<"ol">) => (
+      <ol className="mt-1.5 list-decimal space-y-1 pl-4" {...props} />
+    ),
+    li: (props: React.ComponentPropsWithoutRef<"li">) => (
+      <li className="text-[13px] leading-relaxed text-text-secondary" {...props} />
+    ),
+    a: (props: React.ComponentPropsWithoutRef<"a">) => (
+      <a
+        {...props}
+        target="_blank"
+        rel="noreferrer"
+        className="text-accent/90 underline decoration-accent/40 underline-offset-2 hover:text-accent"
+      />
+    ),
+    code: (props: React.ComponentPropsWithoutRef<"code">) => (
+      <code className="rounded bg-surface-muted/50 px-1 py-0.5 text-[12px] text-text-primary" {...props} />
+    ),
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -276,9 +316,18 @@ export function ChatPanel({
                         : "bg-surface-elevated/60 text-text-secondary"
                     )}
                   >
-                    <div className="whitespace-pre-wrap prose-sm">
-                      {msg.content}
-                    </div>
+                    {msg.role === "assistant" ? (
+                      <div className="min-w-0">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={assistantMarkdownComponents}
+                        >
+                          {msg.content}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <div className="whitespace-pre-wrap">{msg.content}</div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -292,9 +341,14 @@ export function ChatPanel({
                     />
                   </div>
                   <div className="max-w-[85%] rounded-lg bg-surface-elevated/60 px-3 py-2.5 text-[13px] leading-relaxed text-text-secondary">
-                    <div className="whitespace-pre-wrap prose-sm">
-                      {streamingContent}
-                      <span className="inline-block w-1.5 h-4 bg-accent/50 animate-pulse ml-0.5 align-text-bottom" />
+                    <div className="min-w-0">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={assistantMarkdownComponents}
+                      >
+                        {streamingContent}
+                      </ReactMarkdown>
+                      <span className="inline-block h-4 w-1.5 animate-pulse align-text-bottom bg-accent/50 ml-0.5" />
                     </div>
                   </div>
                 </div>
