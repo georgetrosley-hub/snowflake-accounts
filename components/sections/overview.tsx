@@ -70,6 +70,7 @@ export function Overview({
       personas: "CDO, Head of Data Engineering, Analytics leader, Governance lead.",
       hypothesis: "Likely hypothesis: the buyer will back a narrow land if governance and time-to-value are both explicit. Why I believe it: public modernization pressure and cross-functional urgency. How I would validate it: confirm decision ownership, approval gates, and 90-day success criteria in the first executive working session.",
       nextMove: "Determine who owns data and AI strategy, how purchase decisions are made, and anchor the first conversation on one business workflow with executive visibility.",
+      validateFirst: "Current Snowflake footprint, Databricks depth in engineering workflows, decision owner alignment, and whether urgency is tied to a measurable business KPI this quarter.",
     },
     {
       id: "t1-02",
@@ -82,6 +83,7 @@ export function Overview({
       personas: "CIO, Data Engineering Director, Finance Analytics leader, Security architect.",
       hypothesis: "Likely hypothesis: consolidation is now a near-term executive priority tied to operating friction. Why I believe it: leadership messaging emphasizes simplification and delivery speed. How I would validate it: map where data is fragmented today and where Snowflake could unify access, governance, and core workloads.",
       nextMove: "Test whether Databricks is entrenched in engineering workflows, then position a first land around the highest-friction business use case rather than platform features.",
+      validateFirst: "Where consolidation pain is highest, who controls budget and approval flow, current platform incumbency, and which partner voices influence architecture direction.",
     },
     {
       id: "t1-03",
@@ -94,6 +96,7 @@ export function Overview({
       personas: "Chief Digital Officer, Head of Data Science, Platform owner, Risk/Compliance.",
       hypothesis: "Likely hypothesis: risk-controlled speed will win over broad platform narratives. Why I believe it: AI urgency is high but governance tolerance is low. How I would validate it: identify active ML initiatives, confirm platform ownership, and verify where governance is blocking productionization.",
       nextMove: "Determine whether ML and data platform decisions sit with one owner or split owners, and build a first-call POV that ties governed AI delivery to one measurable business outcome.",
+      validateFirst: "Active ML programs, Databricks exposure by team, governance blockers slowing production, and whether data + AI ownership is centralized or fragmented.",
     },
     {
       id: "t1-04",
@@ -106,6 +109,7 @@ export function Overview({
       personas: "BU President, Head of Data, Enterprise Architect, Security leader.",
       hypothesis: "Likely hypothesis: a BU-led land can move faster than an enterprise-wide platform debate. Why I believe it: public operating pressure is strongest at the BU level. How I would validate it: confirm where urgency is highest and which executive will sponsor a scoped pilot.",
       nextMove: "Map the BU decision process end-to-end, identify budget ownership, and position Snowflake around faster, governed decisions in the workflow leadership already tracks weekly.",
+      validateFirst: "Which BU has real urgency now, sponsor readiness, incumbent footprint in priority workflows, and how procurement/risk gates affect speed to first land.",
     },
     {
       id: "t1-05",
@@ -118,6 +122,7 @@ export function Overview({
       personas: "CTO, VP Engineering, Data Governance leader, LoB analytics sponsor.",
       hypothesis: "Likely hypothesis: support expands when governance is proven without slowing delivery. Why I believe it: transformation programs are active but platform standards are unsettled. How I would validate it: confirm current Snowflake footprint, competitor presence, and which partner influences architecture direction.",
       nextMove: "Identify the first realistic land that can expand over 12-24 months, then multi-thread data, AI, and app stakeholders to lock sponsor alignment before requirements harden.",
+      validateFirst: "Current Snowflake and competitor posture, active transformation workloads with executive visibility, buying authority, and partner-led influence on platform decisions.",
     },
   ] as const, []);
   type PriorityAccount = (typeof territoryPriorityAccounts)[number];
@@ -654,6 +659,63 @@ export function Overview({
         </ul>
       </section>
 
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
+        <SectionHeader
+          title="What I'd Validate First"
+          subtitle="Critical unknowns to validate quickly post-onboarding."
+        />
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[12px] text-text-secondary">
+          <li>Current Snowflake footprint, if any, and where it is operationally relevant.</li>
+          <li>Databricks or competitor presence, and where it is strongest by team/workload.</li>
+          <li>Who owns data, AI, and application platform decisions.</li>
+          <li>Active workloads tied to current business priorities.</li>
+          <li>Budget ownership, buying process, and approval sequence.</li>
+          <li>Partner influence across architecture and procurement decisions.</li>
+          <li>Where urgency is real versus assumed.</li>
+        </ul>
+      </section>
+
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
+        <SectionHeader
+          title="My First 5 Territory Questions"
+          subtitle="Questions I would use to calibrate quickly and prioritize correctly."
+        />
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[12px] text-text-secondary">
+          <li>Which 4-5 accounts matter most in the next 6 months, not just on paper?</li>
+          <li>Where is Snowflake already in motion versus where are we starting cold?</li>
+          <li>In which accounts is Databricks a real competitive threat today?</li>
+          <li>Where is there already executive air cover or partner leverage?</li>
+          <li>Which account has the cleanest path to a fast, meaningful land?</li>
+        </ul>
+      </section>
+
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
+        <SectionHeader
+          title="How I'd Run Week 1"
+          subtitle="Immediate operating rhythm for stepping into the patch."
+        />
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[12px] text-text-secondary">
+          <li>Confirm Tier 1 account priorities with sales leadership and patch context.</li>
+          <li>Build first-pass POVs for each Tier 1 account from public signals and market shifts.</li>
+          <li>Map likely stakeholder ownership across data, AI, security, and application teams.</li>
+          <li>Identify likely competitor footprint and where Databricks is entrenched.</li>
+          <li>Prepare first outreach angles anchored in business priorities, not platform features.</li>
+        </ul>
+      </section>
+
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
+        <SectionHeader
+          title="What you'd get from me in this patch"
+          subtitle="Manager-facing operating commitments."
+        />
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[12px] text-text-secondary">
+          <li>Fast prioritization of the right accounts for near-term and expansion impact.</li>
+          <li>Structured POVs built from public signals and disciplined validation, not guesswork.</li>
+          <li>Clear next actions with explicit validation plans by account.</li>
+          <li>A repeatable operating rhythm for account reviews and expansion planning.</li>
+        </ul>
+      </section>
+
       {/* SECTION 2: TERRITORY PRIORITIES */}
       <section id="territory-priorities" className="space-y-4">
         <SectionHeader
@@ -688,6 +750,7 @@ export function Overview({
                 <p><span className="font-semibold text-text-primary">Competitive Pressure:</span> <span className="text-text-secondary">{priority.pressure}</span></p>
                 <p><span className="font-semibold text-text-primary">Key Personas:</span> <span className="text-text-secondary">{priority.personas}</span></p>
                 <p><span className="font-semibold text-text-primary">Current Hypothesis:</span> <span className="text-text-secondary">{priority.hypothesis}</span></p>
+                <p><span className="font-semibold text-text-primary">What I'd Validate First:</span> <span className="text-text-secondary">{priority.validateFirst}</span></p>
                 <p><span className="font-semibold text-text-primary">Next Best Move:</span> <span className="text-text-secondary">{priority.nextMove}</span></p>
               </div>
 
@@ -1034,8 +1097,8 @@ export function Overview({
         <div className="flex items-center gap-2">
           <BookOpenCheck className="h-4 w-4 text-accent/80" />
           <SectionHeader
-            title="Territory Briefing Engine"
-            subtitle="Manual, stable-by-default briefing workflow for meetings, pipeline reviews, and onboarding."
+            title="Weekly Territory Briefing Habit"
+            subtitle="Field execution cadence for account reviews, pre-call prep, and weekly territory alignment."
           />
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
@@ -1044,21 +1107,21 @@ export function Overview({
             onClick={buildAccountBrief}
             className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
           >
-            Generate Account Brief
+            Account Review Prep
           </button>
           <button
             type="button"
             onClick={buildTerritoryBrief}
             className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
           >
-            Generate Full Territory Brief
+            Weekly Territory Brief
           </button>
           <button
             type="button"
             onClick={copyNotebookPrompt}
             className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
           >
-            Copy NotebookLM Prompt
+            Copy Pre-Call Brief Prompt
           </button>
           <button
             type="button"
