@@ -17,13 +17,26 @@ Content is aligned with Snowflake’s position as the **governed operating syste
 
 ## Accounts
 
-Accounts are **N/A** for now. When you’re ready, add account data in `data/accounts.ts` and set the default in `data/accounts.ts` (`defaultAccountId`).
+- **Territory Intelligence map** (`/`) — customer book in `data/territory-default-accounts.ts`; edits persist in the browser and optionally **sync to Supabase** (see below).
+- **Operating system / war room** — configure enterprise accounts in `data/accounts.ts` (`defaultAccountId`).
 
 ## Environment variables
 
-Optional — for chat and AI-generated content:
+**Chat / AI**
 
-- **ANTHROPIC_API_KEY** — Your API key (or add via the API Key button in the app)
+- **ANTHROPIC_API_KEY** — Claude (or add via the API Key control in the app).
+
+**Territory map cloud sync (optional)**
+
+1. In [Supabase](https://supabase.com), create a project and run `supabase/migrations/001_territory_book.sql` in the SQL editor.
+2. Set:
+
+- **NEXT_PUBLIC_SUPABASE_URL** — Project URL.
+- **SUPABASE_SERVICE_ROLE_KEY** — Service role key (server-only; never expose in client code). Used by `app/api/territory` to read/write the book.
+
+If these are unset, the map still works with **local storage only**. When set, the app loads the book from Supabase when a saved row exists, and saves after each edit.
+
+`POST /api/territory` is not user-authenticated; use a private deploy or add your own auth if the app is on the public internet.
 
 ## Run it
 
@@ -36,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Tech stack
 
-Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Recharts. Optional Claude API for chat and generation. Client-side state; prototype-grade.
+Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Recharts. Optional Claude API for chat and generation. Optional Supabase sync for the territory map; otherwise local storage.
 
 ## Deploy & push to GitHub
 

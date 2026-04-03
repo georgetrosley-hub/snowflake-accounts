@@ -14,9 +14,20 @@ import {
   X,
 } from "lucide-react";
 import { territoryStorageGet, territoryStorageSet } from "@/lib/territory-storage";
+import {
+  countMotion,
+  formatPipelineK,
+  formatTerritoryPotentialRange,
+  sumPipelineBounds,
+  usageLabel,
+} from "@/lib/territory-metrics";
 import { cn } from "@/lib/utils";
 import { SnowflakeLogoIcon } from "@/components/ui/snowflake-logo";
 import { SnowflakeIntelligencePanel } from "@/components/layout/snowflake-intelligence-panel";
+import type { TerritoryAccount, TerritoryMotion, SnowflakeUsageTier } from "@/types/territory-map";
+import { DEFAULT_TERRITORY_ACCOUNTS } from "@/data/territory-default-accounts";
+
+export type { TerritoryAccount } from "@/types/territory-map";
 
 /**
  * Territory store v4: full customer book + expansion narratives.
@@ -27,212 +38,55 @@ const SK = "sf-territory-intel-v4";
 const SK_LEGACY_V1 = "sf-territory-intel-v1";
 const SK_LEGACY_V2 = "sf-territory-intel-v2";
 
-export type TerritoryAccount = {
-  id: string;
-  name: string;
-  tier: number;
-  acv: string;
-  industry: string;
-  status: string;
-  compelling: string;
-  solutions: { product: string; problem: string }[];
-  contacts: { name: string; title: string; role: string }[];
-};
+function inferMotion(acv: string): TerritoryMotion {
+  if (/^\s*Expansion\s*$/i.test(acv.trim())) return "expansion";
+  if (/\$|[0-9]\s*[KkMm]/.test(acv)) return "net_new_workload";
+  return "expansion";
+}
 
-const ACCTS: TerritoryAccount[] = [
-  {
-    id: "ciena",
-    name: "Ciena",
-    tier: 1,
-    acv: "Expansion",
-    industry: "Networking / Optical",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: backlog risk + margin visibility on AI deals. Hypothesis: execution is against ~$7B backlog—not lack of demand. Proof point: surface backlog risk on 2–3 AI deals within 24 hours. Expansion path: forecasting → supply chain → Blue Planet.",
-    solutions: [
-      { product: "Cortex AI", problem: "Network performance prediction and anomaly detection across global optical infrastructure" },
-      { product: "Snowpark", problem: "Custom ML pipelines for optical network optimization without moving data outside Snowflake" },
-      { product: "Cortex Analyst", problem: "Self-service network analytics for field engineers and NOC teams without SQL" },
-      { product: "Dynamic Tables", problem: "Real-time telemetry pipelines from network devices to analytics layer" },
-    ],
-    contacts: [
-      { name: "", title: "VP Data & Analytics", role: "Champion" },
-      { name: "", title: "CTO", role: "Economic Buyer" },
-    ],
-  },
-  {
-    id: "sagent",
-    name: "Sagent",
-    tier: 1,
-    acv: "Expansion",
-    industry: "Mortgage Servicing Tech",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: Dara deployment performance across customers. Hypothesis: prove Dara works across the customer base. Proof point: identify 1–2 underperforming deployments. Expansion path: customer health → compliance → AI telemetry.",
-    solutions: [
-      { product: "Cortex Analyst", problem: "Self-service mortgage servicing analytics for non-technical compliance teams" },
-      { product: "Secure Data Sharing", problem: "Share loan performance data with servicer partners securely without data movement" },
-      { product: "Horizon Governance", problem: "Automated data lineage and access controls for CFPB and state regulatory audits" },
-    ],
-    contacts: [
-      { name: "", title: "Head of Engineering", role: "Champion" },
-      { name: "", title: "CEO", role: "Economic Buyer" },
-    ],
-  },
-  {
-    id: "usfintech",
-    name: "U.S. Financial Technology",
-    tier: 1,
-    acv: "Expansion",
-    industry: "Fintech / Government",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: securitization exception monitoring. Hypothesis: cannot act on ~$6.5T of data fast enough. Proof point: real-time anomaly vs delayed reporting. Expansion path: workflows → stakeholder products → monetization.",
-    solutions: [
-      { product: "Marketplace", problem: "Distribute MBS data products to external financial institutions at scale" },
-      { product: "Horizon Governance", problem: "Federal regulatory compliance with automated lineage for government-adjacent financial data" },
-      { product: "Secure Data Sharing", problem: "Enable external partners to consume MBS analytics without raw data exposure" },
-      { product: "Cortex AI", problem: "Automated risk scoring and anomaly detection across mortgage-backed securities portfolios" },
-    ],
-    contacts: [
-      { name: "", title: "Director of Data", role: "Champion" },
-      { name: "", title: "CTO", role: "Technical Buyer" },
-    ],
-  },
-  {
-    id: "sprinklr",
-    name: "Sprinklr",
-    tier: 1,
-    acv: "Expansion",
-    industry: "CXM / SaaS",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: cross-channel AI outcome correlation. Hypothesis: prove AI improves customer outcomes. Proof point: AI intervention → escalation reduction in 48 hours. Expansion path: AI measurement → benchmarking → CX platform.",
-    solutions: [
-      { product: "Cortex Analyst", problem: "Self-service NRR and churn analytics for 700 Bear Hug accounts without waiting on data team" },
-      { product: "Snowflake Intelligence", problem: "Natural language queries on customer health scores across 30+ social channels" },
-      { product: "Iceberg Tables", problem: "Open data format to unify CX data lake without vendor lock-in during transformation" },
-      { product: "Cortex AI", problem: "Real-time sentiment analysis across billions of social interactions for enterprise customers" },
-    ],
-    contacts: [
-      { name: "Scott Millard", title: "CRO (new Sept 2025)", role: "Economic Buyer" },
-      { name: "Anthony Coletta", title: "CFO (new Oct 2025)", role: "Influencer" },
-      { name: "Karthik Suri", title: "Chief Product & Strategy", role: "Technical Champion" },
-    ],
-  },
-  {
-    id: "bancorp",
-    name: "The Bancorp",
-    tier: 1,
-    acv: "Expansion",
-    industry: "Banking / Fintech (BaaS)",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: partner profitability + risk intelligence. Hypothesis: scaling partners without a unified risk/profit view. Proof point: growth vs risk divergence across 5–10 cohorts. Expansion path: risk detection → embedded finance → AI ops.",
-    solutions: [
-      { product: "Secure Data Sharing", problem: "Partner-level analytics across PayPal, Chime and others without exposing raw loan data" },
-      { product: "Cortex ML", problem: "Credit risk signal detection and anomaly detection on consumer fintech loan portfolios ($128M provisions)" },
-      { product: "Snowflake Intelligence", problem: "Real-time partner-level P&L visibility: GDV, fee income, provision rates, delinquency by partner" },
-      { product: "Horizon Governance", problem: "OCC/FDIC regulatory compliance with automated data lineage and access controls" },
-    ],
-    contacts: [
-      { name: "", title: "CFO", role: "Economic Buyer" },
-      { name: "", title: "Head of Fintech Solutions", role: "Champion" },
-      { name: "", title: "Chief Risk Officer", role: "Influencer" },
-      { name: "", title: "Director Data Engineering", role: "Technical Champion" },
-    ],
-  },
-  {
-    id: "billtrust",
-    name: "Billtrust",
-    tier: 1,
-    acv: "Expansion",
-    industry: "B2B Fintech (AR)",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: cash acceleration intelligence. Hypothesis: fragmented AR signals need one intelligence layer. Proof point: collections/payment correlation across 5 cohorts. Expansion path: AI collections → benchmarking → order-to-cash.",
-    solutions: [
-      { product: "Snowpark Container Services", problem: "Run multi-agent AI models for payment matching and collections natively on unified data" },
-      { product: "Cortex AI Fine-Tuning", problem: "Fine-tune payment prediction models on proprietary B2B transaction data without export" },
-      { product: "Dynamic Tables", problem: "Real-time pipeline for AI training data across invoicing, payments and collections simultaneously" },
-      { product: "Cortex ML", problem: "Collections prioritization and credit decisioning models trained on unified cross-product data" },
-    ],
-    contacts: [
-      { name: "", title: "CTO", role: "Technical Champion" },
-      { name: "", title: "VP Data Engineering", role: "Champion" },
-      { name: "", title: "CEO", role: "Economic Buyer" },
-    ],
-  },
-  {
-    id: "lyric",
-    name: "Magnum Transaction Sub / Lyric",
-    tier: 2,
-    acv: "$150K–400K+",
-    industry: "Healthcare Payment Integrity",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: pre-pay + post-pay claims intelligence. Hypothesis: delay between detecting and acting on payment issues. Proof point: pre/post-pay correlation for one claim category. Expansion path: payer analytics → AI claims → COB optimization.",
-    solutions: [
-      { product: "Cortex ML", problem: "Payment accuracy models to detect overpayment and fraud patterns across billions in claims" },
-      { product: "Secure Data Sharing", problem: "Share payment accuracy insights with payer partners without raw PHI exposure" },
-      { product: "Horizon Governance", problem: "HIPAA-compliant data governance for healthcare payment data" },
-      { product: "Document AI", problem: "Automated extraction from EOBs, claims forms and remittance documents" },
-    ],
-    contacts: [
-      { name: "", title: "VP Engineering", role: "Champion" },
-      { name: "", title: "CEO", role: "Economic Buyer" },
-    ],
-  },
-  {
-    id: "healthunion",
-    name: "Health Union, LLC",
-    tier: 2,
-    acv: "$100K–250K",
-    industry: "Digital Health / AdTech",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: unified patient + HCP audience activation. Hypothesis: operationalizing Adfire acquisition data assets. Proof point: audience segment for one therapeutic area in 48 hours. Expansion path: clean rooms → clinical trials → AI patient journey.",
-    solutions: [
-      { product: "Cortex AI", problem: "Audience segmentation and content personalization across health condition communities at scale" },
-      { product: "Marketplace", problem: "Monetize health engagement data with pharma partners via privacy-safe clean rooms" },
-      { product: "Secure Data Sharing", problem: "Enable pharma partners to query patient engagement patterns without accessing raw PII/PHI" },
-    ],
-    contacts: [
-      { name: "", title: "CTO", role: "Technical Buyer" },
-      { name: "", title: "VP Data", role: "Champion" },
-    ],
-  },
-  {
-    id: "everstage",
-    name: "Everstage",
-    tier: 3,
-    acv: "$75K–150K",
-    industry: "SaaS (Sales Performance)",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: cross-product revenue intelligence. Hypothesis: three products generating data in parallel, not together. Proof point: cross-product correlation across 5 cohorts. Expansion path: benchmarking → Crystal AI → RevOps platform.",
-    solutions: [
-      { product: "Snowpark", problem: "Commission calculation engine at scale across complex multi-tier comp plans" },
-      { product: "Cortex Analyst", problem: "Self-service commission analytics for sales leaders without engineering dependency" },
-    ],
-    contacts: [{ name: "", title: "CTO", role: "Technical Buyer" }],
-  },
-  {
-    id: "chalice",
-    name: "Chalice AI",
-    tier: 3,
-    acv: "$50K–100K",
-    industry: "AdTech / Custom AI",
-    status: "Existing",
-    compelling:
-      "From territory map (Summary). First workload: advertiser model deployment acceleration. Hypothesis: custom models are becoming an operational bottleneck. Proof point: reduced onboarding time via native deployment. Expansion path: LiveRamp clean rooms → Dentsu flows → scale.",
-    solutions: [
-      { product: "Snowpark Container Services", problem: "Run proprietary ad bidding models natively on Snowflake data without external compute" },
-      { product: "Cortex AI", problem: "Augment proprietary bidding algorithms with built-in LLM functions for ad creative analysis" },
-    ],
-    contacts: [{ name: "", title: "CEO/Founder", role: "Economic Buyer" }],
-  },
-];
+function normalizeAccountRow(a: Record<string, unknown>): TerritoryAccount {
+  const id = String(a.id);
+  const seed = DEFAULT_TERRITORY_ACCOUNTS.find((x) => x.id === id);
+  const acv = String(a.acv ?? seed?.acv ?? "");
+  const motionRaw = a.motion;
+  const motion: TerritoryMotion =
+    motionRaw === "net_new_workload" || motionRaw === "expansion"
+      ? motionRaw
+      : seed?.motion ?? inferMotion(acv);
+  const su = a.snowflakeUsage;
+  const snowflakeUsage: SnowflakeUsageTier =
+    su === "light" || su === "heavy" || su === "moderate" ? su : seed?.snowflakeUsage ?? "moderate";
+  const pl =
+    typeof a.pipelineLowK === "number" && !Number.isNaN(a.pipelineLowK)
+      ? a.pipelineLowK
+      : seed?.pipelineLowK ?? 0;
+  const ph =
+    typeof a.pipelineHighK === "number" && !Number.isNaN(a.pipelineHighK)
+      ? a.pipelineHighK
+      : seed?.pipelineHighK ?? pl;
+
+  return {
+    id,
+    name: String(a.name ?? seed?.name ?? ""),
+    tier: Number(a.tier) || seed?.tier || 3,
+    acv,
+    industry: String(a.industry ?? seed?.industry ?? ""),
+    status: String(a.status ?? seed?.status ?? "Existing"),
+    compelling: String(a.compelling ?? seed?.compelling ?? ""),
+    solutions: Array.isArray(a.solutions) ? (a.solutions as TerritoryAccount["solutions"]) : seed?.solutions ?? [],
+    contacts: Array.isArray(a.contacts) ? (a.contacts as TerritoryAccount["contacts"]) : seed?.contacts ?? [],
+    motion,
+    snowflakeUsage,
+    usageNote: String(a.usageNote ?? seed?.usageNote ?? ""),
+    pipelineLowK: pl,
+    pipelineHighK: Math.max(ph, pl),
+  };
+}
+
+function parseAccounts(raw: string): TerritoryAccount[] {
+  const parsed = JSON.parse(raw) as unknown[];
+  return parsed.map((row) => normalizeAccountRow(row as Record<string, unknown>));
+}
 
 const SC: Record<string, string> = {
   "Cortex AI": "#1AA6D6",
@@ -272,7 +126,7 @@ function parseAccounts(raw: string): TerritoryAccount[] {
 }
 
 export default function TerritoryIntelligenceMap() {
-  const [accounts, setAccounts] = useState<TerritoryAccount[]>(ACCTS);
+  const [accounts, setAccounts] = useState<TerritoryAccount[]>(DEFAULT_TERRITORY_ACCOUNTS);
   const [sel, setSel] = useState<TerritoryAccount | null>(null);
   const [edit, setEdit] = useState(false);
   const [view, setView] = useState<"accounts" | "solutions">("accounts");
@@ -282,6 +136,7 @@ export default function TerritoryIntelligenceMap() {
   const [saving, setSaving] = useState(false);
   const [navCollapsed, setNavCollapsed] = useState(false);
   const [snowflakeIntelOpen, setSnowflakeIntelOpen] = useState(false);
+  const [cloudSync, setCloudSync] = useState<"off" | "ok" | "error">("off");
 
   useEffect(() => {
     (async () => {
@@ -309,6 +164,31 @@ export default function TerritoryIntelligenceMap() {
       } catch {
         /* defaults */
       }
+
+      try {
+        const res = await fetch("/api/territory", { cache: "no-store" });
+        const j = (await res.json()) as {
+          configured?: boolean;
+          accounts?: unknown;
+        };
+        if (j.configured && Array.isArray(j.accounts) && j.accounts.length > 0) {
+          const parsed = (j.accounts as Record<string, unknown>[]).map((row) =>
+            normalizeAccountRow(row)
+          );
+          setAccounts(parsed);
+          setCloudSync("ok");
+          try {
+            await territoryStorageSet(SK, JSON.stringify(parsed));
+          } catch {
+            /* local cache optional */
+          }
+        } else if (j.configured) {
+          setCloudSync("ok");
+        }
+      } catch {
+        setCloudSync((prev) => (prev === "ok" ? "ok" : "off"));
+      }
+
       setLoaded(true);
     })();
   }, []);
@@ -320,6 +200,23 @@ export default function TerritoryIntelligenceMap() {
       await territoryStorageSet(SK, JSON.stringify(u));
     } catch {
       /* offline / blocked storage */
+    }
+    try {
+      const res = await fetch("/api/territory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accounts: u }),
+      });
+      const j = (await res.json()) as { ok?: boolean };
+      if (res.ok && j.ok) {
+        setCloudSync("ok");
+      } else if (res.status === 503) {
+        setCloudSync("off");
+      } else {
+        setCloudSync("error");
+      }
+    } catch {
+      setCloudSync("error");
     }
     setTimeout(() => setSaving(false), 600);
   };
@@ -393,6 +290,11 @@ export default function TerritoryIntelligenceMap() {
       compelling: "",
       solutions: [],
       contacts: [],
+      motion: "net_new_workload",
+      snowflakeUsage: "moderate",
+      usageNote: "",
+      pipelineLowK: 50,
+      pipelineHighK: 200,
     };
     save([...accounts, n]);
     setSel(n);
@@ -407,7 +309,7 @@ export default function TerritoryIntelligenceMap() {
 
   const reset = () => {
     if (confirm("Reset all data to defaults?")) {
-      save([...ACCTS]);
+      save(JSON.parse(JSON.stringify(DEFAULT_TERRITORY_ACCOUNTS)) as TerritoryAccount[]);
       setSel(null);
     }
   };
@@ -447,6 +349,17 @@ export default function TerritoryIntelligenceMap() {
     );
 
   const bookLabel = (status: string) => (status === "Existing" ? "Customer" : status);
+
+  const motionCounts = countMotion(accounts);
+  const pipeTotals = sumPipelineBounds(accounts);
+  const territoryPotentialSummary = `${accounts.length} accounts · ${motionCounts.expansion} expansion depth · ${motionCounts.netNew} net-new workload bets · ${formatTerritoryPotentialRange(pipeTotals.low, pipeTotals.high)}`;
+
+  const snowflakeUsagePill = (u: SnowflakeUsageTier) =>
+    u === "light"
+      ? "border-slate-200 bg-slate-100 text-slate-700"
+      : u === "heavy"
+        ? "border-[#1e4a72] bg-[#0f2942] text-[#c5dcf5]"
+        : "border-sky-200 bg-sky-50 text-sky-900";
 
   return (
     <div className="flex h-[100dvh] overflow-hidden bg-slate-100 font-sans text-slate-800 antialiased">
@@ -618,12 +531,33 @@ export default function TerritoryIntelligenceMap() {
               {saving && (
                 <span className="ml-2 text-[11px] font-medium text-[#29B5E8]">Saved</span>
               )}
+              {cloudSync === "ok" && (
+                <span className="ml-2 text-[11px] text-slate-400">Cloud backup on</span>
+              )}
+              {cloudSync === "error" && (
+                <span className="ml-2 text-[11px] text-rose-600">Cloud sync failed — local only</span>
+              )}
             </div>
           </div>
         </header>
 
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <div className="min-w-0 flex-1 overflow-y-auto px-5 py-6 sm:px-6 lg:px-8">
+            <div
+              className="mb-5 rounded-xl border border-[#1e3a5f]/30 bg-[#0f1a2e] px-4 py-3.5 shadow-sm sm:px-5"
+              role="status"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#7aa3d1]">
+                Territory potential
+              </p>
+              <p className="mt-1.5 text-[13px] font-medium leading-snug text-[#e8f0fc] sm:text-sm">
+                {territoryPotentialSummary}
+              </p>
+              <p className="mt-2 text-[10px] leading-relaxed text-[#8faed6]">
+                Pipeline sums modeled ACV bands (field est.); validate in CRM and Snowflake consumption reports.
+              </p>
+            </div>
+
             <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
               {(
                 [
@@ -692,9 +626,9 @@ export default function TerritoryIntelligenceMap() {
 
                     <div className="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm">
                       <div className="overflow-x-auto">
-                        <div className="min-w-[720px]">
-                      <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,2.5fr)] gap-2 border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">
-                        {["Account", "Industry", "Est. ACV", "Book", "Solutions"].map((h) => (
+                        <div className="min-w-[980px]">
+                      <div className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,2.35fr)] gap-2 border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">
+                        {["Account", "Industry", "Est. pipeline", "Snowflake", "Book", "Solutions"].map((h) => (
                           <span key={h}>{h}</span>
                         ))}
                       </div>
@@ -715,7 +649,7 @@ export default function TerritoryIntelligenceMap() {
                             }
                           }}
                           className={cn(
-                            "grid cursor-pointer grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,2.5fr)] gap-2 border-b border-slate-100 px-5 py-3.5 text-left transition-colors last:border-b-0",
+                            "grid cursor-pointer grid-cols-[minmax(0,1.85fr)_minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,2.35fr)] gap-2 border-b border-slate-100 px-5 py-3.5 text-left transition-colors last:border-b-0",
                             sel?.id === a.id ? "bg-sky-50/90" : "hover:bg-slate-50/80"
                           )}
                         >
@@ -728,8 +662,24 @@ export default function TerritoryIntelligenceMap() {
                             )}
                           </div>
                           <div className="flex items-center text-[13px] text-slate-600">{a.industry}</div>
-                          <div className="flex items-center">
-                            <span className="text-xs font-medium text-slate-800">{a.acv}</span>
+                          <div className="flex flex-col justify-center gap-0.5">
+                            <span className="text-xs font-semibold tabular-nums text-slate-900">
+                              {formatPipelineK(a.pipelineLowK, a.pipelineHighK)}
+                            </span>
+                            <span className="text-[10px] text-slate-400">WB: {a.acv}</span>
+                          </div>
+                          <div className="flex flex-col justify-center gap-1">
+                            <span
+                              className={cn(
+                                "inline-flex w-fit rounded-full border px-2 py-0.5 text-[10px] font-semibold",
+                                snowflakeUsagePill(a.snowflakeUsage)
+                              )}
+                            >
+                              {usageLabel(a.snowflakeUsage)} · SF
+                            </span>
+                            {a.usageNote ? (
+                              <span className="line-clamp-2 text-[10px] leading-snug text-slate-500">{a.usageNote}</span>
+                            ) : null}
                           </div>
                           <div className="flex items-center">
                             <span
@@ -905,6 +855,89 @@ export default function TerritoryIntelligenceMap() {
                     >
                       {bookLabel(sel.status)}
                     </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="border-b border-slate-100 px-6 py-4">
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                  Pipeline and Snowflake footprint
+                </p>
+                {edit ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-wrap gap-2">
+                      <select
+                        value={sel.motion}
+                        onChange={(e) => ua(sel.id, "motion", e.target.value as TerritoryMotion)}
+                        className="rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-800"
+                      >
+                        <option value="expansion">Expansion depth</option>
+                        <option value="net_new_workload">Net-new workload bet</option>
+                      </select>
+                      <select
+                        value={sel.snowflakeUsage}
+                        onChange={(e) => ua(sel.id, "snowflakeUsage", e.target.value as SnowflakeUsageTier)}
+                        className="rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-800"
+                      >
+                        <option value="light">Snowflake: light</option>
+                        <option value="moderate">Snowflake: moderate</option>
+                        <option value="heavy">Snowflake: heavy</option>
+                      </select>
+                    </div>
+                    <div className="flex flex-wrap items-end gap-2">
+                      <label className="flex flex-col gap-0.5 text-[10px] text-slate-500">
+                        Pipeline low ($K)
+                        <input
+                          type="number"
+                          min={0}
+                          value={sel.pipelineLowK}
+                          onChange={(e) => ua(sel.id, "pipelineLowK", Number(e.target.value) || 0)}
+                          className="w-24 rounded-md border border-slate-200 px-2 py-1 text-xs tabular-nums outline-none"
+                        />
+                      </label>
+                      <label className="flex flex-col gap-0.5 text-[10px] text-slate-500">
+                        Pipeline high ($K)
+                        <input
+                          type="number"
+                          min={0}
+                          value={sel.pipelineHighK}
+                          onChange={(e) => ua(sel.id, "pipelineHighK", Number(e.target.value) || 0)}
+                          className="w-24 rounded-md border border-slate-200 px-2 py-1 text-xs tabular-nums outline-none"
+                        />
+                      </label>
+                    </div>
+                    <textarea
+                      value={sel.usageNote}
+                      onChange={(e) => ua(sel.id, "usageNote", e.target.value)}
+                      rows={2}
+                      placeholder="e.g. Reporting-first; AI and sharing attach"
+                      className="w-full resize-y rounded-lg border border-slate-200 p-2 text-xs text-slate-800 outline-none"
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="flex flex-wrap gap-1.5">
+                      <span className="rounded-full bg-[#0f1a2e] px-2.5 py-1 text-[11px] font-medium text-[#c5daf4]">
+                        {sel.motion === "expansion" ? "Expansion depth" : "Net-new workload bet"}
+                      </span>
+                      <span
+                        className={cn(
+                          "rounded-full border px-2.5 py-1 text-[11px] font-semibold",
+                          snowflakeUsagePill(sel.snowflakeUsage)
+                        )}
+                      >
+                        {usageLabel(sel.snowflakeUsage)} Snowflake footprint
+                      </span>
+                    </div>
+                    <p className="text-sm font-semibold tabular-nums text-slate-900">
+                      {formatPipelineK(sel.pipelineLowK, sel.pipelineHighK)}{" "}
+                      <span className="text-[11px] font-normal text-slate-400">modeled</span>
+                    </p>
+                    {sel.usageNote ? (
+                      <p className="text-[12px] leading-relaxed text-slate-600">{sel.usageNote}</p>
+                    ) : (
+                      <p className="text-[12px] text-slate-400">Add a usage note in Edit (consumption context).</p>
+                    )}
                   </div>
                 )}
               </div>
