@@ -14,8 +14,18 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Multi-workload; AI + network telemetry expansion lane.",
     pipelineLowK: 600,
     pipelineHighK: 1800,
+    day0: {
+      likelihood: "high",
+      likelihoodWhy:
+        "Heavy Snowflake footprint; champion + CTO mapped; expansion ties to a measurable AI backlog narrative.",
+      timeline: "60–90 days",
+      firstMeeting:
+        "VP Data & Analytics — align on a 24-hour proof: backlog risk on 2–3 AI deals before asking for net-new platform work.",
+    },
+    whyWithoutSnowflake:
+      "Network AI and telemetry at scale need one governed copy. External ML fabrics duplicate pipelines, weaken lineage, and break the audit path NOC and partners expect. Field and partner access without native sharing means ETL sprawl and slower incident response.",
     compelling:
-      "From territory map (Summary). First workload: backlog risk + margin visibility on AI deals. Hypothesis: execution is against ~$7B backlog—not lack of demand. Proof point: surface backlog risk on 2–3 AI deals within 24 hours. Expansion path: forecasting → supply chain → Blue Planet.",
+      "First workload: backlog and margin visibility on AI deals. Execution binds on ~$7B backlog—demand is not the bottleneck. Prove value: surface backlog risk on 2–3 AI deals in 24 hours. Expand: forecasting → supply chain → Blue Planet.",
     solutions: [
       { product: "Cortex AI", problem: "Network performance prediction and anomaly detection across global optical infrastructure" },
       { product: "Snowpark", problem: "Custom ML pipelines for optical network optimization without moving data outside Snowflake" },
@@ -39,8 +49,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Core warehouse; AI + governance attach.",
     pipelineLowK: 400,
     pipelineHighK: 1200,
+    day0: {
+      likelihood: "high",
+      likelihoodWhy: "Core warehouse in place; compliance and partner sharing are funded problems, not science projects.",
+      timeline: "45–75 days",
+      firstMeeting:
+        "Head of Engineering — Dara deployment scorecard across customers; surface 1–2 underperformers with data, not slides.",
+    },
+    whyWithoutSnowflake:
+      "Servicing analytics without Horizon + sharing forces duplicate datasets per partner and brittle CFPB evidence. Rebuilding lineage outside Snowflake extends every audit cycle and blocks self-service for business owners.",
     compelling:
-      "From territory map (Summary). First workload: Dara deployment performance across customers. Hypothesis: prove Dara works across the customer base. Proof point: identify 1–2 underperforming deployments. Expansion path: customer health → compliance → AI telemetry.",
+      "First workload: Dara performance across the customer base. Prove Dara in production: flag 1–2 underperforming deployments with evidence. Expand: customer health → compliance telemetry → AI on servicing events.",
     solutions: [
       { product: "Cortex Analyst", problem: "Self-service mortgage servicing analytics for non-technical compliance teams" },
       { product: "Secure Data Sharing", problem: "Share loan performance data with servicer partners securely without data movement" },
@@ -63,8 +82,34 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "High data gravity; securitization + regulatory paths.",
     pipelineLowK: 800,
     pipelineHighK: 2200,
+    day0: {
+      likelihood: "high",
+      likelihoodWhy:
+        "$800K–$2.2M modeled band; government-adjacent gravity; Director of Data + CTO aligned on securitization latency.",
+      timeline: "90 days",
+      firstMeeting:
+        "Director of Data (David Park) — exception monitoring on a bounded MBS slice; CTO (Susan Whitfield) same week for standards and partner flows.",
+    },
+    whyWithoutSnowflake:
+      "Securitization and regulatory workflows fail on fragmentation and latency: overnight batch cannot surface exceptions in time; partner visibility without Secure Data Sharing recreates sensitive copies. Internal builds do not deliver governed Marketplace distribution and federal-grade lineage in one execution layer.",
+    dealMechanics: {
+      economicBuyer:
+        "CEO / CFO office — owns platform TCO and portfolio exposure on mortgage and government-adjacent flows (confirm economic signatory in CRM).",
+      technicalBuyer:
+        "CTO (Susan Whitfield) — data movement, latency SLOs, partner integration standards.",
+      champion:
+        "Director of Data (David Park) — securitization exception visibility as first win; runs day-to-day adoption.",
+      landMotion:
+        "Exception monitoring on existing Snowflake: real-time anomaly vs batch reporting on a defined MBS cohort—no new silo. Win = sub-hour detection with lineage to source systems.",
+      expansionAfter:
+        "Horizon for audit-ready lineage → Secure Data Sharing to regulators and counterparties → Marketplace data products → Cortex AI risk at portfolio scale.",
+      blockers:
+        "Change control on fed-adjacent data; internal teams married to bespoke ETL; multi-vendor rationalization politics.",
+      competitiveRisk:
+        'Databricks for notebook ML; legacy warehouse "good enough" for static reporting; partner-specific databases that avoid cross-portfolio truth.',
+    },
     compelling:
-      "From territory map (Summary). First workload: securitization exception monitoring. Hypothesis: cannot act on ~$6.5T of data fast enough. Proof point: real-time anomaly vs delayed reporting. Expansion path: workflows → stakeholder products → monetization.",
+      "First workload: securitization exception monitoring. The business cannot act on ~$6.5T of exposure at batch speed. Prove: anomaly vs delayed reporting on one book. Expand: workflows → stakeholder products → monetized data.",
     solutions: [
       { product: "Marketplace", problem: "Distribute MBS data products to external financial institutions at scale" },
       { product: "Horizon Governance", problem: "Federal regulatory compliance with automated lineage for government-adjacent financial data" },
@@ -88,8 +133,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Large CX data estate; Cortex + Intelligence upsell.",
     pipelineLowK: 700,
     pipelineHighK: 2000,
+    day0: {
+      likelihood: "high",
+      likelihoodWhy: "Heavy usage; new executive bench; AI outcome story maps to revenue and NRR metrics.",
+      timeline: "60–90 days",
+      firstMeeting:
+        "Chief Product & Strategy — tie AI measurement to escalation reduction on one enterprise segment; loop CRO for revenue language.",
+    },
+    whyWithoutSnowflake:
+      "Thirty-plus CX channels fragment without one engine. Copying billions of events to external AI stacks is cost-prohibitive and erodes consent posture. Iceberg + Cortex on Snowflake keep models on governed data; the alternative is perpetual ETL rebuilds per channel.",
     compelling:
-      "From territory map (Summary). First workload: cross-channel AI outcome correlation. Hypothesis: prove AI improves customer outcomes. Proof point: AI intervention → escalation reduction in 48 hours. Expansion path: AI measurement → benchmarking → CX platform.",
+      "First workload: cross-channel AI outcome correlation. Prove AI moves customer outcomes: intervention → escalation drop in 48 hours. Expand: AI measurement → benchmarking → CX platform depth.",
     solutions: [
       { product: "Cortex Analyst", problem: "Self-service NRR and churn analytics for 700 Bear Hug accounts without waiting on data team" },
       { product: "Snowflake Intelligence", problem: "Natural language queries on customer health scores across 30+ social channels" },
@@ -114,8 +168,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Partner analytics; risk + embedded finance depth.",
     pipelineLowK: 550,
     pipelineHighK: 1600,
+    day0: {
+      likelihood: "medium",
+      likelihoodWhy: "Full stakeholder map; BaaS partner complexity adds coordination, not a missing product story.",
+      timeline: "60–90 days",
+      firstMeeting:
+        "Head of Fintech Solutions — partner profitability vs risk divergence with 5–10 cohorts already in the warehouse.",
+    },
+    whyWithoutSnowflake:
+      "BaaS economics without Secure Data Sharing and Horizon spawns a shadow warehouse per partner. OCC/FDIC lineage and partner-level P&L do not stay true at PayPal-scale embedded volume without one governed plane.",
     compelling:
-      "From territory map (Summary). First workload: partner profitability + risk intelligence. Hypothesis: scaling partners without a unified risk/profit view. Proof point: growth vs risk divergence across 5–10 cohorts. Expansion path: risk detection → embedded finance → AI ops.",
+      "First workload: partner profitability + risk intelligence. Scaling partners without a unified risk/profit view caps growth. Prove: growth vs risk divergence across cohorts. Expand: risk detection → embedded finance → AI ops.",
     solutions: [
       { product: "Secure Data Sharing", problem: "Partner-level analytics across PayPal, Chime and others without exposing raw loan data" },
       { product: "Cortex ML", problem: "Credit risk signal detection and anomaly detection on consumer fintech loan portfolios ($128M provisions)" },
@@ -141,8 +204,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Order-to-cash data mesh; AI collections attach.",
     pipelineLowK: 500,
     pipelineHighK: 1400,
+    day0: {
+      likelihood: "medium",
+      likelihoodWhy: "Order-to-cash mesh narrative is clear; CEO + CTO + VP Data triangle is favorable.",
+      timeline: "60–90 days",
+      firstMeeting:
+        "VP Data Engineering — collections vs payments correlation workshop; CTO for SPCS and model-governance credibility.",
+    },
+    whyWithoutSnowflake:
+      "Multi-agent collections and fine-tuned models on invoices require data to stay in place. Export pipelines for training violate segregation patterns and double storage; SPCS + Cortex keep inference, lineage, and access policy unified.",
     compelling:
-      "From territory map (Summary). First workload: cash acceleration intelligence. Hypothesis: fragmented AR signals need one intelligence layer. Proof point: collections/payment correlation across 5 cohorts. Expansion path: AI collections → benchmarking → order-to-cash.",
+      "First workload: cash acceleration intelligence. AR signals sit in parallel systems. Prove: collections vs payment correlation across cohorts. Expand: AI collections → benchmarking → full order-to-cash intelligence.",
     solutions: [
       { product: "Snowpark Container Services", problem: "Run multi-agent AI models for payment matching and collections natively on unified data" },
       { product: "Cortex AI Fine-Tuning", problem: "Fine-tune payment prediction models on proprietary B2B transaction data without export" },
@@ -167,8 +239,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Reporting-first today; ML + sharing expansion bet.",
     pipelineLowK: 150,
     pipelineHighK: 400,
+    day0: {
+      likelihood: "medium",
+      likelihoodWhy: "Net-new workload bet; lighter Snowflake today—win must be narrow, time-boxed, and clinical on ROI.",
+      timeline: "90–120 days",
+      firstMeeting:
+        "VP Engineering — single claim-category pre/post-pay correlation; CEO for HIPAA spend and ROI guardrails.",
+    },
+    whyWithoutSnowflake:
+      "Payment integrity without governed sharing rebuilds PHI pathways for every payer partner. Document AI + ML on claims need lineage from OCR to scorecard; stitching that outside Snowflake duplicates HIPAA controls and slows remediation.",
     compelling:
-      "From territory map (Summary). First workload: pre-pay + post-pay claims intelligence. Hypothesis: delay between detecting and acting on payment issues. Proof point: pre/post-pay correlation for one claim category. Expansion path: payer analytics → AI claims → COB optimization.",
+      "First workload: pre- and post-pay claims intelligence. Gap is time from detection to action. Prove: one category, pre/post correlation. Expand: payer analytics → AI claims → COB optimization.",
     solutions: [
       { product: "Cortex ML", problem: "Payment accuracy models to detect overpayment and fraud patterns across billions in claims" },
       { product: "Secure Data Sharing", problem: "Share payment accuracy insights with payer partners without raw PHI exposure" },
@@ -192,8 +273,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Clean rooms + pharma monetization runway.",
     pipelineLowK: 100,
     pipelineHighK: 250,
+    day0: {
+      likelihood: "medium",
+      likelihoodWhy: "Clean rooms and pharma monetization map directly to Snowflake primitives; attach is execution, not education.",
+      timeline: "90 days",
+      firstMeeting:
+        "VP Data — 48-hour therapeutic-area audience segment from existing engagement data; CTO for privacy architecture sign-off.",
+    },
+    whyWithoutSnowflake:
+      "Pharma monetization without Marketplace and clean rooms forces legal to bless endless one-off extracts. Snowflake keeps analysis partner-side without raw PII movement; DIY clean rooms do not scale across multiple pharma workflows.",
     compelling:
-      "From territory map (Summary). First workload: unified patient + HCP audience activation. Hypothesis: operationalizing Adfire acquisition data assets. Proof point: audience segment for one therapeutic area in 48 hours. Expansion path: clean rooms → clinical trials → AI patient journey.",
+      "First workload: unified patient + HCP activation. Adfire assets need operational discipline. Prove: one therapeutic segment in 48 hours. Expand: clean rooms → clinical trials → AI patient journey.",
     solutions: [
       { product: "Cortex AI", problem: "Audience segmentation and content personalization across health condition communities at scale" },
       { product: "Marketplace", problem: "Monetize health engagement data with pharma partners via privacy-safe clean rooms" },
@@ -216,8 +306,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "RevOps analytics; Snowpark + Analyst land.",
     pipelineLowK: 75,
     pipelineHighK: 150,
+    day0: {
+      likelihood: "low",
+      likelihoodWhy: "Smaller modeled band; needs a crisp cross-product revenue proof before multi-workload expansion.",
+      timeline: "90+ days",
+      firstMeeting:
+        "VP Operations — commission variance across products in one governed view; CTO for Snowpark acceptance.",
+    },
+    whyWithoutSnowflake:
+      "Commission logic spanning products breaks when each silo exports CSVs nightly. Snowpark on unified data delivers auditable, near-real-time comp without engineering as gatekeeper; spreadsheets and external calc engines cap scale and audit quality.",
     compelling:
-      "From territory map (Summary). First workload: cross-product revenue intelligence. Hypothesis: three products generating data in parallel, not together. Proof point: cross-product correlation across 5 cohorts. Expansion path: benchmarking → Crystal AI → RevOps platform.",
+      "First workload: cross-product revenue intelligence. Three products, three parallel datasets. Prove: cross-product correlation across cohorts. Expand: benchmarking → Crystal AI → RevOps platform depth.",
     solutions: [
       { product: "Snowpark", problem: "Commission calculation engine at scale across complex multi-tier comp plans" },
       { product: "Cortex Analyst", problem: "Self-service commission analytics for sales leaders without engineering dependency" },
@@ -239,8 +338,17 @@ export const DEFAULT_TERRITORY_ACCOUNTS: TerritoryAccount[] = [
     usageNote: "Container + custom models; scale with LiveRamp/Dentsu motion.",
     pipelineLowK: 50,
     pipelineHighK: 100,
+    day0: {
+      likelihood: "medium",
+      likelihoodWhy: "Container-native AI story matches product; leverage LiveRamp / Dentsu partner motions for credibility.",
+      timeline: "60–90 days",
+      firstMeeting:
+        "VP Engineering — time-boxed model deployment on production bidding data; CEO for packaging and pricing.",
+    },
+    whyWithoutSnowflake:
+      "Proprietary bidding models lose edge when copied to generic GPU farms. SPCS keeps inference on the same governed dataset as activation; external K8s forfeits data gravity, latency, and security posture.",
     compelling:
-      "From territory map (Summary). First workload: advertiser model deployment acceleration. Hypothesis: custom models are becoming an operational bottleneck. Proof point: reduced onboarding time via native deployment. Expansion path: LiveRamp clean rooms → Dentsu flows → scale.",
+      "First workload: accelerate advertiser model deployment. Custom models are an operations bottleneck. Prove: shorter onboarding on production data. Expand: LiveRamp clean rooms → Dentsu flows → scale.",
     solutions: [
       { product: "Snowpark Container Services", problem: "Run proprietary ad bidding models natively on Snowflake data without external compute" },
       { product: "Cortex AI", problem: "Augment proprietary bidding algorithms with built-in LLM functions for ad creative analysis" },

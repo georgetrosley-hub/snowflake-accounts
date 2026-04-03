@@ -24,7 +24,14 @@ import {
 import { cn } from "@/lib/utils";
 import { SnowflakeLogoIcon } from "@/components/ui/snowflake-logo";
 import { SnowflakeIntelligencePanel } from "@/components/layout/snowflake-intelligence-panel";
-import type { TerritoryAccount, TerritoryMotion, SnowflakeUsageTier } from "@/types/territory-map";
+import type {
+  TerritoryAccount,
+  TerritoryMotion,
+  SnowflakeUsageTier,
+  Day0PipelineView,
+  DealLikelihood,
+  DealMechanics,
+} from "@/types/territory-map";
 import { DEFAULT_TERRITORY_ACCOUNTS } from "@/data/territory-default-accounts";
 
 export type { TerritoryAccount } from "@/types/territory-map";
@@ -42,6 +49,40 @@ function inferMotion(acv: string): TerritoryMotion {
   if (/^\s*Expansion\s*$/i.test(acv.trim())) return "expansion";
   if (/\$|[0-9]\s*[KkMm]/.test(acv)) return "net_new_workload";
   return "expansion";
+}
+
+function parseDay0(a: Record<string, unknown>, seed?: TerritoryAccount): Day0PipelineView {
+  const raw = a.day0;
+  const d =
+    raw && typeof raw === "object" && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {};
+  const s = seed?.day0;
+  const lr = d.likelihood ?? s?.likelihood ?? "medium";
+  const likelihood: DealLikelihood =
+    lr === "high" || lr === "low" || lr === "medium" ? lr : "medium";
+  return {
+    likelihood,
+    likelihoodWhy: String(d.likelihoodWhy ?? s?.likelihoodWhy ?? ""),
+    timeline: String(d.timeline ?? s?.timeline ?? ""),
+    firstMeeting: String(d.firstMeeting ?? s?.firstMeeting ?? ""),
+  };
+}
+
+function parseDealMechanics(a: Record<string, unknown>, seed?: TerritoryAccount): DealMechanics | undefined {
+  const incoming = a.dealMechanics;
+  if (incoming && typeof incoming === "object" && !Array.isArray(incoming)) {
+    const i = incoming as Record<string, unknown>;
+    const b = seed?.dealMechanics;
+    return {
+      economicBuyer: String(i.economicBuyer ?? b?.economicBuyer ?? ""),
+      technicalBuyer: String(i.technicalBuyer ?? b?.technicalBuyer ?? ""),
+      champion: String(i.champion ?? b?.champion ?? ""),
+      landMotion: String(i.landMotion ?? b?.landMotion ?? ""),
+      expansionAfter: String(i.expansionAfter ?? b?.expansionAfter ?? ""),
+      blockers: String(i.blockers ?? b?.blockers ?? ""),
+      competitiveRisk: String(i.competitiveRisk ?? b?.competitiveRisk ?? ""),
+    };
+  }
+  return seed?.dealMechanics;
 }
 
 function normalizeAccountRow(a: Record<string, unknown>): TerritoryAccount {
@@ -80,6 +121,9 @@ function normalizeAccountRow(a: Record<string, unknown>): TerritoryAccount {
     usageNote: String(a.usageNote ?? seed?.usageNote ?? ""),
     pipelineLowK: pl,
     pipelineHighK: Math.max(ph, pl),
+    day0: parseDay0(a, seed),
+    whyWithoutSnowflake: String(a.whyWithoutSnowflake ?? seed?.whyWithoutSnowflake ?? ""),
+    dealMechanics: parseDealMechanics(a, seed),
   };
 }
 
@@ -106,6 +150,24 @@ const SC: Record<string, string> = {
   "Native Apps Framework": "#D97706",
 };
 const gc = (p: string) => SC[p] || "#1AA6D6";
+
+const TERRITORY_THESIS = [
+  "Every account here is already on Snowflake. The gap is not shelfware—it is activation: governed cross-domain data, AI and apps on that data, and partner-grade sharing without standing up new stacks.",
+  "The pattern across the book: volume and regulatory surface outpaced operational discipline. Point tools and pipeline rebuilds cap how fast teams act on portfolio risk, customer outcomes, and partner economics.",
+  "Snowflake wins as the execution layer where those outcomes ship in days, not quarters—same governance, native workloads, no duplicate rebuild of the data plane.",
+] as const;
+
+function likelihoodPillClass(l: DealLikelihood) {
+  if (l === "high") return "border-emerald-200 bg-emerald-50 text-emerald-800";
+  if (l === "low") return "border-slate-200 bg-slate-100 text-slate-600";
+  return "border-amber-200 bg-amber-50 text-amber-900";
+}
+
+function likelihoodLabel(l: DealLikelihood) {
+  if (l === "high") return "High";
+  if (l === "low") return "Low";
+  return "Medium";
+}
 
 export default function TerritoryIntelligenceMap() {
   const [accounts, setAccounts] = useState<TerritoryAccount[]>(DEFAULT_TERRITORY_ACCOUNTS);
@@ -277,6 +339,13 @@ export default function TerritoryIntelligenceMap() {
       usageNote: "",
       pipelineLowK: 50,
       pipelineHighK: 200,
+      day0: {
+        likelihood: "medium",
+        likelihoodWhy: "",
+        timeline: "",
+        firstMeeting: "",
+      },
+      whyWithoutSnowflake: "",
     };
     save([...accounts, n]);
     setSel(n);
@@ -362,7 +431,7 @@ export default function TerritoryIntelligenceMap() {
             <div className="min-w-0">
               <p className="text-sm font-semibold tracking-tight text-slate-900">Territory Intelligence</p>
               <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">
-                Customer book · Expansion
+                Live plan · Expansion
               </p>
             </div>
           )}
@@ -469,16 +538,20 @@ export default function TerritoryIntelligenceMap() {
         <header className="shrink-0 border-b border-slate-200/90 bg-white">
           <div className="flex flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">Coverage map</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                Territory thesis
+              </p>
               <h1 className="mt-0.5 text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
-                Account landscape & solution fit
+                Execution map — customers ready to expand
               </h1>
-              <p className="mt-1 max-w-2xl text-xs leading-relaxed text-slate-500">
-                Every account in this book is a{" "}
-                <span className="font-medium text-slate-700">Snowflake customer</span>. Use the map for
-                expansion depth, workload coverage, and personas —                 narratives match your{" "}
-                <span className="font-medium text-slate-700">Territory Summary</span> workbook (GT _ Snowflake
-                Territory Mapping.xlsx); use per-account tabs for depth.
+              <div className="mt-2 max-w-3xl space-y-2 text-[13px] leading-snug text-slate-700">
+                {TERRITORY_THESIS.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+              <p className="mt-2 max-w-2xl text-[11px] leading-relaxed text-slate-500">
+                Account narratives align to your Territory Summary workbook (GT _ Snowflake Territory Mapping.xlsx);
+                validate stakeholders and pipeline in CRM before live calls.
               </p>
             </div>
             <button
@@ -536,7 +609,7 @@ export default function TerritoryIntelligenceMap() {
                 {territoryPotentialSummary}
               </p>
               <p className="mt-2 text-[10px] leading-relaxed text-[#8faed6]">
-                Pipeline sums modeled ACV bands (field est.); validate in CRM and Snowflake consumption reports.
+                Bands are modeled, not booked. Tie to opportunities and consumption reports before forecasting.
               </p>
             </div>
 
@@ -649,6 +722,14 @@ export default function TerritoryIntelligenceMap() {
                               {formatPipelineK(a.pipelineLowK, a.pipelineHighK)}
                             </span>
                             <span className="text-[10px] text-slate-400">WB: {a.acv}</span>
+                            <span
+                              className={cn(
+                                "mt-0.5 inline-flex w-fit rounded border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide",
+                                likelihoodPillClass(a.day0.likelihood)
+                              )}
+                            >
+                              D0 · {likelihoodLabel(a.day0.likelihood)}
+                            </span>
                           </div>
                           <div className="flex flex-col justify-center gap-1">
                             <span
@@ -701,7 +782,7 @@ export default function TerritoryIntelligenceMap() {
             ) : (
               <div>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
-                  Solution positioning across accounts
+                  Workload coverage across the book
                 </p>
                 <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                   {Object.entries(allSol)
@@ -742,13 +823,22 @@ export default function TerritoryIntelligenceMap() {
               </div>
             )}
 
-            <p className="mt-10 max-w-3xl border-t border-slate-200/80 pt-6 text-[11px] leading-relaxed text-slate-400">
-              Customer book for expansion planning. Enrich from your account-plan decks and CRM; validate consumption, stakeholders, and opportunity data in official systems before live conversations.
-            </p>
+            <div className="mt-10 max-w-3xl border-t border-slate-200/80 pt-8">
+              <p className="text-sm font-semibold tracking-tight text-slate-900">
+                This is not a territory I need to learn. This is a territory I&apos;m ready to operate.
+              </p>
+              <p className="mt-2 text-[13px] leading-relaxed text-slate-600">
+                Priorities, land motions, and blockers are named up front. Pipeline and personas stay hypotheses until
+                CRM and customer validation—then they become the forecast and the cadence.
+              </p>
+              <p className="mt-4 text-[11px] leading-relaxed text-slate-400">
+                Illustrative contacts and numbers—confirm in official systems before external use.
+              </p>
+            </div>
           </div>
 
           {sel && (
-            <aside className="w-[min(100vw-1rem,400px)] shrink-0 overflow-y-auto border-l border-slate-200/90 bg-white shadow-[inset_1px_0_0_rgba(15,23,42,0.04)]">
+            <aside className="w-[min(100vw-1rem,440px)] shrink-0 overflow-y-auto border-l border-slate-200/90 bg-white shadow-[inset_1px_0_0_rgba(15,23,42,0.04)]">
               <div className="flex items-start justify-between gap-3 border-b border-slate-200/90 px-6 py-5">
                 <div className="min-w-0 flex-1">
                   {edit ? (
@@ -842,6 +932,104 @@ export default function TerritoryIntelligenceMap() {
               </div>
 
               <div className="border-b border-slate-100 px-6 py-4">
+                <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                  Day 0 pipeline view
+                </p>
+                <p className="mb-3 text-[10px] text-slate-400">Field hypotheses—validate in CRM.</p>
+                {edit ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[10px] text-slate-500">Deal likelihood</span>
+                      <select
+                        value={sel.day0.likelihood}
+                        onChange={(e) =>
+                          ua(sel.id, "day0", {
+                            ...sel.day0,
+                            likelihood: e.target.value as DealLikelihood,
+                          })
+                        }
+                        className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs"
+                      >
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                      </select>
+                    </div>
+                    <label className="text-[10px] text-slate-500">
+                      Why this likelihood
+                      <textarea
+                        value={sel.day0.likelihoodWhy}
+                        onChange={(e) =>
+                          ua(sel.id, "day0", { ...sel.day0, likelihoodWhy: e.target.value })
+                        }
+                        rows={2}
+                        className="mt-1 w-full rounded-lg border border-slate-200 p-2 text-xs text-slate-800 outline-none"
+                      />
+                    </label>
+                    <label className="text-[10px] text-slate-500">
+                      Timeline (e.g. 60–90 days)
+                      <input
+                        value={sel.day0.timeline}
+                        onChange={(e) => ua(sel.id, "day0", { ...sel.day0, timeline: e.target.value })}
+                        className="mt-1 w-full rounded-md border border-slate-200 px-2 py-1.5 text-xs outline-none"
+                      />
+                    </label>
+                    <label className="text-[10px] text-slate-500">
+                      First meeting target (persona + why)
+                      <textarea
+                        value={sel.day0.firstMeeting}
+                        onChange={(e) => ua(sel.id, "day0", { ...sel.day0, firstMeeting: e.target.value })}
+                        rows={2}
+                        className="mt-1 w-full rounded-lg border border-slate-200 p-2 text-xs text-slate-800 outline-none"
+                      />
+                    </label>
+                  </div>
+                ) : (
+                  <dl className="space-y-2.5 text-[12px] leading-snug text-slate-800">
+                    <div>
+                      <dt className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                        Est. ACV (modeled)
+                      </dt>
+                      <dd className="mt-0.5 font-semibold tabular-nums text-slate-900">
+                        {formatPipelineK(sel.pipelineLowK, sel.pipelineHighK)}
+                        <span className="ml-2 text-[11px] font-normal text-slate-500">WB: {sel.acv}</span>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                        Deal likelihood
+                      </dt>
+                      <dd className="mt-1 flex flex-col gap-1">
+                        <span
+                          className={cn(
+                            "inline-flex w-fit rounded-full border px-2.5 py-0.5 text-[11px] font-semibold",
+                            likelihoodPillClass(sel.day0.likelihood)
+                          )}
+                        >
+                          {likelihoodLabel(sel.day0.likelihood)}
+                        </span>
+                        {sel.day0.likelihoodWhy ? (
+                          <span className="text-[12px] text-slate-600">{sel.day0.likelihoodWhy}</span>
+                        ) : null}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                        Timeline
+                      </dt>
+                      <dd className="mt-0.5 text-slate-800">{sel.day0.timeline || "—"}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                        First meeting target
+                      </dt>
+                      <dd className="mt-0.5 text-slate-700">{sel.day0.firstMeeting || "—"}</dd>
+                    </div>
+                  </dl>
+                )}
+              </div>
+
+              <div className="border-b border-slate-100 px-6 py-4">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                   Pipeline and Snowflake footprint
                 </p>
@@ -925,6 +1113,27 @@ export default function TerritoryIntelligenceMap() {
               </div>
 
               <div className="border-b border-slate-100 px-6 py-4">
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-500">
+                  Why this fails without Snowflake
+                </p>
+                {edit ? (
+                  <textarea
+                    value={sel.whyWithoutSnowflake}
+                    onChange={(e) => ua(sel.id, "whyWithoutSnowflake", e.target.value)}
+                    rows={4}
+                    placeholder="Governed cross-domain access, time-to-value, sharing, scale…"
+                    className="w-full resize-y rounded-lg border border-slate-200 p-2.5 text-[13px] leading-relaxed text-slate-800 outline-none"
+                  />
+                ) : (
+                  <p className="text-[13px] leading-relaxed text-slate-700">
+                    {sel.whyWithoutSnowflake || (
+                      <span className="text-slate-400">Add the “required, not nice-to-have” case in Edit.</span>
+                    )}
+                  </p>
+                )}
+              </div>
+
+              <div className="border-b border-slate-100 px-6 py-4">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                   Why now
                 </p>
@@ -941,6 +1150,93 @@ export default function TerritoryIntelligenceMap() {
                   </p>
                 )}
               </div>
+
+              {sel.dealMechanics && (
+                <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+                  <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-600">
+                    How this deal closes
+                  </p>
+                  <p className="mb-3 text-[10px] text-slate-400">
+                    Flagship mechanics—stakeholders and motion spelled out for live execution.
+                  </p>
+                  {edit ? (
+                    <div className="flex flex-col gap-3">
+                      {(
+                        [
+                          ["economicBuyer", "Economic buyer"],
+                          ["technicalBuyer", "Technical buyer"],
+                          ["champion", "Champion"],
+                          ["landMotion", "Land motion (first workload + entry)"],
+                          ["expansionAfter", "Expansion after proof"],
+                          ["blockers", "Key blockers"],
+                          ["competitiveRisk", "Competitive / build risk"],
+                        ] as const
+                      ).map(([key, label]) => (
+                        <label key={key} className="text-[10px] text-slate-500">
+                          {label}
+                          <textarea
+                            value={sel.dealMechanics![key]}
+                            onChange={(e) =>
+                              ua(sel.id, "dealMechanics", {
+                                ...sel.dealMechanics!,
+                                [key]: e.target.value,
+                              })
+                            }
+                            rows={key === "landMotion" || key === "blockers" ? 3 : 2}
+                            className="mt-1 w-full rounded-lg border border-slate-200 bg-white p-2 text-xs text-slate-800 outline-none"
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="space-y-3 text-[12px] leading-snug text-slate-800">
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          Stakeholder map
+                        </p>
+                        <ul className="mt-1 list-inside list-disc text-slate-700">
+                          <li>
+                            <span className="font-medium text-slate-800">Economic: </span>
+                            {sel.dealMechanics.economicBuyer}
+                          </li>
+                          <li>
+                            <span className="font-medium text-slate-800">Technical: </span>
+                            {sel.dealMechanics.technicalBuyer}
+                          </li>
+                          <li>
+                            <span className="font-medium text-slate-800">Champion: </span>
+                            {sel.dealMechanics.champion}
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          Land motion
+                        </p>
+                        <p className="mt-1 text-slate-700">{sel.dealMechanics.landMotion}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          Expansion path
+                        </p>
+                        <p className="mt-1 text-slate-700">{sel.dealMechanics.expansionAfter}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          Blockers
+                        </p>
+                        <p className="mt-1 text-slate-700">{sel.dealMechanics.blockers}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          Competitive risk
+                        </p>
+                        <p className="mt-1 text-slate-700">{sel.dealMechanics.competitiveRisk}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="border-b border-slate-100 px-6 py-4">
                 <div className="mb-3 flex items-center justify-between">
