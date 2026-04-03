@@ -132,7 +132,7 @@ export function StatusBar({
                   "flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-[11px] transition-colors",
                   hasApiKey
                     ? "border-accent/25 bg-accent/[0.06] text-accent/90 hover:bg-accent/10"
-                    : "border-surface-border/50 bg-surface-elevated/30 text-text-secondary hover:text-text-primary"
+                    : "border-[#2a4a72]/65 bg-[#0b1528]/55 text-[#a8c5e8] hover:bg-[#122038]/85 hover:text-[#c8ddf4]"
                 )}
               >
                 <KeyRound className="h-3 w-3" />
@@ -231,7 +231,14 @@ export function StatusBar({
                 />
               </div>
 
-              <div className="rounded-lg bg-surface/60 px-3 py-2 text-[11px] text-text-secondary">
+              <div
+                className={cn(
+                  "rounded-lg px-3 py-2 text-[11px]",
+                  hasApiKey
+                    ? "bg-surface/60 text-text-secondary"
+                    : "border border-[#2a4a72]/50 bg-[#0b1528]/40 text-[#9eb8dc]"
+                )}
+              >
                 {hasApiKey
                   ? "An API key is saved for this browser."
                   : "Add an API key to enable chat and content generation."}

@@ -223,7 +223,7 @@ export function SnowflakeIntelligencePanel({
                     "rounded-md px-2 py-1.5 text-[10px] font-medium transition-colors",
                     hasApiKey && isReady
                       ? "text-accent hover:bg-accent/10"
-                      : "text-amber-200/90 hover:bg-amber-500/10"
+                      : "border border-[#2a4a72]/80 bg-[#0b1528] text-[#b8cce8] hover:bg-[#122038]"
                   )}
                 >
                   <span className="flex items-center gap-1">
@@ -264,7 +264,7 @@ export function SnowflakeIntelligencePanel({
                     Territory narrative, Snowflake Intelligence positioning, Cortex and governance.
                   </p>
                   {!hasApiKey && isReady && (
-                    <p className="mt-3 text-[11px] text-amber-200/80">Add your Claude API key to start.</p>
+                    <p className="mt-3 text-[11px] text-[#8faed6]">Add your Claude API key to start.</p>
                   )}
                   <div className="mt-6 space-y-2 text-left">
                     <p className="text-[10px] font-medium uppercase tracking-wider text-text-faint">Try</p>

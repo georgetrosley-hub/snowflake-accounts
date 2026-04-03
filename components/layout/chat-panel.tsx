@@ -265,7 +265,7 @@ export function ChatPanel({
                     {account.id === "na" ? "Ask me anything about the AI Data Cloud, platform narrative, or deal playbooks." : `Ask me anything about ${account.name}. I have full context on this deal.`}
                   </p>
                   {!hasApiKey && (
-                    <div className="mb-6 rounded-lg border border-accent/20 bg-accent/[0.06] px-3 py-2 text-[11px] text-accent/90">
+                    <div className="mb-6 rounded-lg border border-[#2a4a72]/70 bg-[#0b1528]/95 px-3 py-2 text-[11px] text-[#b8cce8]">
                       Add your API key from the top right to start the conversation.
                     </div>
                   )}
