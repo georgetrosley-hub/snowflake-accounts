@@ -259,7 +259,7 @@ export function ChatPanel({
                     className="mb-4 opacity-90"
                   />
                   <p className="text-[15px] font-semibold text-text-primary mb-1">
-                    Snowflake GTM
+                    AE field assistant
                   </p>
                   <p className="text-[13px] text-text-muted leading-relaxed mb-6">
                     {account.id === "na" ? "Ask me anything about the AI Data Cloud, platform narrative, or deal playbooks." : `Ask me anything about ${account.name}. I have full context on this deal.`}

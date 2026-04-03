@@ -1,10 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  LayoutGrid,
+  Loader2,
+  Layers2,
+  Plus,
+  RotateCcw,
+  Search,
+  X,
+} from "lucide-react";
 import { territoryStorageGet, territoryStorageSet } from "@/lib/territory-storage";
+import { cn } from "@/lib/utils";
+import { SnowflakeLogoIcon } from "@/components/ui/snowflake-logo";
 
-const SK = "sf-territory-intel-v1";
-const SK_V2 = "sf-territory-intel-v2";
+/**
+ * Territory store v4: full customer book + expansion narratives.
+ * Reads legacy v1/v2 keys once and re-saves under v4.
+ * Default rows align to the "Territory Summary" sheet in GT _ Snowflake Territory Mapping.xlsx (first workload → hypothesis → proof → path → Est. ACV). Per-account tabs in that workbook hold deeper detail.
+ */
+const SK = "sf-territory-intel-v4";
+const SK_LEGACY_V1 = "sf-territory-intel-v1";
+const SK_LEGACY_V2 = "sf-territory-intel-v2";
 
 export type TerritoryAccount = {
   id: string;
@@ -23,11 +44,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "ciena",
     name: "Ciena",
     tier: 1,
-    acv: "Existing",
-    industry: "Networking / Telecom",
+    acv: "Expansion",
+    industry: "Networking / Optical",
     status: "Existing",
     compelling:
-      "Optical networking leader with massive telemetry and network performance data. Digital transformation of network operations creates natural expansion. Deep account plan completed.",
+      "From territory map (Summary). First workload: backlog risk + margin visibility on AI deals. Hypothesis: execution is against ~$7B backlog—not lack of demand. Proof point: surface backlog risk on 2–3 AI deals within 24 hours. Expansion path: forecasting → supply chain → Blue Planet.",
     solutions: [
       { product: "Cortex AI", problem: "Network performance prediction and anomaly detection across global optical infrastructure" },
       { product: "Snowpark", problem: "Custom ML pipelines for optical network optimization without moving data outside Snowflake" },
@@ -43,11 +64,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "sagent",
     name: "Sagent",
     tier: 1,
-    acv: "Existing",
-    industry: "Fintech / Mortgage Servicing",
+    acv: "Expansion",
+    industry: "Mortgage Servicing Tech",
     status: "Existing",
     compelling:
-      "Mortgage servicing platform handling loan lifecycle data. Regulatory reporting pressure and servicer partner ecosystem create expansion path. Deep account plan completed.",
+      "From territory map (Summary). First workload: Dara deployment performance across customers. Hypothesis: prove Dara works across the customer base. Proof point: identify 1–2 underperforming deployments. Expansion path: customer health → compliance → AI telemetry.",
     solutions: [
       { product: "Cortex Analyst", problem: "Self-service mortgage servicing analytics for non-technical compliance teams" },
       { product: "Secure Data Sharing", problem: "Share loan performance data with servicer partners securely without data movement" },
@@ -62,11 +83,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "usfintech",
     name: "U.S. Financial Technology",
     tier: 1,
-    acv: "Existing",
-    industry: "Fintech / Government (MBS)",
+    acv: "Expansion",
+    industry: "Fintech / Government",
     status: "Existing",
     compelling:
-      "Formerly Common Securitization Solutions. FHFA mandate to sell MBS fintech services externally under Director Pulte. Transition from internal utility to external product company creates massive data distribution need.",
+      "From territory map (Summary). First workload: securitization exception monitoring. Hypothesis: cannot act on ~$6.5T of data fast enough. Proof point: real-time anomaly vs delayed reporting. Expansion path: workflows → stakeholder products → monetization.",
     solutions: [
       { product: "Marketplace", problem: "Distribute MBS data products to external financial institutions at scale" },
       { product: "Horizon Governance", problem: "Federal regulatory compliance with automated lineage for government-adjacent financial data" },
@@ -82,11 +103,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "sprinklr",
     name: "Sprinklr",
     tier: 1,
-    acv: "Net New",
+    acv: "Expansion",
     industry: "CXM / SaaS",
-    status: "Prospect",
+    status: "Existing",
     compelling:
-      "NYSE: CXM, ~$857M FY26 revenue. New CRO Scott Millard (Sept 2025, ex-Dell AI Sales), new CFO Anthony Coletta (Oct 2025, ex-SAP), new CPO Karthik Suri. Three C-suite hires in 60 days. NRR declined to 102%. Project Bear Hug expanded to top 700 customers. CEO Rory Read: 'second phase of our transformation.'",
+      "From territory map (Summary). First workload: cross-channel AI outcome correlation. Hypothesis: prove AI improves customer outcomes. Proof point: AI intervention → escalation reduction in 48 hours. Expansion path: AI measurement → benchmarking → CX platform.",
     solutions: [
       { product: "Cortex Analyst", problem: "Self-service NRR and churn analytics for 700 Bear Hug accounts without waiting on data team" },
       { product: "Snowflake Intelligence", problem: "Natural language queries on customer health scores across 30+ social channels" },
@@ -103,11 +124,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "bancorp",
     name: "The Bancorp",
     tier: 1,
-    acv: "Net New",
+    acv: "Expansion",
     industry: "Banking / Fintech (BaaS)",
-    status: "Prospect",
+    status: "Existing",
     compelling:
-      "NASDAQ: TBBK. $228M net income. $178B GDV up 17% YoY. #1 prepaid issuer in the US. Consumer fintech loans grew 180% YoY. Q4 EPS miss creating urgency to prove fintech unit economics. APEX 2030 strategy. Partners with PayPal, Chime and others.",
+      "From territory map (Summary). First workload: partner profitability + risk intelligence. Hypothesis: scaling partners without a unified risk/profit view. Proof point: growth vs risk divergence across 5–10 cohorts. Expansion path: risk detection → embedded finance → AI ops.",
     solutions: [
       { product: "Secure Data Sharing", problem: "Partner-level analytics across PayPal, Chime and others without exposing raw loan data" },
       { product: "Cortex ML", problem: "Credit risk signal detection and anomaly detection on consumer fintech loan portfolios ($128M provisions)" },
@@ -125,11 +146,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "billtrust",
     name: "Billtrust",
     tier: 1,
-    acv: "Net New",
-    industry: "B2B Fintech (AR Automation)",
-    status: "Prospect",
+    acv: "Expansion",
+    industry: "B2B Fintech (AR)",
+    status: "Existing",
     compelling:
-      "PE-backed (EQT, taken private 2023). Building 'Autopilot' agentic AI assistant and multi-agent platform architecture. Cash application match rates improved 45% to 90%+. AI-first transformation across credit, invoicing, payments, collections and cash application. Lawrenceville NJ HQ.",
+      "From territory map (Summary). First workload: cash acceleration intelligence. Hypothesis: fragmented AR signals need one intelligence layer. Proof point: collections/payment correlation across 5 cohorts. Expansion path: AI collections → benchmarking → order-to-cash.",
     solutions: [
       { product: "Snowpark Container Services", problem: "Run multi-agent AI models for payment matching and collections natively on unified data" },
       { product: "Cortex AI Fine-Tuning", problem: "Fine-tune payment prediction models on proprietary B2B transaction data without export" },
@@ -146,11 +167,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "lyric",
     name: "Magnum Transaction Sub / Lyric",
     tier: 2,
-    acv: "Net New",
-    industry: "Healthcare Fintech",
-    status: "Prospect",
+    acv: "$150K–400K+",
+    industry: "Healthcare Payment Integrity",
+    status: "Existing",
     compelling:
-      "Healthcare payment accuracy platform. Serves 9 of top 10 payers. King of Prussia PA. PE-backed. Massive claims data volumes with fraud detection and overpayment recovery use cases.",
+      "From territory map (Summary). First workload: pre-pay + post-pay claims intelligence. Hypothesis: delay between detecting and acting on payment issues. Proof point: pre/post-pay correlation for one claim category. Expansion path: payer analytics → AI claims → COB optimization.",
     solutions: [
       { product: "Cortex ML", problem: "Payment accuracy models to detect overpayment and fraud patterns across billions in claims" },
       { product: "Secure Data Sharing", problem: "Share payment accuracy insights with payer partners without raw PHI exposure" },
@@ -166,11 +187,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "healthunion",
     name: "Health Union, LLC",
     tier: 2,
-    acv: "Net New",
-    industry: "Healthcare / AdTech",
-    status: "Prospect",
+    acv: "$100K–250K",
+    industry: "Digital Health / AdTech",
+    status: "Existing",
     compelling:
-      "Operates online health condition communities connecting patients with pharma advertisers. Patient engagement data across chronic conditions. Philadelphia based. Pharma data monetization and clean room use cases.",
+      "From territory map (Summary). First workload: unified patient + HCP audience activation. Hypothesis: operationalizing Adfire acquisition data assets. Proof point: audience segment for one therapeutic area in 48 hours. Expansion path: clean rooms → clinical trials → AI patient journey.",
     solutions: [
       { product: "Cortex AI", problem: "Audience segmentation and content personalization across health condition communities at scale" },
       { product: "Marketplace", problem: "Monetize health engagement data with pharma partners via privacy-safe clean rooms" },
@@ -185,11 +206,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "everstage",
     name: "Everstage",
     tier: 3,
-    acv: "Net New",
-    industry: "SaaS (Sales Comp)",
-    status: "Prospect",
+    acv: "$75K–150K",
+    industry: "SaaS (Sales Performance)",
+    status: "Existing",
     compelling:
-      "Sales commission software. Smaller company but growing. Complex comp plan calculations could drive compute consumption. Monitor for scale.",
+      "From territory map (Summary). First workload: cross-product revenue intelligence. Hypothesis: three products generating data in parallel, not together. Proof point: cross-product correlation across 5 cohorts. Expansion path: benchmarking → Crystal AI → RevOps platform.",
     solutions: [
       { product: "Snowpark", problem: "Commission calculation engine at scale across complex multi-tier comp plans" },
       { product: "Cortex Analyst", problem: "Self-service commission analytics for sales leaders without engineering dependency" },
@@ -200,11 +221,11 @@ const ACCTS: TerritoryAccount[] = [
     id: "chalice",
     name: "Chalice AI",
     tier: 3,
-    acv: "Net New",
-    industry: "AdTech / AI",
-    status: "Prospect",
+    acv: "$50K–100K",
+    industry: "AdTech / Custom AI",
+    status: "Existing",
     compelling:
-      "Very small (10-50 people, Brooklyn). Custom AI algorithms for programmatic ad buying. Limited pipeline potential unless they scale significantly. Watch for funding events.",
+      "From territory map (Summary). First workload: advertiser model deployment acceleration. Hypothesis: custom models are becoming an operational bottleneck. Proof point: reduced onboarding time via native deployment. Expansion path: LiveRamp clean rooms → Dentsu flows → scale.",
     solutions: [
       { product: "Snowpark Container Services", problem: "Run proprietary ad bidding models natively on Snowflake data without external compute" },
       { product: "Cortex AI", problem: "Augment proprietary bidding algorithms with built-in LLM functions for ad creative analysis" },
@@ -242,7 +263,7 @@ function parseAccounts(raw: string): TerritoryAccount[] {
       tier: Number(a.tier) || 3,
       acv: String(a.acv ?? ""),
       industry: String(a.industry ?? ""),
-      status: String(a.status ?? "Prospect"),
+      status: String(a.status ?? "Existing"),
       compelling: String(a.compelling ?? ""),
       solutions: Array.isArray(a.solutions) ? (a.solutions as TerritoryAccount["solutions"]) : [],
       contacts: Array.isArray(a.contacts) ? (a.contacts as TerritoryAccount["contacts"]) : [],
@@ -250,21 +271,12 @@ function parseAccounts(raw: string): TerritoryAccount[] {
   });
 }
 
-const SnowflakeIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden>
-    <path d="M16 2L16 30M16 2L12 6M16 2L20 6M16 30L12 26M16 30L20 26" stroke="#29B5E8" strokeWidth="2.2" strokeLinecap="round" />
-    <path d="M3.86 9L28.14 23M3.86 9L4.86 14M3.86 9L8.36 8M28.14 23L27.14 18M28.14 23L23.64 24" stroke="#29B5E8" strokeWidth="2.2" strokeLinecap="round" />
-    <path d="M3.86 23L28.14 9M3.86 23L8.36 24M3.86 23L4.86 18M28.14 9L23.64 8M28.14 9L27.14 14" stroke="#29B5E8" strokeWidth="2.2" strokeLinecap="round" />
-  </svg>
-);
-
 export default function TerritoryIntelligenceMap() {
   const [accounts, setAccounts] = useState<TerritoryAccount[]>(ACCTS);
   const [sel, setSel] = useState<TerritoryAccount | null>(null);
   const [edit, setEdit] = useState(false);
   const [view, setView] = useState<"accounts" | "solutions">("accounts");
   const [fTier, setFTier] = useState(0);
-  const [fStatus, setFStatus] = useState("All");
   const [search, setSearch] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -273,19 +285,24 @@ export default function TerritoryIntelligenceMap() {
   useEffect(() => {
     (async () => {
       try {
+        let raw: string | null = null;
         let r = await territoryStorageGet(SK);
-        if (r?.value) {
-          setAccounts(parseAccounts(r.value));
-        } else {
-          r = await territoryStorageGet(SK_V2);
-          if (r?.value) {
-            const migrated = parseAccounts(r.value);
-            setAccounts(migrated);
-            try {
-              await territoryStorageSet(SK, JSON.stringify(migrated));
-            } catch {
-              /* keep in-memory only */
-            }
+        if (r?.value) raw = r.value;
+        if (!raw) {
+          r = await territoryStorageGet(SK_LEGACY_V1);
+          if (r?.value) raw = r.value;
+        }
+        if (!raw) {
+          r = await territoryStorageGet(SK_LEGACY_V2);
+          if (r?.value) raw = r.value;
+        }
+        if (raw) {
+          const parsed = parseAccounts(raw);
+          setAccounts(parsed);
+          try {
+            await territoryStorageSet(SK, JSON.stringify(parsed));
+          } catch {
+            /* keep in-memory only */
           }
         }
       } catch {
@@ -371,7 +388,7 @@ export default function TerritoryIntelligenceMap() {
       tier: 3,
       acv: "TBD",
       industry: "TBD",
-      status: "Prospect",
+      status: "Existing",
       compelling: "",
       solutions: [],
       contacts: [],
@@ -396,7 +413,6 @@ export default function TerritoryIntelligenceMap() {
 
   const fil = accounts.filter((a) => {
     if (fTier > 0 && a.tier !== fTier) return false;
-    if (fStatus !== "All" && a.status !== fStatus) return false;
     if (search && !a.name.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
@@ -411,139 +427,226 @@ export default function TerritoryIntelligenceMap() {
 
   if (!loaded) {
     return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#F8FAFC", fontFamily: "system-ui" }}>
-        <SnowflakeIcon />
-        <span style={{ marginLeft: 12, color: "#64748B", fontSize: 14 }}>Loading Territory Intelligence...</span>
+      <div className="flex min-h-[100dvh] items-center justify-center bg-slate-50 font-sans text-slate-600">
+        <SnowflakeLogoIcon size={32} className="opacity-90" />
+        <Loader2 className="ml-3 h-5 w-5 animate-spin text-[#29B5E8]" aria-hidden />
+        <span className="ml-2 text-sm font-medium tracking-tight">Loading coverage map…</span>
       </div>
     );
   }
 
-  const nw = navCollapsed ? 56 : 220;
+  const nw = navCollapsed ? "w-14" : "w-[220px]";
+
+  const filterPill = (active: boolean) =>
+    cn(
+      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
+      active
+        ? "border-[#29B5E8] bg-sky-50 text-sky-900"
+        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+    );
+
+  const bookLabel = (status: string) => (status === "Existing" ? "Customer" : status);
 
   return (
-    <div style={{ display: "flex", height: "100vh", background: "#F8FAFC", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1E293B", overflow: "hidden" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-      <div style={{ width: nw, background: "#FFFFFF", borderRight: "1px solid #E2E8F0", display: "flex", flexDirection: "column", transition: "width 0.2s ease", overflow: "hidden", flexShrink: 0 }}>
-        <div style={{ padding: navCollapsed ? "16px 14px" : "16px 20px", borderBottom: "1px solid #E2E8F0", display: "flex", alignItems: "center", gap: 10, minHeight: 60 }}>
-          <div style={{ flexShrink: 0 }}>
-            <SnowflakeIcon />
-          </div>
+    <div className="flex h-[100dvh] overflow-hidden bg-slate-100 font-sans text-slate-800 antialiased">
+      <aside
+        className={cn(
+          "flex shrink-0 flex-col border-r border-slate-200/90 bg-white shadow-[1px_0_0_rgba(15,23,42,0.04)] transition-[width] duration-200 ease-out",
+          nw
+        )}
+      >
+        <div
+          className={cn(
+            "flex min-h-[60px] items-center gap-2.5 border-b border-slate-200/90",
+            navCollapsed ? "px-3.5 py-4" : "px-5 py-4"
+          )}
+        >
+          <SnowflakeLogoIcon size={28} className="shrink-0" />
           {!navCollapsed && (
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#0F172A", letterSpacing: "-0.01em", lineHeight: 1.2 }}>Territory Intelligence</div>
-              <div style={{ fontSize: 10, color: "#94A3B8", fontWeight: 500, letterSpacing: "0.04em", textTransform: "uppercase", marginTop: 1 }}>Field Enablement</div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold tracking-tight text-slate-900">Territory Intelligence</p>
+              <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">
+                Customer book · Expansion
+              </p>
             </div>
           )}
         </div>
 
-        <div style={{ flex: 1, padding: "12px 8px", overflowY: "auto" }}>
-          {[
-            { icon: "📊", label: "Accounts", key: "accounts" as const },
-            { icon: "🧩", label: "Solutions", key: "solutions" as const },
-          ].map((item) => (
+        <nav className="flex-1 space-y-0.5 overflow-y-auto px-2 py-3">
+          {(
+            [
+              { Icon: LayoutGrid, label: "Accounts", key: "accounts" as const },
+              { Icon: Layers2, label: "Solutions", key: "solutions" as const },
+            ] as const
+          ).map(({ Icon, label, key: k }) => (
             <button
-              key={item.key}
+              key={k}
               type="button"
               onClick={() => {
-                setView(item.key);
+                setView(k);
                 setSel(null);
               }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                width: "100%",
-                padding: navCollapsed ? "10px 12px" : "8px 12px",
-                borderRadius: 6,
-                border: "none",
-                cursor: "pointer",
-                marginBottom: 2,
-                fontSize: 13,
-                fontWeight: view === item.key ? 600 : 400,
-                background: view === item.key ? "#EFF6FF" : "transparent",
-                color: view === item.key ? "#1D4ED8" : "#64748B",
-                transition: "all 0.15s",
-                textAlign: "left",
-                fontFamily: "inherit",
-              }}
+              className={cn(
+                "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] transition-colors",
+                navCollapsed && "justify-center px-2",
+                view === k
+                  ? "bg-sky-50 font-semibold text-sky-900"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+              )}
             >
-              <span style={{ fontSize: 16, flexShrink: 0 }}>{item.icon}</span>
-              {!navCollapsed && item.label}
+              <Icon className="h-4 w-4 shrink-0 opacity-80" strokeWidth={1.75} />
+              {!navCollapsed && label}
             </button>
           ))}
-          <div style={{ height: 1, background: "#E2E8F0", margin: "12px 4px" }} />
+          <div className="mx-1 my-3 h-px bg-slate-200" />
           <button
             type="button"
             onClick={addAcc}
-            style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: navCollapsed ? "10px 12px" : "8px 12px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 400, background: "transparent", color: "#64748B", fontFamily: "inherit", textAlign: "left" }}
+            className={cn(
+              "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900",
+              navCollapsed && "justify-center px-2"
+            )}
           >
-            <span style={{ fontSize: 16, flexShrink: 0 }}>➕</span>
-            {!navCollapsed && "Add Account"}
+            <Plus className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+            {!navCollapsed && "Add account"}
           </button>
           <button
             type="button"
             onClick={reset}
-            style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: navCollapsed ? "10px 12px" : "8px 12px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 400, background: "transparent", color: "#64748B", fontFamily: "inherit", textAlign: "left" }}
+            className={cn(
+              "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900",
+              navCollapsed && "justify-center px-2"
+            )}
           >
-            <span style={{ fontSize: 16, flexShrink: 0 }}>🔄</span>
-            {!navCollapsed && "Reset Data"}
+            <RotateCcw className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+            {!navCollapsed && "Reset to defaults"}
           </button>
-        </div>
+        </nav>
 
-        <div style={{ borderTop: "1px solid #E2E8F0", padding: "12px" }}>
-          <button type="button" onClick={() => setNavCollapsed(!navCollapsed)} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "6px 8px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 12, color: "#94A3B8", background: "transparent", fontFamily: "inherit", textAlign: "left" }}>
-            <span style={{ fontSize: 14 }}>{navCollapsed ? "▶" : "◀"}</span>
+        <div className="border-t border-slate-200/90 p-3">
+          <button
+            type="button"
+            onClick={() => setNavCollapsed(!navCollapsed)}
+            className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700"
+          >
+            {navCollapsed ? (
+              <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+            ) : (
+              <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+            )}
             {!navCollapsed && "Collapse"}
           </button>
           {!navCollapsed && (
-            <div style={{ padding: "8px", marginTop: 4 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: "#0F172A" }}>George Trosley</div>
-              <div style={{ fontSize: 11, color: "#94A3B8" }}>Enterprise AE · Mid-Atlantic</div>
+            <div className="mt-2 space-y-2 px-2 pb-1">
+              <Link
+                href="/operating-system"
+                className="group flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-[12px] font-medium text-slate-800 transition-colors hover:border-sky-300 hover:bg-sky-50/50"
+              >
+                <span>Execution workspace</span>
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-[#29B5E8]" strokeWidth={2} />
+              </Link>
+              <p className="text-[11px] leading-snug text-slate-400">
+                Briefings, dossiers, and weekly rhythm — same standard for every territory.
+              </p>
             </div>
           )}
         </div>
-      </div>
+      </aside>
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <div style={{ padding: "12px 24px", background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-          <div style={{ position: "relative", flex: 1, maxWidth: 400 }}>
-            <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#94A3B8", fontSize: 14 }} aria-hidden>
-              🔍
-            </span>
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search accounts..." style={{ width: "100%", padding: "8px 12px 8px 34px", border: "1px solid #E2E8F0", borderRadius: 8, fontSize: 13, color: "#1E293B", background: "#F8FAFC", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }} />
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <header className="shrink-0 border-b border-slate-200/90 bg-white">
+          <div className="flex flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">Coverage map</p>
+              <h1 className="mt-0.5 text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
+                Account landscape & solution fit
+              </h1>
+              <p className="mt-1 max-w-2xl text-xs leading-relaxed text-slate-500">
+                Every account in this book is a{" "}
+                <span className="font-medium text-slate-700">Snowflake customer</span>. Use the map for
+                expansion depth, workload coverage, and personas —                 narratives match your{" "}
+                <span className="font-medium text-slate-700">Territory Summary</span> workbook (GT _ Snowflake
+                Territory Mapping.xlsx); use per-account tabs for depth.
+              </p>
+            </div>
+            <Link
+              href="/operating-system"
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-slate-800 sm:self-auto"
+            >
+              Open execution workspace
+              <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} />
+            </Link>
           </div>
-          <div style={{ display: "flex", gap: 4, marginLeft: "auto" }}>
-            {[0, 1, 2, 3].map((t) => (
-              <button key={t} type="button" onClick={() => setFTier(t)} style={{ padding: "6px 12px", borderRadius: 6, border: fTier === t ? "1px solid #29B5E8" : "1px solid #E2E8F0", background: fTier === t ? "#EFF6FF" : "#FFF", color: fTier === t ? "#0369A1" : "#64748B", fontSize: 12, fontWeight: fTier === t ? 600 : 400, cursor: "pointer", fontFamily: "inherit" }}>
-                {t === 0 ? "All" : t === 1 ? "Tier 1" : t === 2 ? "Tier 2" : "Tier 3"}
-              </button>
-            ))}
-            <div style={{ width: 1, background: "#E2E8F0", margin: "0 4px" }} />
-            {["All", "Existing", "Prospect"].map((s) => (
-              <button key={s} type="button" onClick={() => setFStatus(s)} style={{ padding: "6px 12px", borderRadius: 6, border: fStatus === s ? "1px solid #29B5E8" : "1px solid #E2E8F0", background: fStatus === s ? "#EFF6FF" : "#FFF", color: fStatus === s ? "#0369A1" : "#64748B", fontSize: 12, fontWeight: fStatus === s ? 600 : 400, cursor: "pointer", fontFamily: "inherit" }}>
-                {s}
-              </button>
-            ))}
+          <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-3 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+            <div className="relative min-w-0 flex-1 max-w-md">
+              <Search
+                className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                strokeWidth={1.75}
+                aria-hidden
+              />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search accounts…"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pl-9 pr-3 text-sm text-slate-900 outline-none ring-sky-500/0 transition-[box-shadow,border-color] placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-500/20"
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-1.5 sm:ml-auto">
+              {[0, 1, 2, 3].map((t) => (
+                <button key={t} type="button" onClick={() => setFTier(t)} className={filterPill(fTier === t)}>
+                  {t === 0 ? "All tiers" : `Tier ${t}`}
+                </button>
+              ))}
+              {saving && (
+                <span className="ml-2 text-[11px] font-medium text-[#29B5E8]">Saved</span>
+              )}
+            </div>
           </div>
-          {saving && (
-            <span style={{ fontSize: 11, color: "#29B5E8", fontWeight: 500 }}>Saved ✓</span>
-          )}
-        </div>
+        </header>
 
-        <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
-          <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
-            <div style={{ display: "flex", gap: 16, marginBottom: 24 }}>
-              {[
-                { label: "Total Accounts", value: accounts.length, color: "#0F172A" },
-                { label: "Existing", value: accounts.filter((a) => a.status === "Existing").length, color: "#059669" },
-                { label: "Net New", value: accounts.filter((a) => a.status === "Prospect").length, color: "#D97706" },
-                { label: "Solutions Mapped", value: accounts.reduce((s, a) => s + a.solutions.length, 0), color: "#2563EB" },
-                { label: "Contacts", value: accounts.reduce((s, a) => s + a.contacts.length, 0), color: "#7C3AED" },
-              ].map((s, i) => (
-                <div key={i} style={{ flex: 1, background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 10, padding: "16px 20px" }}>
-                  <div style={{ fontSize: 11, fontWeight: 500, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>{s.label}</div>
-                  <div style={{ fontSize: 28, fontWeight: 700, color: s.color, letterSpacing: "-0.02em" }}>{s.value}</div>
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <div className="min-w-0 flex-1 overflow-y-auto px-5 py-6 sm:px-6 lg:px-8">
+            <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {(
+                [
+                  { label: "Customers", value: accounts.length, className: "text-slate-900" },
+                  {
+                    label: "Tier 1",
+                    value: accounts.filter((a) => a.tier === 1).length,
+                    className: "text-[#0e7490]",
+                  },
+                  {
+                    label: "Tier 2",
+                    value: accounts.filter((a) => a.tier === 2).length,
+                    className: "text-sky-800",
+                  },
+                  {
+                    label: "Tier 3",
+                    value: accounts.filter((a) => a.tier === 3).length,
+                    className: "text-slate-600",
+                  },
+                  {
+                    label: "Solutions mapped",
+                    value: accounts.reduce((s, a) => s + a.solutions.length, 0),
+                    className: "text-blue-700",
+                  },
+                  {
+                    label: "Contacts",
+                    value: accounts.reduce((s, a) => s + a.contacts.length, 0),
+                    className: "text-violet-700",
+                  },
+                ] as const
+              ).map((s, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm"
+                >
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                    {s.label}
+                  </p>
+                  <p className={cn("mt-1 text-2xl font-bold tabular-nums tracking-tight sm:text-[26px]", s.className)}>
+                    {s.value}
+                  </p>
                 </div>
               ))}
             </div>
@@ -553,21 +656,28 @@ export default function TerritoryIntelligenceMap() {
                 const ta = fil.filter((a) => a.tier === tier);
                 if (!ta.length) return null;
                 return (
-                  <div key={tier} style={{ marginBottom: 28 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: tier === 1 ? "#29B5E8" : tier === 2 ? "#6CB4EE" : "#94A3B8" }} />
-                      <span style={{ fontSize: 12, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em" }}>Tier {tier}</span>
-                      <span style={{ fontSize: 11, color: "#94A3B8" }}>
+                  <div key={tier} className="mb-8">
+                    <div className="mb-3 flex items-center gap-2">
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{
+                          background: tier === 1 ? "#29B5E8" : tier === 2 ? "#6CB4EE" : "#94A3B8",
+                        }}
+                      />
+                      <span className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+                        Tier {tier}
+                      </span>
+                      <span className="text-xs text-slate-400">
                         {ta.length} account{ta.length !== 1 ? "s" : ""}
                       </span>
                     </div>
 
-                    <div style={{ background: "#FFF", border: "1px solid #E2E8F0", borderRadius: 10, overflow: "hidden" }}>
-                      <div style={{ display: "grid", gridTemplateColumns: "2fr 1.2fr 0.8fr 0.8fr 2.5fr", padding: "10px 20px", borderBottom: "1px solid #E2E8F0", background: "#F8FAFC" }}>
-                        {["Account", "Industry", "ACV", "Status", "Solutions"].map((h) => (
-                          <span key={h} style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                            {h}
-                          </span>
+                    <div className="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm">
+                      <div className="overflow-x-auto">
+                        <div className="min-w-[720px]">
+                      <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,2.5fr)] gap-2 border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">
+                        {["Account", "Industry", "Est. ACV", "Book", "Solutions"].map((h) => (
+                          <span key={h}>{h}</span>
                         ))}
                       </div>
                       {ta.map((a, i) => (
@@ -586,60 +696,93 @@ export default function TerritoryIntelligenceMap() {
                               setEdit(false);
                             }
                           }}
-                          style={{ display: "grid", gridTemplateColumns: "2fr 1.2fr 0.8fr 0.8fr 2.5fr", padding: "14px 20px", borderBottom: i < ta.length - 1 ? "1px solid #F1F5F9" : "none", cursor: "pointer", transition: "background 0.1s", background: sel?.id === a.id ? "#F0F9FF" : "transparent" }}
-                          onMouseEnter={(e) => {
-                            if (sel?.id !== a.id) e.currentTarget.style.background = "#F8FAFC";
-                          }}
-                          onMouseLeave={(e) => {
-                            if (sel?.id !== a.id) e.currentTarget.style.background = "transparent";
-                          }}
+                          className={cn(
+                            "grid cursor-pointer grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,2.5fr)] gap-2 border-b border-slate-100 px-5 py-3.5 text-left transition-colors last:border-b-0",
+                            sel?.id === a.id ? "bg-sky-50/90" : "hover:bg-slate-50/80"
+                          )}
                         >
                           <div>
-                            <div style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{a.name}</div>
+                            <div className="text-sm font-semibold text-slate-900">{a.name}</div>
                             {a.contacts.filter((c) => c.name).length > 0 && (
-                              <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>{a.contacts.filter((c) => c.name).map((c) => c.name).join(", ")}</div>
+                              <div className="mt-0.5 text-[11px] text-slate-400">
+                                {a.contacts.filter((c) => c.name).map((c) => c.name).join(", ")}
+                              </div>
                             )}
                           </div>
-                          <div style={{ fontSize: 13, color: "#64748B", display: "flex", alignItems: "center" }}>{a.industry}</div>
-                          <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ fontSize: 12, fontWeight: 500, color: "#0F172A" }}>{a.acv}</span>
+                          <div className="flex items-center text-[13px] text-slate-600">{a.industry}</div>
+                          <div className="flex items-center">
+                            <span className="text-xs font-medium text-slate-800">{a.acv}</span>
                           </div>
-                          <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 500, background: a.status === "Existing" ? "#ECFDF5" : "#FFF7ED", color: a.status === "Existing" ? "#059669" : "#D97706" }}>{a.status}</span>
+                          <div className="flex items-center">
+                            <span
+                              className={cn(
+                                "rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                                a.status === "Existing"
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : "bg-amber-50 text-amber-800"
+                              )}
+                            >
+                              {bookLabel(a.status)}
+                            </span>
                           </div>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: 4, alignItems: "center" }}>
+                          <div className="flex flex-wrap items-center gap-1">
                             {a.solutions.map((s, j) => (
-                              <span key={j} style={{ padding: "2px 8px", borderRadius: 4, fontSize: 10, fontWeight: 500, background: `${gc(s.product)}10`, color: gc(s.product), border: `1px solid ${gc(s.product)}25` }}>
+                              <span
+                                key={j}
+                                className="rounded px-2 py-0.5 text-[10px] font-medium"
+                                style={{
+                                  background: `${gc(s.product)}14`,
+                                  color: gc(s.product),
+                                  border: `1px solid ${gc(s.product)}33`,
+                                }}
+                              >
                                 {s.product}
                               </span>
                             ))}
                           </div>
                         </div>
                       ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
               })
             ) : (
               <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 16 }}>Solution Positioning Across Accounts</div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 12 }}>
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+                  Solution positioning across accounts
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                   {Object.entries(allSol)
                     .sort((a, b) => b[1].length - a[1].length)
                     .map(([product, entries]) => (
-                      <div key={product} style={{ background: "#FFF", border: "1px solid #E2E8F0", borderRadius: 10, padding: 20 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                          <div style={{ width: 10, height: 10, borderRadius: 3, background: gc(product) }} />
-                          <span style={{ fontSize: 14, fontWeight: 600, color: "#0F172A" }}>{product}</span>
-                          <span style={{ marginLeft: "auto", fontSize: 12, fontWeight: 600, color: "#94A3B8", background: "#F1F5F9", padding: "2px 8px", borderRadius: 10 }}>{entries.length}</span>
+                      <div
+                        key={product}
+                        className="rounded-xl border border-slate-200/90 bg-white p-5 shadow-sm"
+                      >
+                        <div className="mb-3 flex items-center gap-2">
+                          <span
+                            className="h-2.5 w-2.5 shrink-0 rounded-sm"
+                            style={{ background: gc(product) }}
+                          />
+                          <span className="text-sm font-semibold text-slate-900">{product}</span>
+                          <span className="ml-auto rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500">
+                            {entries.length}
+                          </span>
                         </div>
                         {entries.map((entry, i) => {
                           const acc = accounts.find((x) => x.id === entry.id);
                           const sol = acc?.solutions.find((s) => s.product === product);
                           return (
-                            <div key={entry.id} style={{ padding: "10px 0", borderTop: i > 0 ? "1px solid #F1F5F9" : "none" }}>
-                              <div style={{ fontSize: 13, fontWeight: 500, color: "#0F172A" }}>{entry.name}</div>
-                              {sol && <div style={{ fontSize: 12, color: "#64748B", marginTop: 3, lineHeight: 1.4 }}>{sol.problem}</div>}
+                            <div
+                              key={entry.id}
+                              className={cn("py-2.5", i > 0 && "border-t border-slate-100")}
+                            >
+                              <div className="text-[13px] font-medium text-slate-900">{entry.name}</div>
+                              {sol && (
+                                <div className="mt-1 text-xs leading-relaxed text-slate-600">{sol.problem}</div>
+                              )}
                             </div>
                           );
                         })}
@@ -648,113 +791,232 @@ export default function TerritoryIntelligenceMap() {
                 </div>
               </div>
             )}
+
+            <p className="mt-10 max-w-3xl border-t border-slate-200/80 pt-6 text-[11px] leading-relaxed text-slate-400">
+              Customer book for expansion planning. Enrich from your account-plan decks and CRM; validate consumption, stakeholders, and opportunity data in official systems before live conversations.
+            </p>
           </div>
 
           {sel && (
-            <div style={{ width: 400, borderLeft: "1px solid #E2E8F0", background: "#FFFFFF", overflowY: "auto", flexShrink: 0 }}>
-              <div style={{ padding: "20px 24px", borderBottom: "1px solid #E2E8F0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ flex: 1, marginRight: 12 }}>
+            <aside className="w-[min(100vw-1rem,400px)] shrink-0 overflow-y-auto border-l border-slate-200/90 bg-white shadow-[inset_1px_0_0_rgba(15,23,42,0.04)]">
+              <div className="flex items-start justify-between gap-3 border-b border-slate-200/90 px-6 py-5">
+                <div className="min-w-0 flex-1">
                   {edit ? (
-                    <input value={sel.name} onChange={(e) => ua(sel.id, "name", e.target.value)} style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", border: "1px solid #E2E8F0", borderRadius: 6, padding: "4px 8px", width: "100%", fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
+                    <input
+                      value={sel.name}
+                      onChange={(e) => ua(sel.id, "name", e.target.value)}
+                      className="w-full rounded-md border border-slate-200 px-2 py-1 text-lg font-bold text-slate-900 outline-none ring-sky-500/0 focus:ring-2 focus:ring-sky-500/20"
+                    />
                   ) : (
-                    <h2 style={{ fontSize: 18, fontWeight: 700, color: "#0F172A", margin: 0 }}>{sel.name}</h2>
+                    <h2 className="text-lg font-bold tracking-tight text-slate-900">{sel.name}</h2>
                   )}
                 </div>
-                <div style={{ display: "flex", gap: 6 }}>
-                  <button type="button" onClick={() => setEdit(!edit)} style={{ padding: "6px 14px", borderRadius: 6, border: "1px solid #E2E8F0", background: edit ? "#EFF6FF" : "#FFF", color: edit ? "#0369A1" : "#64748B", fontSize: 12, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>
+                <div className="flex shrink-0 gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setEdit(!edit)}
+                    className={cn(
+                      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
+                      edit
+                        ? "border-sky-200 bg-sky-50 text-sky-900"
+                        : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                    )}
+                  >
                     {edit ? "Done" : "Edit"}
                   </button>
-                  <button type="button" onClick={() => setSel(null)} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #E2E8F0", background: "#FFF", color: "#94A3B8", fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
-                    ✕
+                  <button
+                    type="button"
+                    onClick={() => setSel(null)}
+                    className="rounded-md border border-slate-200 p-1.5 text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-600"
+                    aria-label="Close panel"
+                  >
+                    <X className="h-4 w-4" strokeWidth={2} />
                   </button>
                 </div>
               </div>
 
-              <div style={{ padding: "16px 24px", borderBottom: "1px solid #F1F5F9" }}>
+              <div className="border-b border-slate-100 px-6 py-4">
                 {edit ? (
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    <select value={sel.tier} onChange={(e) => ua(sel.id, "tier", +e.target.value)} style={{ padding: "6px 10px", border: "1px solid #E2E8F0", borderRadius: 6, fontSize: 12, color: "#1E293B", fontFamily: "inherit", background: "#FFF" }}>
+                  <div className="flex flex-wrap gap-2">
+                    <select
+                      value={sel.tier}
+                      onChange={(e) => ua(sel.id, "tier", +e.target.value)}
+                      className="rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-800"
+                    >
                       <option value={1}>Tier 1</option>
                       <option value={2}>Tier 2</option>
                       <option value={3}>Tier 3</option>
                     </select>
-                    <input value={sel.acv} onChange={(e) => ua(sel.id, "acv", e.target.value)} style={{ padding: "6px 10px", border: "1px solid #E2E8F0", borderRadius: 6, fontSize: 12, width: 80, fontFamily: "inherit", outline: "none" }} />
-                    <input value={sel.industry} onChange={(e) => ua(sel.id, "industry", e.target.value)} style={{ padding: "6px 10px", border: "1px solid #E2E8F0", borderRadius: 6, fontSize: 12, width: 140, fontFamily: "inherit", outline: "none" }} />
-                    <select value={sel.status} onChange={(e) => ua(sel.id, "status", e.target.value)} style={{ padding: "6px 10px", border: "1px solid #E2E8F0", borderRadius: 6, fontSize: 12, fontFamily: "inherit", background: "#FFF" }}>
+                    <input
+                      value={sel.acv}
+                      onChange={(e) => ua(sel.id, "acv", e.target.value)}
+                      className="w-20 rounded-md border border-slate-200 px-2.5 py-1.5 text-xs outline-none"
+                    />
+                    <input
+                      value={sel.industry}
+                      onChange={(e) => ua(sel.id, "industry", e.target.value)}
+                      className="w-36 rounded-md border border-slate-200 px-2.5 py-1.5 text-xs outline-none"
+                    />
+                    <select
+                      value={sel.status}
+                      onChange={(e) => ua(sel.id, "status", e.target.value)}
+                      className="rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs"
+                    >
                       <option value="Existing">Existing</option>
                       <option value="Prospect">Prospect</option>
                     </select>
                   </div>
                 ) : (
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                    <span style={{ padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 500, background: "#F0F9FF", color: "#0369A1" }}>Tier {sel.tier}</span>
-                    <span style={{ padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 500, background: "#F8FAFC", color: "#475569" }}>{sel.acv}</span>
-                    <span style={{ padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 500, background: "#F8FAFC", color: "#475569" }}>{sel.industry}</span>
-                    <span style={{ padding: "4px 10px", borderRadius: 20, fontSize: 11, fontWeight: 500, background: sel.status === "Existing" ? "#ECFDF5" : "#FFF7ED", color: sel.status === "Existing" ? "#059669" : "#D97706" }}>{sel.status}</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-medium text-sky-800">
+                      Tier {sel.tier}
+                    </span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-700">
+                      {sel.acv}
+                    </span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-700">
+                      {sel.industry}
+                    </span>
+                    <span
+                      className={cn(
+                        "rounded-full px-2.5 py-1 text-[11px] font-medium",
+                        sel.status === "Existing"
+                          ? "bg-emerald-50 text-emerald-800"
+                          : "bg-amber-50 text-amber-800"
+                      )}
+                    >
+                      {bookLabel(sel.status)}
+                    </span>
                   </div>
                 )}
               </div>
 
-              <div style={{ padding: "16px 24px", borderBottom: "1px solid #F1F5F9" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>Why Now</div>
+              <div className="border-b border-slate-100 px-6 py-4">
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                  Why now
+                </p>
                 {edit ? (
-                  <textarea value={sel.compelling} onChange={(e) => ua(sel.id, "compelling", e.target.value)} rows={4} style={{ width: "100%", padding: 10, border: "1px solid #E2E8F0", borderRadius: 8, fontSize: 13, color: "#1E293B", fontFamily: "inherit", resize: "vertical", outline: "none", lineHeight: 1.5, boxSizing: "border-box" }} />
+                  <textarea
+                    value={sel.compelling}
+                    onChange={(e) => ua(sel.id, "compelling", e.target.value)}
+                    rows={4}
+                    className="w-full resize-y rounded-lg border border-slate-200 p-2.5 text-[13px] leading-relaxed text-slate-800 outline-none ring-sky-500/0 focus:ring-2 focus:ring-sky-500/15"
+                  />
                 ) : (
-                  <p style={{ fontSize: 13, color: "#475569", margin: 0, lineHeight: 1.6 }}>{sel.compelling || "No compelling event documented"}</p>
+                  <p className="text-[13px] leading-relaxed text-slate-600">
+                    {sel.compelling || "No compelling event documented."}
+                  </p>
                 )}
               </div>
 
-              <div style={{ padding: "16px 24px", borderBottom: "1px solid #F1F5F9" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Solutions</span>
+              <div className="border-b border-slate-100 px-6 py-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                    Solutions
+                  </span>
                   {edit && (
-                    <button type="button" onClick={() => addSol(sel.id)} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid #E2E8F0", background: "#FFF", color: "#0369A1", fontSize: 11, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>
-                      + Add
+                    <button
+                      type="button"
+                      onClick={() => addSol(sel.id)}
+                      className="rounded-md border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-sky-800 hover:bg-slate-50"
+                    >
+                      Add
                     </button>
                   )}
                 </div>
                 {sel.solutions.map((sol, i) => (
-                  <div key={i} style={{ background: "#F8FAFC", borderRadius: 8, padding: 14, marginBottom: 8, border: "1px solid #F1F5F9" }}>
+                  <div
+                    key={i}
+                    className="mb-2 rounded-lg border border-slate-100 bg-slate-50/80 p-3.5 last:mb-0"
+                  >
                     {edit ? (
                       <>
-                        <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-                          <input value={sol.product} onChange={(e) => us(sel.id, i, "product", e.target.value)} style={{ flex: 1, padding: "5px 8px", border: "1px solid #E2E8F0", borderRadius: 4, fontSize: 12, fontWeight: 600, color: gc(sol.product), fontFamily: "inherit", outline: "none" }} />
-                          <button type="button" onClick={() => rmSol(sel.id, i)} style={{ padding: "4px 8px", border: "1px solid #FCA5A5", borderRadius: 4, background: "#FFF5F5", color: "#DC2626", fontSize: 11, cursor: "pointer", fontFamily: "inherit" }}>
-                            ✕
+                        <div className="mb-2 flex gap-2">
+                          <input
+                            value={sol.product}
+                            onChange={(e) => us(sel.id, i, "product", e.target.value)}
+                            className="min-w-0 flex-1 rounded border border-slate-200 px-2 py-1 text-xs font-semibold outline-none"
+                            style={{ color: gc(sol.product) }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => rmSol(sel.id, i)}
+                            className="shrink-0 rounded border border-rose-200 bg-rose-50 px-2 py-1 text-rose-700"
+                            aria-label="Remove solution"
+                          >
+                            <X className="h-3.5 w-3.5" />
                           </button>
                         </div>
-                        <textarea value={sol.problem} onChange={(e) => us(sel.id, i, "problem", e.target.value)} rows={2} style={{ width: "100%", padding: 8, border: "1px solid #E2E8F0", borderRadius: 4, fontSize: 12, color: "#475569", fontFamily: "inherit", resize: "vertical", outline: "none", boxSizing: "border-box" }} />
+                        <textarea
+                          value={sol.problem}
+                          onChange={(e) => us(sel.id, i, "problem", e.target.value)}
+                          rows={2}
+                          className="w-full resize-y rounded border border-slate-200 p-2 text-xs text-slate-600 outline-none"
+                        />
                       </>
                     ) : (
                       <>
-                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-                          <div style={{ width: 8, height: 8, borderRadius: 2, background: gc(sol.product) }} />
-                          <span style={{ fontSize: 13, fontWeight: 600, color: gc(sol.product) }}>{sol.product}</span>
+                        <div className="mb-1.5 flex items-center gap-2">
+                          <span
+                            className="h-2 w-2 shrink-0 rounded-sm"
+                            style={{ background: gc(sol.product) }}
+                          />
+                          <span className="text-[13px] font-semibold" style={{ color: gc(sol.product) }}>
+                            {sol.product}
+                          </span>
                         </div>
-                        <p style={{ fontSize: 12, color: "#64748B", margin: 0, lineHeight: 1.5 }}>{sol.problem}</p>
+                        <p className="m-0 text-xs leading-relaxed text-slate-600">{sol.problem}</p>
                       </>
                     )}
                   </div>
                 ))}
               </div>
 
-              <div style={{ padding: "16px 24px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", textTransform: "uppercase", letterSpacing: "0.06em" }}>Key Contacts</span>
+              <div className="px-6 py-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                    Key contacts
+                  </span>
                   {edit && (
-                    <button type="button" onClick={() => addCon(sel.id)} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid #E2E8F0", background: "#FFF", color: "#0369A1", fontSize: 11, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>
-                      + Add
+                    <button
+                      type="button"
+                      onClick={() => addCon(sel.id)}
+                      className="rounded-md border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-sky-800 hover:bg-slate-50"
+                    >
+                      Add
                     </button>
                   )}
                 </div>
-                {sel.contacts.length === 0 && <p style={{ fontSize: 12, color: "#94A3B8" }}>No contacts mapped yet</p>}
+                {sel.contacts.length === 0 && (
+                  <p className="text-xs text-slate-400">No contacts mapped yet.</p>
+                )}
                 {sel.contacts.map((con, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", padding: "10px 0", borderTop: i > 0 ? "1px solid #F1F5F9" : "none" }}>
+                  <div
+                    key={i}
+                    className={cn(
+                      "flex items-center gap-2.5 py-2.5",
+                      i > 0 && "border-t border-slate-100"
+                    )}
+                  >
                     {edit ? (
                       <>
-                        <input value={con.name} onChange={(e) => uc(sel.id, i, "name", e.target.value)} placeholder="Name" style={{ flex: 1, padding: "5px 8px", border: "1px solid #E2E8F0", borderRadius: 4, fontSize: 12, fontFamily: "inherit", outline: "none" }} />
-                        <input value={con.title} onChange={(e) => uc(sel.id, i, "title", e.target.value)} placeholder="Title" style={{ flex: 1, padding: "5px 8px", border: "1px solid #E2E8F0", borderRadius: 4, fontSize: 12, fontFamily: "inherit", outline: "none" }} />
-                        <select value={con.role} onChange={(e) => uc(sel.id, i, "role", e.target.value)} style={{ padding: "5px 6px", border: "1px solid #E2E8F0", borderRadius: 4, fontSize: 11, fontFamily: "inherit", background: "#FFF" }}>
+                        <input
+                          value={con.name}
+                          onChange={(e) => uc(sel.id, i, "name", e.target.value)}
+                          placeholder="Name"
+                          className="min-w-0 flex-1 rounded border border-slate-200 px-2 py-1 text-xs outline-none"
+                        />
+                        <input
+                          value={con.title}
+                          onChange={(e) => uc(sel.id, i, "title", e.target.value)}
+                          placeholder="Title"
+                          className="min-w-0 flex-1 rounded border border-slate-200 px-2 py-1 text-xs outline-none"
+                        />
+                        <select
+                          value={con.role}
+                          onChange={(e) => uc(sel.id, i, "role", e.target.value)}
+                          className="rounded border border-slate-200 bg-white px-1.5 py-1 text-[11px]"
+                        >
                           <option value="Champion">Champion</option>
                           <option value="Economic Buyer">Econ Buyer</option>
                           <option value="Technical Champion">Tech Champ</option>
@@ -762,29 +1024,35 @@ export default function TerritoryIntelligenceMap() {
                           <option value="Influencer">Influencer</option>
                           <option value="Blocker">Blocker</option>
                         </select>
-                        <button type="button" onClick={() => rmCon(sel.id, i)} style={{ padding: "4px 8px", border: "1px solid #FCA5A5", borderRadius: 4, background: "#FFF5F5", color: "#DC2626", fontSize: 11, cursor: "pointer" }}>
-                          ✕
+                        <button
+                          type="button"
+                          onClick={() => rmCon(sel.id, i)}
+                          className="shrink-0 rounded border border-rose-200 bg-rose-50 p-1 text-rose-700"
+                          aria-label="Remove contact"
+                        >
+                          <X className="h-3.5 w-3.5" />
                         </button>
                       </>
                     ) : (
                       <>
-                        <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 600, color: "#0369A1", flexShrink: 0 }}>
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-50 text-xs font-semibold text-sky-800">
                           {con.name ? con.name.split(" ").map((n) => n[0]).join("") : "?"}
                         </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 13, fontWeight: 500, color: "#0F172A" }}>{con.name || "TBD"}</div>
-                          <div style={{ fontSize: 11, color: "#94A3B8" }}>{con.title}</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-[13px] font-medium text-slate-900">{con.name || "TBD"}</div>
+                          <div className="text-[11px] text-slate-400">{con.title}</div>
                         </div>
                         <span
-                          style={{
-                            padding: "3px 8px",
-                            borderRadius: 20,
-                            fontSize: 10,
-                            fontWeight: 500,
-                            flexShrink: 0,
-                            background: con.role.includes("Champion") ? "#ECFDF5" : con.role === "Economic Buyer" ? "#EFF6FF" : con.role === "Blocker" ? "#FFF5F5" : "#FFF7ED",
-                            color: con.role.includes("Champion") ? "#059669" : con.role === "Economic Buyer" ? "#0369A1" : con.role === "Blocker" ? "#DC2626" : "#D97706",
-                          }}
+                          className={cn(
+                            "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium",
+                            con.role.includes("Champion")
+                              ? "bg-emerald-50 text-emerald-800"
+                              : con.role === "Economic Buyer"
+                                ? "bg-sky-50 text-sky-800"
+                                : con.role === "Blocker"
+                                  ? "bg-rose-50 text-rose-800"
+                                  : "bg-amber-50 text-amber-800"
+                          )}
                         >
                           {con.role}
                         </span>
@@ -793,12 +1061,16 @@ export default function TerritoryIntelligenceMap() {
                   </div>
                 ))}
                 {edit && (
-                  <button type="button" onClick={() => rmAcc(sel.id)} style={{ width: "100%", padding: 10, marginTop: 16, borderRadius: 8, border: "1px solid #FCA5A5", background: "#FFF5F5", color: "#DC2626", fontSize: 12, fontWeight: 500, cursor: "pointer", fontFamily: "inherit" }}>
-                    Delete Account
+                  <button
+                    type="button"
+                    onClick={() => rmAcc(sel.id)}
+                    className="mt-4 w-full rounded-lg border border-rose-200 bg-rose-50 py-2.5 text-xs font-medium text-rose-800 transition-colors hover:bg-rose-100"
+                  >
+                    Delete account
                   </button>
                 )}
               </div>
-            </div>
+            </aside>
           )}
         </div>
       </div>

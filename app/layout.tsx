@@ -29,19 +29,19 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Territory Operating System | Snowflake Enterprise AE",
+  title: "Territory Intelligence | Snowflake Enterprise AE",
   description:
-    "Practical territory operating system for Snowflake enterprise AEs. Own strategic accounts, run daily execution rhythm, and expand high-value platform use cases.",
+    "Enterprise territory customer book: coverage map, solution fit, and execution workspace for Snowflake AEs — built for expansion on existing customers.",
   icons: {
     icon: [{ url: "/snowflake-logo.png", type: "image/png", sizes: "any" }],
     apple: [{ url: "/snowflake-logo.png", type: "image/png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Territory Operating System | Snowflake",
+    title: "Territory Intelligence | Snowflake",
     description:
-      "Commercial territory operating system for Snowflake enterprise accounts. Daily execution, expansion strategy, and platform narrative.",
+      "Field-ready territory map and operating workspace for Snowflake enterprise account teams.",
     url: "/",
-    siteName: "Snowflake GTM",
+    siteName: "Snowflake Enterprise AE",
     type: "website",
     images: [
       {
@@ -54,8 +54,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Territory Operating System | Snowflake",
-    description: "Practical operating rhythm for Snowflake enterprise territory ownership and expansion.",
+    title: "Territory Intelligence | Snowflake",
+    description: "Territory coverage map and execution workspace built for enterprise AEs.",
     images: ["/snowflake-logo.png"],
   },
 };
@@ -68,7 +68,7 @@ export default function RootLayout({
   const themeScript = `
     (() => {
       try {
-        var s = localStorage.getItem("snowflake-gtm-theme");
+        var s = localStorage.getItem("snowflake-ae-field-theme") || localStorage.getItem("snowflake-gtm-theme");
         var theme = (s === "light" || s === "dark") ? s : "dark";
         document.documentElement.dataset.theme = theme;
         document.documentElement.classList.toggle("dark", theme === "dark");

@@ -9,7 +9,8 @@ import {
   type ReactNode,
 } from "react";
 
-const THEME_STORAGE_KEY = "snowflake-gtm-theme";
+const LEGACY_THEME_KEY = "snowflake-gtm-theme";
+const THEME_STORAGE_KEY = "snowflake-ae-field-theme";
 
 type Theme = "light" | "dark";
 
@@ -25,7 +26,8 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
   try {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    const stored = (localStorage.getItem(THEME_STORAGE_KEY) ||
+      localStorage.getItem(LEGACY_THEME_KEY)) as Theme | null;
     if (stored === "light" || stored === "dark") return stored;
   } catch {}
   return "light";

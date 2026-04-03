@@ -214,7 +214,7 @@ function MainContent() {
   );
 }
 
-export default function GtmPage() {
+export default function OperatingSystemPage() {
   return (
     <AppProvider>
       <MainContent />
