@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SnowflakeLogoIcon, SnowflakeWordmark } from "@/components/ui/snowflake-logo";
-import Link from "next/link";
 import {
   MessageCircle,
   Target,
@@ -43,6 +43,7 @@ interface SidebarProps {
   activeSection: SectionId;
   onSectionChange: (id: SectionId) => void;
   onOpenChat: () => void;
+  onOpenSnowflakeIntelligence: () => void;
   collapsed: boolean;
   scrollProgress: number;
   mobileOpen: boolean;
@@ -54,6 +55,7 @@ interface SidebarBodyProps {
   activeSection: SectionId;
   onSectionChange: (id: SectionId) => void;
   onOpenChat: () => void;
+  onOpenSnowflakeIntelligence: () => void;
   scrollProgress: number;
   compact?: boolean;
   onToggleCollapsed?: () => void;
@@ -64,6 +66,7 @@ function SidebarBody({
   activeSection,
   onSectionChange,
   onOpenChat,
+  onOpenSnowflakeIntelligence,
   scrollProgress,
   compact = false,
   onToggleCollapsed,
@@ -212,9 +215,12 @@ function SidebarBody({
             />
             {!compact && <span>Territory Intelligence</span>}
           </Link>
-          <Link
-            href="/snowflake-intelligence"
-            onClick={() => onCloseMobile?.()}
+          <button
+            type="button"
+            onClick={() => {
+              onOpenSnowflakeIntelligence();
+              onCloseMobile?.();
+            }}
             className={cn(
               "group flex w-full min-h-[44px] items-center gap-2 rounded-md px-3 py-3 text-left text-[13px] text-text-muted transition-all duration-150 hover:bg-surface-muted/30 hover:text-text-secondary",
               compact && "justify-center px-0 py-2 min-h-[40px]"
@@ -225,7 +231,7 @@ function SidebarBody({
               strokeWidth={1.8}
             />
             {!compact && <span>Snowflake Intelligence</span>}
-          </Link>
+          </button>
         </div>
       </nav>
 
@@ -264,6 +270,7 @@ export function Sidebar({
   activeSection,
   onSectionChange,
   onOpenChat,
+  onOpenSnowflakeIntelligence,
   collapsed,
   scrollProgress,
   mobileOpen,
@@ -282,6 +289,7 @@ export function Sidebar({
           activeSection={activeSection}
           onSectionChange={onSectionChange}
           onOpenChat={onOpenChat}
+          onOpenSnowflakeIntelligence={onOpenSnowflakeIntelligence}
           scrollProgress={scrollProgress}
           compact={collapsed}
           onToggleCollapsed={onToggleCollapsed}
@@ -312,6 +320,7 @@ export function Sidebar({
                 activeSection={activeSection}
                 onSectionChange={onSectionChange}
                 onOpenChat={onOpenChat}
+                onOpenSnowflakeIntelligence={onOpenSnowflakeIntelligence}
                 scrollProgress={scrollProgress}
                 onCloseMobile={onCloseMobile}
               />

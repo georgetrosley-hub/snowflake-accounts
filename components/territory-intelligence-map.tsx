@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import {
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
   LayoutGrid,
@@ -18,6 +16,7 @@ import {
 import { territoryStorageGet, territoryStorageSet } from "@/lib/territory-storage";
 import { cn } from "@/lib/utils";
 import { SnowflakeLogoIcon } from "@/components/ui/snowflake-logo";
+import { SnowflakeIntelligencePanel } from "@/components/layout/snowflake-intelligence-panel";
 
 /**
  * Territory store v4: full customer book + expansion narratives.
@@ -282,6 +281,7 @@ export default function TerritoryIntelligenceMap() {
   const [loaded, setLoaded] = useState(false);
   const [saving, setSaving] = useState(false);
   const [navCollapsed, setNavCollapsed] = useState(false);
+  const [snowflakeIntelOpen, setSnowflakeIntelOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -537,18 +537,31 @@ export default function TerritoryIntelligenceMap() {
             )}
             {!navCollapsed && "Collapse"}
           </button>
-          {!navCollapsed && (
+          {navCollapsed ? (
+            <button
+              type="button"
+              onClick={() => setSnowflakeIntelOpen(true)}
+              className="mt-2 flex w-full items-center justify-center rounded-lg border border-slate-200 bg-slate-50/80 py-2.5 text-[#29B5E8] transition-colors hover:border-sky-300 hover:bg-sky-50/50"
+              aria-label="Open Snowflake Intelligence"
+              title="Snowflake Intelligence"
+            >
+              <Sparkles className="h-4 w-4 shrink-0" strokeWidth={2} />
+            </button>
+          ) : (
             <div className="mt-2 space-y-2 px-2 pb-1">
-              <Link
-                href="/snowflake-intelligence"
-                className="group flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-[12px] font-medium text-slate-800 transition-colors hover:border-sky-300 hover:bg-sky-50/50"
+              <button
+                type="button"
+                onClick={() => setSnowflakeIntelOpen(true)}
+                className="group flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-left text-[12px] font-medium text-slate-800 transition-colors hover:border-sky-300 hover:bg-sky-50/50"
               >
                 <span className="flex items-center gap-2">
                   <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#29B5E8]" strokeWidth={2} />
                   Snowflake Intelligence
                 </span>
-                <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-[#29B5E8]" strokeWidth={2} />
-              </Link>
+                <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400 group-hover:text-[#29B5E8]">
+                  Open
+                </span>
+              </button>
               <p className="text-[11px] leading-snug text-slate-400">
                 Claude-powered help for territory narrative, Snowflake Intelligence, and platform positioning.
               </p>
@@ -573,14 +586,14 @@ export default function TerritoryIntelligenceMap() {
                 Territory Mapping.xlsx); use per-account tabs for depth.
               </p>
             </div>
-            <Link
-              href="/snowflake-intelligence"
+            <button
+              type="button"
+              onClick={() => setSnowflakeIntelOpen(true)}
               className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-slate-800 sm:self-auto"
             >
               <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
               Snowflake Intelligence
-              <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} />
-            </Link>
+            </button>
           </div>
           <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-3 sm:flex-row sm:items-center sm:px-6 lg:px-8">
             <div className="relative min-w-0 flex-1 max-w-md">
@@ -1079,6 +1092,11 @@ export default function TerritoryIntelligenceMap() {
           )}
         </div>
       </div>
+
+      <SnowflakeIntelligencePanel
+        isOpen={snowflakeIntelOpen}
+        onClose={() => setSnowflakeIntelOpen(false)}
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { AppProvider, useApp } from "@/app/context/app-context";
 import { Sidebar, type SectionId } from "@/components/layout/sidebar";
 import { StatusBar } from "@/components/layout/status-bar";
 import { ChatPanel } from "@/components/layout/chat-panel";
+import { SnowflakeIntelligencePanel } from "@/components/layout/snowflake-intelligence-panel";
 import { Overview } from "@/components/sections/overview";
 
 const ORDERED_SECTIONS: ReadonlyArray<{ sectionId: SectionId; anchorId: string }> = [
@@ -21,6 +22,7 @@ const ACTIVATION_OFFSET_PX = 120;
 function MainContent() {
   const [activeSection, setActiveSection] = useState<SectionId>("territoryPriorities");
   const [chatOpen, setChatOpen] = useState(false);
+  const [snowflakeIntelOpen, setSnowflakeIntelOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -54,7 +56,14 @@ function MainContent() {
   };
 
   const handleOpenChat = () => {
+    setSnowflakeIntelOpen(false);
     setChatOpen(true);
+    setMobileNavOpen(false);
+  };
+
+  const handleOpenSnowflakeIntelligence = () => {
+    setChatOpen(false);
+    setSnowflakeIntelOpen(true);
     setMobileNavOpen(false);
   };
 
@@ -173,6 +182,7 @@ function MainContent() {
         activeSection={activeSection}
         onSectionChange={handleSectionChange}
         onOpenChat={handleOpenChat}
+        onOpenSnowflakeIntelligence={handleOpenSnowflakeIntelligence}
         collapsed={sidebarCollapsed}
         scrollProgress={scrollProgress}
         mobileOpen={mobileNavOpen}
@@ -209,6 +219,10 @@ function MainContent() {
         account={account}
         competitors={competitors}
         activeSection={activeSection}
+      />
+      <SnowflakeIntelligencePanel
+        isOpen={snowflakeIntelOpen}
+        onClose={() => setSnowflakeIntelOpen(false)}
       />
     </div>
   );
