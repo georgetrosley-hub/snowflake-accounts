@@ -542,7 +542,7 @@ export default function TerritoryIntelligenceMap() {
 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <header className="shrink-0 border-b border-slate-200/90 bg-white">
-          <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <div className="hidden flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 md:flex">
             <div className="min-w-0">
               <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
                 Territory thesis
@@ -569,7 +569,7 @@ export default function TerritoryIntelligenceMap() {
               Snowflake Intelligence
             </button>
           </div>
-          <div className="flex flex-col gap-3 border-t border-slate-100 px-4 py-3 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:px-6 md:border-t md:border-slate-100 lg:px-8">
             <div className="relative min-w-0 max-w-md flex-1">
               <Search
                 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
