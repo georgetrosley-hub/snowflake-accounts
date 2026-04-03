@@ -12,6 +12,7 @@ import {
   Plus,
   RotateCcw,
   Search,
+  Sparkles,
   X,
 } from "lucide-react";
 import { territoryStorageGet, territoryStorageSet } from "@/lib/territory-storage";
@@ -539,14 +540,17 @@ export default function TerritoryIntelligenceMap() {
           {!navCollapsed && (
             <div className="mt-2 space-y-2 px-2 pb-1">
               <Link
-                href="/operating-system"
+                href="/snowflake-intelligence"
                 className="group flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2.5 text-[12px] font-medium text-slate-800 transition-colors hover:border-sky-300 hover:bg-sky-50/50"
               >
-                <span>Execution workspace</span>
+                <span className="flex items-center gap-2">
+                  <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#29B5E8]" strokeWidth={2} />
+                  Snowflake Intelligence
+                </span>
                 <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-[#29B5E8]" strokeWidth={2} />
               </Link>
               <p className="text-[11px] leading-snug text-slate-400">
-                Briefings, dossiers, and weekly rhythm — same standard for every territory.
+                Claude-powered help for territory narrative, Snowflake Intelligence, and platform positioning.
               </p>
             </div>
           )}
@@ -570,10 +574,11 @@ export default function TerritoryIntelligenceMap() {
               </p>
             </div>
             <Link
-              href="/operating-system"
+              href="/snowflake-intelligence"
               className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-slate-800 sm:self-auto"
             >
-              Open execution workspace
+              <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
+              Snowflake Intelligence
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.25} />
             </Link>
           </div>

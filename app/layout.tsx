@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Territory Intelligence | Snowflake Enterprise AE",
   description:
-    "Enterprise territory customer book: coverage map, solution fit, and execution workspace for Snowflake AEs — built for expansion on existing customers.",
+    "Enterprise territory customer book: coverage map, solution fit, and Snowflake Intelligence assistant for Snowflake AEs — built for expansion on existing customers.",
   icons: {
     icon: [{ url: "/snowflake-logo.png", type: "image/png", sizes: "any" }],
     apple: [{ url: "/snowflake-logo.png", type: "image/png", sizes: "180x180" }],
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Territory Intelligence | Snowflake",
     description:
-      "Field-ready territory map and operating workspace for Snowflake enterprise account teams.",
+      "Field-ready territory map and Snowflake Intelligence for Snowflake enterprise account teams.",
     url: "/",
     siteName: "Snowflake Enterprise AE",
     type: "website",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "Territory Intelligence | Snowflake",
-    description: "Territory coverage map and execution workspace built for enterprise AEs.",
+    description: "Territory coverage map and Snowflake Intelligence built for enterprise AEs.",
     images: ["/snowflake-logo.png"],
   },
 };

@@ -16,7 +16,7 @@ import {
   Compass,
   BookOpenCheck,
   Map,
-  LayoutDashboard,
+  Sparkles,
 } from "lucide-react";
 
 const SNOWFLAKE_SUMMIT_URL = "https://www.snowflake.com/en/summit/";
@@ -213,18 +213,18 @@ function SidebarBody({
             {!compact && <span>Territory Intelligence</span>}
           </Link>
           <Link
-            href="/operating-system"
+            href="/snowflake-intelligence"
             onClick={() => onCloseMobile?.()}
             className={cn(
               "group flex w-full min-h-[44px] items-center gap-2 rounded-md px-3 py-3 text-left text-[13px] text-text-muted transition-all duration-150 hover:bg-surface-muted/30 hover:text-text-secondary",
               compact && "justify-center px-0 py-2 min-h-[40px]"
             )}
           >
-            <LayoutDashboard
+            <Sparkles
               className="h-[14px] w-[14px] shrink-0 opacity-45 transition-opacity group-hover:opacity-70"
               strokeWidth={1.8}
             />
-            {!compact && <span>Execution workspace</span>}
+            {!compact && <span>Snowflake Intelligence</span>}
           </Link>
         </div>
       </nav>
