@@ -107,24 +107,6 @@ const SC: Record<string, string> = {
 };
 const gc = (p: string) => SC[p] || "#1AA6D6";
 
-function parseAccounts(raw: string): TerritoryAccount[] {
-  const parsed = JSON.parse(raw) as unknown[];
-  return parsed.map((row) => {
-    const a = row as Record<string, unknown>;
-    return {
-      id: String(a.id),
-      name: String(a.name ?? ""),
-      tier: Number(a.tier) || 3,
-      acv: String(a.acv ?? ""),
-      industry: String(a.industry ?? ""),
-      status: String(a.status ?? "Existing"),
-      compelling: String(a.compelling ?? ""),
-      solutions: Array.isArray(a.solutions) ? (a.solutions as TerritoryAccount["solutions"]) : [],
-      contacts: Array.isArray(a.contacts) ? (a.contacts as TerritoryAccount["contacts"]) : [],
-    };
-  });
-}
-
 export default function TerritoryIntelligenceMap() {
   const [accounts, setAccounts] = useState<TerritoryAccount[]>(DEFAULT_TERRITORY_ACCOUNTS);
   const [sel, setSel] = useState<TerritoryAccount | null>(null);
