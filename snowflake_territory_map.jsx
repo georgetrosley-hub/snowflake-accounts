@@ -1,3 +1,7 @@
+// Vercel / Next.js: the live site serves the classic territory map at "/" from
+// `components/territory-intelligence-map.tsx` (sf-territory-intel-v1 + localStorage).
+// This file is a standalone Cursor/advanced variant (v2 pipeline); keep in sync manually if needed.
+
 import { useState, useEffect, useMemo } from "react";
 
 const SK = "sf-territory-intel-v2";

@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SnowflakeLogoIcon, SnowflakeWordmark } from "@/components/ui/snowflake-logo";
+import Link from "next/link";
 import {
   MessageCircle,
   Target,
@@ -14,6 +15,7 @@ import {
   ClipboardCheck,
   Compass,
   BookOpenCheck,
+  Map,
 } from "lucide-react";
 
 const SNOWFLAKE_SUMMIT_URL = "https://www.snowflake.com/en/summit/";
@@ -189,6 +191,27 @@ function SidebarBody({
             </div>
           </div>
         ))}
+        <div className="mb-4">
+          {!compact && (
+            <p className="mb-1.5 px-2.5 text-[10px] font-medium uppercase tracking-[0.12em] text-text-faint/70">
+              Tools
+            </p>
+          )}
+          <Link
+            href="/"
+            onClick={() => onCloseMobile?.()}
+            className={cn(
+              "group flex w-full min-h-[44px] items-center gap-2 rounded-md px-3 py-3 text-left text-[13px] text-text-muted transition-all duration-150 hover:bg-surface-muted/30 hover:text-text-secondary",
+              compact && "justify-center px-0 py-2 min-h-[40px]"
+            )}
+          >
+            <Map
+              className="h-[14px] w-[14px] shrink-0 opacity-45 transition-opacity group-hover:opacity-70"
+              strokeWidth={1.8}
+            />
+            {!compact && <span>Territory map</span>}
+          </Link>
+        </div>
       </nav>
 
       <div className={cn("mt-auto border-t border-surface-border/30 px-5 py-4", compact && "px-3")}>
