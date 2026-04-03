@@ -1,0 +1,115 @@
+SNOWFLAKE ENTERPRISE AE INTERVIEW — MASTER BRIEFING DOC (MARCH 2026)
+1. Company Overview (Current State)
+Snowflake is a cloud-native data platform company built on a consumption-based model. It started as a data warehouse but has evolved into a full data + AI platform.
+Core pillars:
+Data Warehousing (core revenue driver)
+Data Engineering (pipelines, transformations)
+Data Sharing / Data Cloud (differentiator)
+AI + ML (rapidly"It sounds like a strong foundation. Where would you want me focused to maintain that and push it further?"expanding)
+Applications (Snowpark, Native Apps)
+Key narrative:
+Snowflake is trying to become the central data layer for the enterprise, where:
+Data is stored
+Data is processed
+AI is built and run
+Applications are deployed
+
+2. Key Products You Must Understand Cold
+Snowflake Data Cloud
+Multi-cloud (AWS, Azure, GCP)
+Separation of storage and compute
+Near-infinite scalability
+Pay-per-use consumption
+Snowpark
+Lets developers use Python, Java, Scala inside Snowflake
+Competes with Databricks’ developer-first model
+Snowflake Cortex (AI Layer)
+Built-in LLM capabilities
+Integrations with:
+OpenAI
+Anthropic
+Use cases:
+In-database LLM inference
+Text generation, summarization
+AI apps directly on enterprise data
+Native Apps Framework
+Build and distribute apps inside Snowflake
+Positions Snowflake as a platform, not just infrastructure
+Marketplace / Data Sharing
+Secure data sharing without ETL
+Massive differentiator vs Databricks
+
+3. What Has Happened Recently (2025 → March 2026)
+You should reference these naturally in the interview.
+AI Push
+Snowflake doubled down on AI with Cortex
+Tight integrations with OpenAI + Anthropic
+Positioning: “Bring AI to your governed data”
+Developer Strategy
+Heavy investment in Snowpark
+Competing directly with Databricks for developer mindshare
+Platform Expansion
+Moving beyond analytics → full application + AI platform
+Native Apps + Marketplace = ecosystem play
+GTM Shift
+More emphasis on:
+Consumption growth
+Multi-workload expansion
+Platform consolidation deals
+
+4. Competitive Landscape (You WILL Be Tested Here)
+Databricks (Primary Competitor)
+Databricks strengths:
+Strong with data scientists + ML engineers
+Open-source credibility (Spark, Delta Lake)
+End-to-end ML workflows
+Snowflake strengths:
+Simplicity (easier for enterprises to adopt)
+Data sharing (huge differentiator)
+Governance + security
+Better for SQL-heavy orgs
+Your positioning:
+“Databricks wins when the buyer is ML-first. Snowflake wins when the enterprise wants a governed, scalable data platform that multiple personas can use.”
+
+Google BigQuery
+Native to GCP
+Less cross-cloud flexibility
+Snowflake wins in multi-cloud + ecosystem
+
+Amazon Redshift
+Legacy perception
+Tighter AWS lock-in
+Snowflake wins on performance + architecture
+
+5. Business Model (Critical for Your Role)
+Snowflake is consumption-driven.
+What that means:
+You don’t “close deals” once
+You land → expand → optimize → grow consumption
+Your job:
+Drive usage, not just bookings
+Identify new workloads
+Expand across:
+Departments
+Use cases
+Data volumes
+
+6. How Great Snowflake AEs Think
+Weak AE mindset:
+“Did I close the deal?”
+Strong AE mindset:
+“How many workloads can I land and expand over 24 months?”
+
+Core motions:
+Land initial workload (often analytics)
+Expand into:
+Data engineering
+AI/ML
+Applications
+Increase consumption over time
+
+7. Discovery Framework (This Is Where You Win the Interview)
+Tie directly to what the hiring manager told you:
+Deep discovery + business acumen
+Your goal:
+Find the #1 initiative, not 10 surface-level problems
