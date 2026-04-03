@@ -391,9 +391,14 @@ export default function TerritoryIntelligenceMap() {
 
   const nw = navCollapsed ? "w-14" : "w-[220px]";
 
+  const openAccount = (a: TerritoryAccount) => {
+    setSel(a);
+    setEdit(false);
+  };
+
   const filterPill = (active: boolean) =>
     cn(
-      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
+      "shrink-0 touch-manipulation rounded-md border px-3 py-2 text-xs font-medium transition-colors sm:py-1.5",
       active
         ? "border-[#29B5E8] bg-sky-50 text-sky-900"
         : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
@@ -413,10 +418,10 @@ export default function TerritoryIntelligenceMap() {
         : "border-sky-200 bg-sky-50 text-sky-900";
 
   return (
-    <div className="flex h-[100dvh] overflow-hidden bg-slate-100 font-sans text-slate-800 antialiased">
+    <div className="flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-slate-100 font-sans text-slate-800 antialiased md:flex-row">
       <aside
         className={cn(
-          "flex shrink-0 flex-col border-r border-slate-200/90 bg-white shadow-[1px_0_0_rgba(15,23,42,0.04)] transition-[width] duration-200 ease-out",
+          "hidden shrink-0 flex-col border-r border-slate-200/90 bg-white shadow-[1px_0_0_rgba(15,23,42,0.04)] transition-[width] duration-200 ease-out md:flex",
           nw
         )}
       >
@@ -450,6 +455,7 @@ export default function TerritoryIntelligenceMap() {
               onClick={() => {
                 setView(k);
                 setSel(null);
+                setEdit(false);
               }}
               className={cn(
                 "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] transition-colors",
@@ -534,17 +540,17 @@ export default function TerritoryIntelligenceMap() {
         </div>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <header className="shrink-0 border-b border-slate-200/90 bg-white">
-          <div className="flex flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <div className="min-w-0">
               <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
                 Territory thesis
               </p>
-              <h1 className="mt-0.5 text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
+              <h1 className="mt-0.5 text-[15px] font-semibold leading-snug tracking-tight text-slate-900 sm:text-lg">
                 Execution map — customers ready to expand
               </h1>
-              <div className="mt-2 max-w-3xl space-y-2 text-[13px] leading-snug text-slate-700">
+              <div className="mt-2 max-w-3xl space-y-2 text-xs leading-snug text-slate-700 sm:text-[13px]">
                 {TERRITORY_THESIS.map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
@@ -557,14 +563,14 @@ export default function TerritoryIntelligenceMap() {
             <button
               type="button"
               onClick={() => setSnowflakeIntelOpen(true)}
-              className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg bg-slate-900 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-slate-800 sm:self-auto"
+              className="inline-flex min-h-[44px] shrink-0 touch-manipulation items-center justify-center gap-2 self-stretch rounded-lg bg-slate-900 px-3.5 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-slate-800 sm:min-h-0 sm:self-auto sm:py-2"
             >
               <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
               Snowflake Intelligence
             </button>
           </div>
-          <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-3 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-            <div className="relative min-w-0 flex-1 max-w-md">
+          <div className="flex flex-col gap-3 border-t border-slate-100 px-4 py-3 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+            <div className="relative min-w-0 max-w-md flex-1">
               <Search
                 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
                 strokeWidth={1.75}
@@ -574,10 +580,10 @@ export default function TerritoryIntelligenceMap() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search accounts…"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2 pl-9 pr-3 text-sm text-slate-900 outline-none ring-sky-500/0 transition-[box-shadow,border-color] placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-500/20"
+                className="min-h-[44px] w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-base text-slate-900 outline-none ring-sky-500/0 transition-[box-shadow,border-color] placeholder:text-slate-400 focus:border-sky-400 focus:bg-white focus:ring-2 focus:ring-sky-500/20 sm:min-h-0 sm:py-2 sm:text-sm"
               />
             </div>
-            <div className="flex flex-wrap items-center gap-1.5 sm:ml-auto">
+            <div className="-mx-1 flex flex-nowrap items-center gap-1.5 overflow-x-auto pb-0.5 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:pb-0 sm:ml-auto">
               {[0, 1, 2, 3].map((t) => (
                 <button key={t} type="button" onClick={() => setFTier(t)} className={filterPill(fTier === t)}>
                   {t === 0 ? "All tiers" : `Tier ${t}`}
@@ -596,8 +602,14 @@ export default function TerritoryIntelligenceMap() {
           </div>
         </header>
 
-        <div className="flex min-h-0 flex-1 overflow-hidden">
-          <div className="min-w-0 flex-1 overflow-y-auto px-5 py-6 sm:px-6 lg:px-8">
+        <div className="relative flex min-h-0 flex-1 overflow-hidden">
+          <div
+            className={cn(
+              "min-w-0 flex-1 overflow-y-auto overscroll-y-contain px-4 py-5 sm:px-6 lg:px-8",
+              "pb-[calc(5.25rem+env(safe-area-inset-bottom,0px))] md:pb-6",
+              sel && "max-md:pb-5"
+            )}
+          >
             <div
               className="mb-5 rounded-xl border border-[#1e3a5f]/30 bg-[#0f1a2e] px-4 py-3.5 shadow-sm sm:px-5"
               role="status"
@@ -605,7 +617,7 @@ export default function TerritoryIntelligenceMap() {
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#7aa3d1]">
                 Territory potential
               </p>
-              <p className="mt-1.5 text-[13px] font-medium leading-snug text-[#e8f0fc] sm:text-sm">
+              <p className="mt-1.5 break-words text-[13px] font-medium leading-snug text-[#e8f0fc] sm:text-sm">
                 {territoryPotentialSummary}
               </p>
               <p className="mt-2 text-[10px] leading-relaxed text-[#8faed6]">
@@ -613,7 +625,7 @@ export default function TerritoryIntelligenceMap() {
               </p>
             </div>
 
-            <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
               {(
                 [
                   { label: "Customers", value: accounts.length, className: "text-slate-900" },
@@ -646,12 +658,12 @@ export default function TerritoryIntelligenceMap() {
               ).map((s, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm"
+                  className="rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm sm:p-4"
                 >
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[10px]">
                     {s.label}
                   </p>
-                  <p className={cn("mt-1 text-2xl font-bold tabular-nums tracking-tight sm:text-[26px]", s.className)}>
+                  <p className={cn("mt-1 text-xl font-bold tabular-nums tracking-tight sm:text-2xl lg:text-[26px]", s.className)}>
                     {s.value}
                   </p>
                 </div>
@@ -679,75 +691,47 @@ export default function TerritoryIntelligenceMap() {
                       </span>
                     </div>
 
-                    <div className="overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm">
-                      <div className="overflow-x-auto">
-                        <div className="min-w-[980px]">
-                      <div className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,2.35fr)] gap-2 border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">
-                        {["Account", "Industry", "Est. pipeline", "Snowflake", "Book", "Solutions"].map((h) => (
-                          <span key={h}>{h}</span>
-                        ))}
-                      </div>
-                      {ta.map((a, i) => (
-                        <div
+                    <div className="space-y-3 md:hidden">
+                      {ta.map((a) => (
+                        <button
                           key={a.id}
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => {
-                            setSel(a);
-                            setEdit(false);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              setSel(a);
-                              setEdit(false);
-                            }
-                          }}
+                          type="button"
+                          onClick={() => openAccount(a)}
                           className={cn(
-                            "grid cursor-pointer grid-cols-[minmax(0,1.85fr)_minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,2.35fr)] gap-2 border-b border-slate-100 px-5 py-3.5 text-left transition-colors last:border-b-0",
-                            sel?.id === a.id ? "bg-sky-50/90" : "hover:bg-slate-50/80"
+                            "w-full touch-manipulation rounded-xl border border-slate-200/90 bg-white p-4 text-left shadow-sm transition-colors active:bg-slate-50",
+                            sel?.id === a.id && "border-sky-300 ring-2 ring-sky-200/60"
                           )}
                         >
-                          <div>
-                            <div className="text-sm font-semibold text-slate-900">{a.name}</div>
-                            {a.contacts.filter((c) => c.name).length > 0 && (
-                              <div className="mt-0.5 text-[11px] text-slate-400">
-                                {a.contacts.filter((c) => c.name).map((c) => c.name).join(", ")}
-                              </div>
-                            )}
-                          </div>
-                          <div className="flex items-center text-[13px] text-slate-600">{a.industry}</div>
-                          <div className="flex flex-col justify-center gap-0.5">
-                            <span className="text-xs font-semibold tabular-nums text-slate-900">
-                              {formatPipelineK(a.pipelineLowK, a.pipelineHighK)}
-                            </span>
-                            <span className="text-[10px] text-slate-400">WB: {a.acv}</span>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <div className="text-[15px] font-semibold leading-snug text-slate-900">{a.name}</div>
+                              <div className="mt-0.5 text-xs text-slate-500">{a.industry}</div>
+                            </div>
                             <span
                               className={cn(
-                                "mt-0.5 inline-flex w-fit rounded border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide",
+                                "shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold",
                                 likelihoodPillClass(a.day0.likelihood)
                               )}
                             >
-                              D0 · {likelihoodLabel(a.day0.likelihood)}
+                              D0 {likelihoodLabel(a.day0.likelihood)}
                             </span>
                           </div>
-                          <div className="flex flex-col justify-center gap-1">
+                          <div className="mt-3 flex flex-wrap items-center gap-2">
+                            <span className="text-sm font-semibold tabular-nums text-slate-900">
+                              {formatPipelineK(a.pipelineLowK, a.pipelineHighK)}
+                            </span>
+                            <span className="text-[11px] text-slate-400">WB {a.acv}</span>
                             <span
                               className={cn(
-                                "inline-flex w-fit rounded-full border px-2 py-0.5 text-[10px] font-semibold",
+                                "rounded-full border px-2 py-0.5 text-[10px] font-semibold",
                                 snowflakeUsagePill(a.snowflakeUsage)
                               )}
                             >
-                              {usageLabel(a.snowflakeUsage)} · SF
+                              {usageLabel(a.snowflakeUsage)}
                             </span>
-                            {a.usageNote ? (
-                              <span className="line-clamp-2 text-[10px] leading-snug text-slate-500">{a.usageNote}</span>
-                            ) : null}
-                          </div>
-                          <div className="flex items-center">
                             <span
                               className={cn(
-                                "rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                                "rounded-full px-2 py-0.5 text-[10px] font-medium",
                                 a.status === "Existing"
                                   ? "bg-emerald-50 text-emerald-700"
                                   : "bg-amber-50 text-amber-800"
@@ -756,7 +740,10 @@ export default function TerritoryIntelligenceMap() {
                               {bookLabel(a.status)}
                             </span>
                           </div>
-                          <div className="flex flex-wrap items-center gap-1">
+                          {a.usageNote ? (
+                            <p className="mt-2 line-clamp-2 text-[11px] leading-snug text-slate-500">{a.usageNote}</p>
+                          ) : null}
+                          <div className="mt-3 flex flex-wrap gap-1">
                             {a.solutions.map((s, j) => (
                               <span
                                 key={j}
@@ -771,8 +758,100 @@ export default function TerritoryIntelligenceMap() {
                               </span>
                             ))}
                           </div>
-                        </div>
+                        </button>
                       ))}
+                    </div>
+
+                    <div className="hidden overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-sm md:block">
+                      <div className="overflow-x-auto">
+                        <div className="min-w-[980px]">
+                          <div className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,2.35fr)] gap-2 border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate-400">
+                            {["Account", "Industry", "Est. pipeline", "Snowflake", "Book", "Solutions"].map((h) => (
+                              <span key={h}>{h}</span>
+                            ))}
+                          </div>
+                          {ta.map((a) => (
+                            <div
+                              key={a.id}
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => openAccount(a)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  openAccount(a);
+                                }
+                              }}
+                              className={cn(
+                                "grid cursor-pointer grid-cols-[minmax(0,1.85fr)_minmax(0,1.05fr)_minmax(0,0.95fr)_minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,2.35fr)] gap-2 border-b border-slate-100 px-5 py-3.5 text-left transition-colors last:border-b-0",
+                                sel?.id === a.id ? "bg-sky-50/90" : "hover:bg-slate-50/80"
+                              )}
+                            >
+                              <div>
+                                <div className="text-sm font-semibold text-slate-900">{a.name}</div>
+                                {a.contacts.filter((c) => c.name).length > 0 && (
+                                  <div className="mt-0.5 text-[11px] text-slate-400">
+                                    {a.contacts.filter((c) => c.name).map((c) => c.name).join(", ")}
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex items-center text-[13px] text-slate-600">{a.industry}</div>
+                              <div className="flex flex-col justify-center gap-0.5">
+                                <span className="text-xs font-semibold tabular-nums text-slate-900">
+                                  {formatPipelineK(a.pipelineLowK, a.pipelineHighK)}
+                                </span>
+                                <span className="text-[10px] text-slate-400">WB: {a.acv}</span>
+                                <span
+                                  className={cn(
+                                    "mt-0.5 inline-flex w-fit rounded border px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide",
+                                    likelihoodPillClass(a.day0.likelihood)
+                                  )}
+                                >
+                                  D0 · {likelihoodLabel(a.day0.likelihood)}
+                                </span>
+                              </div>
+                              <div className="flex flex-col justify-center gap-1">
+                                <span
+                                  className={cn(
+                                    "inline-flex w-fit rounded-full border px-2 py-0.5 text-[10px] font-semibold",
+                                    snowflakeUsagePill(a.snowflakeUsage)
+                                  )}
+                                >
+                                  {usageLabel(a.snowflakeUsage)} · SF
+                                </span>
+                                {a.usageNote ? (
+                                  <span className="line-clamp-2 text-[10px] leading-snug text-slate-500">{a.usageNote}</span>
+                                ) : null}
+                              </div>
+                              <div className="flex items-center">
+                                <span
+                                  className={cn(
+                                    "rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                                    a.status === "Existing"
+                                      ? "bg-emerald-50 text-emerald-700"
+                                      : "bg-amber-50 text-amber-800"
+                                  )}
+                                >
+                                  {bookLabel(a.status)}
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap items-center gap-1">
+                                {a.solutions.map((s, j) => (
+                                  <span
+                                    key={j}
+                                    className="rounded px-2 py-0.5 text-[10px] font-medium"
+                                    style={{
+                                      background: `${gc(s.product)}14`,
+                                      color: gc(s.product),
+                                      border: `1px solid ${gc(s.product)}33`,
+                                    }}
+                                  >
+                                    {s.product}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -838,44 +917,71 @@ export default function TerritoryIntelligenceMap() {
           </div>
 
           {sel && (
-            <aside className="w-[min(100vw-1rem,440px)] shrink-0 overflow-y-auto border-l border-slate-200/90 bg-white shadow-[inset_1px_0_0_rgba(15,23,42,0.04)]">
-              <div className="flex items-start justify-between gap-3 border-b border-slate-200/90 px-6 py-5">
-                <div className="min-w-0 flex-1">
-                  {edit ? (
-                    <input
-                      value={sel.name}
-                      onChange={(e) => ua(sel.id, "name", e.target.value)}
-                      className="w-full rounded-md border border-slate-200 px-2 py-1 text-lg font-bold text-slate-900 outline-none ring-sky-500/0 focus:ring-2 focus:ring-sky-500/20"
-                    />
-                  ) : (
-                    <h2 className="text-lg font-bold tracking-tight text-slate-900">{sel.name}</h2>
-                  )}
-                </div>
-                <div className="flex shrink-0 gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setEdit(!edit)}
-                    className={cn(
-                      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
-                      edit
-                        ? "border-sky-200 bg-sky-50 text-sky-900"
-                        : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                    )}
-                  >
-                    {edit ? "Done" : "Edit"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSel(null)}
-                    className="rounded-md border border-slate-200 p-1.5 text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-600"
-                    aria-label="Close panel"
-                  >
-                    <X className="h-4 w-4" strokeWidth={2} />
-                  </button>
-                </div>
-              </div>
+            <>
+              <button
+                type="button"
+                className="fixed inset-0 z-40 bg-slate-900/50 md:hidden"
+                aria-label="Close account details"
+                onClick={() => setSel(null)}
+              />
+              <aside
+                className={cn(
+                  "flex w-[min(100vw-1rem,440px)] shrink-0 flex-col border-l border-slate-200/90 bg-white shadow-[inset_1px_0_0_rgba(15,23,42,0.04)]",
+                  "md:max-h-full md:overflow-y-auto",
+                  "max-md:fixed max-md:inset-0 max-md:z-50 max-md:h-[100dvh] max-md:w-full max-md:max-h-[100dvh] max-md:border-0 max-md:shadow-none"
+                )}
+              >
+                <div className="flex min-h-0 flex-1 flex-col md:contents">
+                  <div className="flex shrink-0 items-start justify-between gap-2 border-b border-slate-200/90 bg-white px-4 py-4 max-md:pt-[max(1rem,env(safe-area-inset-top,0px))] sm:gap-3 sm:px-6 sm:py-5">
+                    <div className="flex min-w-0 flex-1 items-start gap-2 sm:gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setSel(null)}
+                        className="mt-0.5 flex h-11 w-11 shrink-0 touch-manipulation items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 md:hidden"
+                        aria-label="Back to list"
+                      >
+                        <ChevronLeft className="h-5 w-5" strokeWidth={2} />
+                      </button>
+                      <div className="min-w-0 flex-1">
+                        {edit ? (
+                          <input
+                            value={sel.name}
+                            onChange={(e) => ua(sel.id, "name", e.target.value)}
+                            className="w-full rounded-md border border-slate-200 px-2 py-2 text-base font-bold text-slate-900 outline-none ring-sky-500/0 focus:ring-2 focus:ring-sky-500/20 sm:py-1 sm:text-lg"
+                          />
+                        ) : (
+                          <h2 className="text-[17px] font-bold leading-snug tracking-tight text-slate-900 sm:text-lg">
+                            {sel.name}
+                          </h2>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setEdit(!edit)}
+                        className={cn(
+                          "min-h-[44px] touch-manipulation rounded-md border px-3 py-2 text-xs font-medium transition-colors sm:min-h-0 sm:py-1.5",
+                          edit
+                            ? "border-sky-200 bg-sky-50 text-sky-900"
+                            : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                        )}
+                      >
+                        {edit ? "Done" : "Edit"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSel(null)}
+                        className="hidden min-h-[44px] min-w-[44px] touch-manipulation items-center justify-center rounded-md border border-slate-200 text-slate-400 transition-colors hover:bg-slate-50 hover:text-slate-600 md:flex"
+                        aria-label="Close panel"
+                      >
+                        <X className="h-4 w-4" strokeWidth={2} />
+                      </button>
+                    </div>
+                  </div>
 
-              <div className="border-b border-slate-100 px-6 py-4">
+                  <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain max-md:min-h-0 md:block md:flex-none md:overflow-visible">
+              <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
                 {edit ? (
                   <div className="flex flex-wrap gap-2">
                     <select
@@ -895,7 +1001,7 @@ export default function TerritoryIntelligenceMap() {
                     <input
                       value={sel.industry}
                       onChange={(e) => ua(sel.id, "industry", e.target.value)}
-                      className="w-36 rounded-md border border-slate-200 px-2.5 py-1.5 text-xs outline-none"
+                      className="min-h-[40px] w-full max-w-[11rem] rounded-md border border-slate-200 px-2.5 py-2 text-xs outline-none sm:min-h-0 sm:w-36 sm:py-1.5"
                     />
                     <select
                       value={sel.status}
@@ -931,7 +1037,7 @@ export default function TerritoryIntelligenceMap() {
                 )}
               </div>
 
-              <div className="border-b border-slate-100 px-6 py-4">
+              <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
                 <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                   Day 0 pipeline view
                 </p>
@@ -1029,7 +1135,7 @@ export default function TerritoryIntelligenceMap() {
                 )}
               </div>
 
-              <div className="border-b border-slate-100 px-6 py-4">
+              <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                   Pipeline and Snowflake footprint
                 </p>
@@ -1112,7 +1218,7 @@ export default function TerritoryIntelligenceMap() {
                 )}
               </div>
 
-              <div className="border-b border-slate-100 px-6 py-4">
+              <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-500">
                   Why this fails without Snowflake
                 </p>
@@ -1133,7 +1239,7 @@ export default function TerritoryIntelligenceMap() {
                 )}
               </div>
 
-              <div className="border-b border-slate-100 px-6 py-4">
+              <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
                 <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                   Why now
                 </p>
@@ -1152,7 +1258,7 @@ export default function TerritoryIntelligenceMap() {
               </div>
 
               {sel.dealMechanics && (
-                <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+                <div className="border-b border-slate-100 bg-slate-50/50 px-4 py-4 sm:px-6">
                   <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-600">
                     How this deal closes
                   </p>
@@ -1238,7 +1344,7 @@ export default function TerritoryIntelligenceMap() {
                 </div>
               )}
 
-              <div className="border-b border-slate-100 px-6 py-4">
+              <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Solutions
@@ -1301,7 +1407,7 @@ export default function TerritoryIntelligenceMap() {
                 ))}
               </div>
 
-              <div className="px-6 py-4">
+              <div className="px-4 py-4 pb-[max(1.5rem,env(safe-area-inset-bottom,0px))] sm:px-6 sm:pb-4">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Key contacts
@@ -1323,48 +1429,52 @@ export default function TerritoryIntelligenceMap() {
                   <div
                     key={i}
                     className={cn(
-                      "flex items-center gap-2.5 py-2.5",
+                      "flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:gap-2.5 sm:py-2.5",
                       i > 0 && "border-t border-slate-100"
                     )}
                   >
                     {edit ? (
                       <>
-                        <input
-                          value={con.name}
-                          onChange={(e) => uc(sel.id, i, "name", e.target.value)}
-                          placeholder="Name"
-                          className="min-w-0 flex-1 rounded border border-slate-200 px-2 py-1 text-xs outline-none"
-                        />
-                        <input
-                          value={con.title}
-                          onChange={(e) => uc(sel.id, i, "title", e.target.value)}
-                          placeholder="Title"
-                          className="min-w-0 flex-1 rounded border border-slate-200 px-2 py-1 text-xs outline-none"
-                        />
-                        <select
-                          value={con.role}
-                          onChange={(e) => uc(sel.id, i, "role", e.target.value)}
-                          className="rounded border border-slate-200 bg-white px-1.5 py-1 text-[11px]"
-                        >
-                          <option value="Champion">Champion</option>
-                          <option value="Economic Buyer">Econ Buyer</option>
-                          <option value="Technical Champion">Tech Champ</option>
-                          <option value="Technical Buyer">Tech Buyer</option>
-                          <option value="Influencer">Influencer</option>
-                          <option value="Blocker">Blocker</option>
-                        </select>
-                        <button
-                          type="button"
-                          onClick={() => rmCon(sel.id, i)}
-                          className="shrink-0 rounded border border-rose-200 bg-rose-50 p-1 text-rose-700"
-                          aria-label="Remove contact"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
+                        <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center">
+                          <input
+                            value={con.name}
+                            onChange={(e) => uc(sel.id, i, "name", e.target.value)}
+                            placeholder="Name"
+                            className="min-h-[40px] min-w-0 flex-1 rounded border border-slate-200 px-2 py-2 text-xs outline-none sm:min-h-0 sm:py-1"
+                          />
+                          <input
+                            value={con.title}
+                            onChange={(e) => uc(sel.id, i, "title", e.target.value)}
+                            placeholder="Title"
+                            className="min-h-[40px] min-w-0 flex-1 rounded border border-slate-200 px-2 py-2 text-xs outline-none sm:min-h-0 sm:py-1"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <select
+                            value={con.role}
+                            onChange={(e) => uc(sel.id, i, "role", e.target.value)}
+                            className="min-h-[40px] flex-1 rounded border border-slate-200 bg-white px-2 py-2 text-[11px] sm:min-h-0 sm:flex-none sm:px-1.5 sm:py-1"
+                          >
+                            <option value="Champion">Champion</option>
+                            <option value="Economic Buyer">Econ Buyer</option>
+                            <option value="Technical Champion">Tech Champ</option>
+                            <option value="Technical Buyer">Tech Buyer</option>
+                            <option value="Influencer">Influencer</option>
+                            <option value="Blocker">Blocker</option>
+                          </select>
+                          <button
+                            type="button"
+                            onClick={() => rmCon(sel.id, i)}
+                            className="flex h-10 w-10 shrink-0 touch-manipulation items-center justify-center rounded border border-rose-200 bg-rose-50 text-rose-700 sm:h-auto sm:w-auto sm:p-1"
+                            aria-label="Remove contact"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
                       </>
                     ) : (
-                      <>
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-50 text-xs font-semibold text-sky-800">
+                      <div className="flex w-full items-center gap-2.5">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-50 text-xs font-semibold text-sky-800 sm:h-8 sm:w-8">
                           {con.name ? con.name.split(" ").map((n) => n[0]).join("") : "?"}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -1373,7 +1483,7 @@ export default function TerritoryIntelligenceMap() {
                         </div>
                         <span
                           className={cn(
-                            "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium",
+                            "shrink-0 self-start rounded-full px-2 py-0.5 text-[10px] font-medium sm:self-center",
                             con.role.includes("Champion")
                               ? "bg-emerald-50 text-emerald-800"
                               : con.role === "Economic Buyer"
@@ -1385,7 +1495,7 @@ export default function TerritoryIntelligenceMap() {
                         >
                           {con.role}
                         </span>
-                      </>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -1393,16 +1503,82 @@ export default function TerritoryIntelligenceMap() {
                   <button
                     type="button"
                     onClick={() => rmAcc(sel.id)}
-                    className="mt-4 w-full rounded-lg border border-rose-200 bg-rose-50 py-2.5 text-xs font-medium text-rose-800 transition-colors hover:bg-rose-100"
+                    className="mt-4 min-h-[48px] w-full touch-manipulation rounded-lg border border-rose-200 bg-rose-50 py-3 text-xs font-medium text-rose-800 transition-colors hover:bg-rose-100 sm:min-h-0 sm:py-2.5"
                   >
                     Delete account
                   </button>
                 )}
               </div>
+                  </div>
+                </div>
             </aside>
+            </>
           )}
         </div>
       </div>
+
+      <nav
+        className={cn(
+          "fixed bottom-0 left-0 right-0 z-30 grid h-[calc(3.5rem+env(safe-area-inset-bottom,0px))] grid-cols-5 border-t border-slate-200/90 bg-white/95 pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-8px_32px_rgba(15,23,42,0.08)] backdrop-blur-md md:hidden",
+          sel && "hidden"
+        )}
+        aria-label="Territory navigation"
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setView("accounts");
+            setSel(null);
+            setEdit(false);
+          }}
+          className={cn(
+            "flex touch-manipulation flex-col items-center justify-center gap-0.5 text-[10px] font-medium",
+            view === "accounts" && !sel ? "text-[#29B5E8]" : "text-slate-500"
+          )}
+        >
+          <LayoutGrid className="h-5 w-5" strokeWidth={1.75} />
+          Accounts
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setView("solutions");
+            setSel(null);
+            setEdit(false);
+          }}
+          className={cn(
+            "flex touch-manipulation flex-col items-center justify-center gap-0.5 text-[10px] font-medium",
+            view === "solutions" ? "text-[#29B5E8]" : "text-slate-500"
+          )}
+        >
+          <Layers2 className="h-5 w-5" strokeWidth={1.75} />
+          Solutions
+        </button>
+        <button
+          type="button"
+          onClick={addAcc}
+          className="flex touch-manipulation flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-slate-600"
+        >
+          <Plus className="h-5 w-5" strokeWidth={1.75} />
+          Add
+        </button>
+        <button
+          type="button"
+          onClick={() => setSnowflakeIntelOpen(true)}
+          className="flex touch-manipulation flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-slate-600"
+        >
+          <Sparkles className="h-5 w-5 text-[#29B5E8]" strokeWidth={2} />
+          Intel
+        </button>
+        <button
+          type="button"
+          onClick={reset}
+          className="flex touch-manipulation flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-slate-500"
+        >
+          <RotateCcw className="h-5 w-5" strokeWidth={1.75} />
+          Reset
+        </button>
+      </nav>
 
       <SnowflakeIntelligencePanel
         isOpen={snowflakeIntelOpen}
